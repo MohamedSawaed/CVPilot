@@ -388,7 +388,7 @@ export const arrangeCV = (profession, userProfile) => {
 
   // Filter to only include sections that exist in the profession
   const finalSections = uniqueSections.filter(section =>
-    professionHasSection(profession,(section)
+    professionHasSection(profession, section)
   );
 
   // Combine all sections
