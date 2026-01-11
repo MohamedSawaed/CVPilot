@@ -1,0 +1,30 @@
+/* Base font for entire application */
+html, body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Force ALL elements to inherit font */
+*, *::before, *::after {
+  font-family: inherit;
+}
+
+/* RTL language specific fonts - Arabic */
+html[lang="ar"] body,
+html[lang="ar"] *,
+body[dir="rtl"],
+body[dir="rtl"] * {
+  font-family: 'Cairo', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+/* RTL language specific fonts - Hebrew */
+html[lang="he"] body,
+html[lang="he"] * {
+  font-family: 'Noto Sans Hebrew', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace !important;
+}

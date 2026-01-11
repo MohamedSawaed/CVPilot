@@ -1,0 +1,415 @@
+/* ========================================
+   CORAL TEMPLATE - WARM ELEGANT DESIGN
+   ======================================== */
+
+.coral-cv-container {
+  font-family: 'Source Sans Pro', 'Cairo', sans-serif;
+  background: linear-gradient(180deg, #fdfbf9 0%, #faf7f4 100%);
+  min-height: 100%;
+  color: #4a3f3f;
+}
+
+/* RTL Support */
+.coral-cv-container.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ========== HEADER ========== */
+.coral-header {
+  background: linear-gradient(135deg, #e8a598 0%, #dea193 25%, #d4978b 50%, #c98d81 75%, #be8377 100%);
+  padding: 40px 35px;
+  color: white;
+}
+
+.coral-header-content {
+  text-align: center;
+}
+
+.coral-name {
+  font-family: 'Playfair Display', 'Cairo', serif;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin: 0 0 8px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.coral-headline {
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+}
+
+.coral-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  font-size: 11px;
+}
+
+.coral-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.coral-contact-icon {
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+/* ========== BODY ========== */
+.coral-body {
+  padding: 30px 35px;
+}
+
+/* ========== SECTIONS ========== */
+.coral-section {
+  margin-bottom: 28px;
+}
+
+.coral-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.coral-section-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #e8a598 0%, #d4978b 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  box-shadow: 0 3px 10px rgba(212, 151, 139, 0.3);
+}
+
+.coral-section-title {
+  font-family: 'Playfair Display', 'Cairo', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4a3f3f;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.coral-section-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(212, 151, 139, 0.4), transparent);
+}
+
+.coral-cv-container.rtl .coral-section-line {
+  background: linear-gradient(90deg, transparent, rgba(212, 151, 139, 0.4));
+}
+
+/* ========== SUMMARY ========== */
+.coral-summary-box {
+  padding: 20px 25px;
+  background: linear-gradient(135deg, rgba(232, 165, 152, 0.08) 0%, rgba(190, 131, 119, 0.05) 100%);
+  border-radius: 10px;
+  border-left: 4px solid #d4978b;
+  position: relative;
+}
+
+.coral-cv-container.rtl .coral-summary-box {
+  border-left: none;
+  border-right: 4px solid #d4978b;
+}
+
+.coral-summary {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #5a4a4a;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ========== EXPERIENCE ========== */
+.coral-exp-item {
+  margin-bottom: 20px;
+  padding: 18px 22px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(74, 63, 63, 0.06);
+  border: 1px solid rgba(212, 151, 139, 0.15);
+}
+
+.coral-exp-item:last-child {
+  margin-bottom: 0;
+}
+
+.coral-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  flex-direction: row;
+}
+
+.coral-item-title-group {
+  order: 1;
+}
+
+.coral-item-date {
+  order: 2;
+  font-size: 10px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #d4978b, #c98d81);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+  direction: ltr;
+  font-variant-numeric: tabular-nums;
+}
+
+.coral-cv-container.rtl .coral-item-title-group {
+  order: 2;
+  text-align: right;
+}
+
+.coral-cv-container.rtl .coral-item-date {
+  order: 1;
+  text-align: left;
+}
+
+.coral-exp-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a3f3f;
+  margin: 0 0 3px 0;
+}
+
+.coral-exp-company {
+  font-size: 11px;
+  color: #c98d81;
+  font-weight: 500;
+}
+
+.coral-exp-description {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #6a5a5a;
+  margin: 8px 0 0 0;
+}
+
+/* ========== EDUCATION ========== */
+.coral-edu-item {
+  margin-bottom: 15px;
+  padding: 15px 18px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(74, 63, 63, 0.05);
+  border-left: 3px solid #d4978b;
+}
+
+.coral-cv-container.rtl .coral-edu-item {
+  border-left: none;
+  border-right: 3px solid #d4978b;
+}
+
+.coral-edu-item:last-child {
+  margin-bottom: 0;
+}
+
+.coral-edu-degree {
+  font-size: 12px;
+  font-weight: 600;
+  color: #4a3f3f;
+  margin: 0 0 2px 0;
+}
+
+.coral-edu-school {
+  font-size: 11px;
+  color: #7a6a6a;
+}
+
+.coral-edu-gpa {
+  font-size: 10px;
+  color: #c98d81;
+  margin-top: 6px;
+  font-style: italic;
+}
+
+/* ========== SKILLS ========== */
+.coral-skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.coral-skill-tag {
+  font-size: 10px;
+  color: #4a3f3f;
+  padding: 7px 14px;
+  background: linear-gradient(135deg, rgba(232, 165, 152, 0.15) 0%, rgba(212, 151, 139, 0.1) 100%);
+  border-radius: 18px;
+  border: 1px solid rgba(212, 151, 139, 0.25);
+  font-weight: 500;
+}
+
+.coral-skill-tag.highlight {
+  background: linear-gradient(135deg, #e8a598, #d4978b);
+  color: white;
+  border: none;
+}
+
+/* ========== CERTIFICATIONS ========== */
+.coral-cert-item {
+  margin-bottom: 12px;
+  padding: 12px 15px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(74, 63, 63, 0.04);
+  border: 1px solid rgba(212, 151, 139, 0.12);
+}
+
+.coral-cert-item:last-child {
+  margin-bottom: 0;
+}
+
+.coral-cert-info {
+  flex: 1;
+}
+
+.coral-cert-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #4a3f3f;
+  margin: 0 0 2px 0;
+}
+
+.coral-cert-issuer {
+  font-size: 10px;
+  color: #8a7a7a;
+}
+
+/* ========== PROJECTS ========== */
+.coral-project-item {
+  margin-bottom: 18px;
+  padding: 16px 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(74, 63, 63, 0.06);
+  border: 1px solid rgba(212, 151, 139, 0.15);
+}
+
+.coral-project-item:last-child {
+  margin-bottom: 0;
+}
+
+.coral-project-title-group {
+  flex: 1;
+}
+
+.coral-project-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #4a3f3f;
+  margin: 0;
+}
+
+.coral-project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.coral-tech-tag {
+  font-size: 8px;
+  color: #c98d81;
+  background: rgba(212, 151, 139, 0.1);
+  padding: 2px 7px;
+  border-radius: 8px;
+}
+
+.coral-project-description {
+  font-size: 10px;
+  line-height: 1.6;
+  color: #6a5a5a;
+  margin: 10px 0 0 0;
+}
+
+/* ========== LANGUAGES ========== */
+.coral-languages-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.coral-language-item {
+  text-align: center;
+  padding: 12px 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(74, 63, 63, 0.05);
+  min-width: 100px;
+}
+
+.coral-language-name {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4a3f3f;
+  margin-bottom: 4px;
+}
+
+.coral-language-level {
+  display: block;
+  font-size: 9px;
+  color: #c98d81;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.coral-language-bar {
+  height: 4px;
+  background: rgba(212, 151, 139, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.coral-language-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e8a598, #d4978b);
+  border-radius: 2px;
+}
+
+/* ========== ACHIEVEMENTS ========== */
+.coral-achievements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.coral-achievement-item {
+  font-size: 11px;
+  color: #5a4a4a;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.coral-diamond-bullet {
+  color: #d4978b;
+  font-size: 8px;
+  margin-top: 3px;
+  flex-shrink: 0;
+}

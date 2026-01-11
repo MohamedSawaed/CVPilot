@@ -1,0 +1,370 @@
+/* ========================================
+   LUXE TEMPLATE - PREMIUM GOLD & BLACK
+   ======================================== */
+
+.luxe-cv-container {
+  font-family: 'Cormorant Garamond', 'Cairo', Georgia, serif;
+  background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%);
+  min-height: 100%;
+  color: #e8e8e8;
+}
+
+/* RTL Support */
+.luxe-cv-container.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ========== HEADER ========== */
+.luxe-header {
+  padding: 40px 35px;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(180deg, #0a0a0a 0%, #141414 100%);
+}
+
+.luxe-gold-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d4af37 20%, #f4e4a6 50%, #d4af37 80%, transparent);
+  position: absolute;
+  left: 10%;
+  right: 10%;
+}
+
+.luxe-gold-line.top {
+  top: 15px;
+}
+
+.luxe-gold-line.bottom {
+  bottom: 15px;
+}
+
+.luxe-header-content {
+  position: relative;
+  z-index: 1;
+}
+
+.luxe-name {
+  font-size: 32px;
+  font-weight: 300;
+  color: #d4af37;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+  text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+.luxe-headline {
+  font-size: 14px;
+  color: #a8a8a8;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.luxe-divider {
+  margin: 15px 0;
+}
+
+.luxe-diamond {
+  color: #d4af37;
+  font-size: 10px;
+}
+
+.luxe-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  font-size: 11px;
+  color: #c0c0c0;
+}
+
+.luxe-contact-item {
+  position: relative;
+}
+
+.luxe-contact-item:not(:last-child)::after {
+  content: '◆';
+  position: absolute;
+  right: -13px;
+  color: #d4af37;
+  font-size: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.luxe-cv-container.rtl .luxe-contact-item:not(:last-child)::after {
+  right: auto;
+  left: -13px;
+}
+
+/* ========== BODY ========== */
+.luxe-body {
+  padding: 30px 35px;
+}
+
+/* ========== SECTIONS ========== */
+.luxe-section {
+  margin-bottom: 28px;
+}
+
+.luxe-section-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.luxe-section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d4af37);
+}
+
+.luxe-section-line.right {
+  background: linear-gradient(90deg, #d4af37, transparent);
+}
+
+.luxe-section-title {
+  font-size: 13px;
+  font-weight: 400;
+  color: #d4af37;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.luxe-section-content {
+  color: #d0d0d0;
+}
+
+/* ========== SUMMARY ========== */
+.luxe-summary {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #b8b8b8;
+  text-align: center;
+  font-style: italic;
+  padding: 0 20px;
+  margin: 0;
+}
+
+/* ========== EXPERIENCE ========== */
+.luxe-exp-item {
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.luxe-exp-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.luxe-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  flex-direction: row;
+}
+
+.luxe-item-title-group {
+  order: 1;
+}
+
+.luxe-item-date {
+  order: 2;
+  font-size: 11px;
+  color: #d4af37;
+  letter-spacing: 1px;
+  direction: ltr;
+  font-variant-numeric: tabular-nums;
+}
+
+.luxe-cv-container.rtl .luxe-item-title-group {
+  order: 2;
+  text-align: right;
+}
+
+.luxe-cv-container.rtl .luxe-item-date {
+  order: 1;
+  text-align: left;
+}
+
+.luxe-exp-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8e8e8;
+  margin: 0 0 3px 0;
+}
+
+.luxe-exp-company {
+  font-size: 12px;
+  color: #a8a8a8;
+}
+
+.luxe-exp-description {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #909090;
+  margin: 8px 0 0 0;
+}
+
+/* ========== EDUCATION ========== */
+.luxe-edu-item {
+  margin-bottom: 15px;
+}
+
+.luxe-edu-item:last-child {
+  margin-bottom: 0;
+}
+
+.luxe-edu-degree {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8e8e8;
+  margin: 0 0 3px 0;
+}
+
+.luxe-edu-school {
+  font-size: 12px;
+  color: #a8a8a8;
+}
+
+.luxe-edu-gpa {
+  font-size: 11px;
+  color: #d4af37;
+  margin-top: 5px;
+}
+
+/* ========== SKILLS ========== */
+.luxe-skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.luxe-skill-tag {
+  font-size: 10px;
+  color: #e8e8e8;
+  padding: 6px 14px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  background: rgba(212, 175, 55, 0.08);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ========== CERTIFICATIONS ========== */
+.luxe-cert-item {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.luxe-cert-item:last-child {
+  border-bottom: none;
+}
+
+.luxe-cert-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #e8e8e8;
+  margin: 0;
+}
+
+.luxe-cert-issuer {
+  font-size: 11px;
+  color: #909090;
+  margin-top: 3px;
+}
+
+/* ========== PROJECTS ========== */
+.luxe-project-item {
+  margin-bottom: 18px;
+}
+
+.luxe-project-item:last-child {
+  margin-bottom: 0;
+}
+
+.luxe-project-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8e8e8;
+  margin: 0;
+}
+
+.luxe-project-description {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #909090;
+  margin: 6px 0;
+}
+
+.luxe-project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.luxe-tech-tag {
+  font-size: 9px;
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.1);
+  padding: 3px 8px;
+  letter-spacing: 0.5px;
+}
+
+/* ========== LANGUAGES ========== */
+.luxe-languages-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.luxe-language-item {
+  text-align: center;
+  min-width: 100px;
+}
+
+.luxe-language-name {
+  display: block;
+  font-size: 12px;
+  color: #e8e8e8;
+  margin-bottom: 3px;
+}
+
+.luxe-language-level {
+  font-size: 10px;
+  color: #d4af37;
+  letter-spacing: 1px;
+}
+
+/* ========== ACHIEVEMENTS ========== */
+.luxe-achievements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.luxe-achievement-item {
+  font-size: 11px;
+  color: #b8b8b8;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.luxe-diamond-bullet {
+  color: #d4af37;
+  font-size: 8px;
+  margin-top: 3px;
+  flex-shrink: 0;
+}

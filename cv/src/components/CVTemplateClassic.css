@@ -1,0 +1,419 @@
+.cv-template-classic {
+  background: white;
+  color: #000;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 60px 80px;
+  line-height: 1.6;
+}
+
+/* Ensure all text elements inherit font from parent container */
+.cv-template-classic,
+.cv-template-classic *,
+.cv-template-classic *::before,
+.cv-template-classic *::after {
+  font-family: inherit !important;
+}
+
+/* Header */
+.classic-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #000;
+}
+
+.classic-name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.classic-contact-line,
+.classic-links-line {
+  font-size: 0.95rem;
+  color: #333;
+  margin: 8px 0;
+}
+
+.classic-contact-line span,
+.classic-links-line span {
+  margin: 0 4px;
+}
+
+/* Body */
+.classic-body {
+  margin-top: 30px;
+}
+
+.classic-section {
+  margin-bottom: 35px;
+  page-break-inside: avoid;
+}
+
+.classic-section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  letter-spacing: 1px;
+  color: #000;
+}
+
+.classic-section-divider {
+  height: 1px;
+  background: #000;
+  margin-bottom: 20px;
+}
+
+.classic-section-content {
+  /* Font inherited from parent */
+}
+
+/* Summary */
+.classic-summary {
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0;
+  text-align: justify;
+}
+
+/* Experience */
+.classic-exp-item {
+  margin-bottom: 24px;
+}
+
+.classic-exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+  gap: 20px;
+}
+
+.classic-exp-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.classic-exp-date {
+  font-size: 0.95rem;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.classic-exp-company {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  font-style: italic;
+}
+
+.classic-exp-description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+  text-align: justify;
+}
+
+/* Education */
+.classic-edu-item {
+  margin-bottom: 20px;
+}
+
+.classic-edu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+  gap: 20px;
+}
+
+.classic-edu-degree {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.classic-edu-date {
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+.classic-edu-school {
+  font-size: 1rem;
+  margin-bottom: 4px;
+  font-style: italic;
+}
+
+.classic-edu-honors,
+.classic-edu-gpa {
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* Skills */
+.classic-skills {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.classic-skill-row {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.classic-skill-row strong {
+  font-weight: 700;
+  margin-right: 8px;
+  display: inline-block;
+  min-width: 120px;
+}
+
+/* New skills format with proficiency */
+.classic-skill-group {
+  margin-bottom: 12px;
+}
+
+.classic-skill-group strong {
+  font-weight: 700;
+  margin-right: 8px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.classic-skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.classic-skill-tag {
+  padding: 6px 14px;
+  background: #000;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Proficiency-based colors for classic template */
+.classic-skill-tag.proficiency-beginner {
+  background: #cbd5e0;
+  color: #2d3748;
+}
+
+.classic-skill-tag.proficiency-intermediate {
+  background: #48bb78;
+  color: white;
+}
+
+.classic-skill-tag.proficiency-advanced {
+  background: #4299e1;
+  color: white;
+}
+
+.classic-skill-tag.proficiency-expert {
+  background: #9f7aea;
+  color: white;
+}
+
+.classic-skill-tag.proficiency-master {
+  background: #f6ad55;
+  color: #2d3748;
+}
+
+.skill-stars {
+  font-size: 0.75em;
+  opacity: 0.9;
+  margin-left: 4px;
+}
+
+/* Generic Items */
+.classic-generic-item {
+  margin-bottom: 20px;
+}
+
+.classic-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+  gap: 20px;
+}
+
+.classic-item-header strong {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.classic-item-header span {
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.classic-item-meta {
+  font-size: 0.95rem;
+  font-style: italic;
+  margin-bottom: 6px;
+}
+
+.classic-item-description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+  text-align: justify;
+}
+
+/* PDF Export Mode - Optimized spacing */
+.pdf-export-mode .cv-template-classic {
+  padding: 35px 40px;
+}
+
+.pdf-export-mode .classic-header {
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+}
+
+.pdf-export-mode .classic-name {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  letter-spacing: 1.5px;
+}
+
+.pdf-export-mode .classic-contact-line,
+.pdf-export-mode .classic-links-line {
+  font-size: 0.9rem;
+  margin: 6px 0;
+}
+
+.pdf-export-mode .classic-section {
+  margin-bottom: 26px;
+}
+
+.pdf-export-mode .classic-section-title {
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+}
+
+.pdf-export-mode .classic-section-divider {
+  margin-bottom: 16px;
+}
+
+.pdf-export-mode .classic-exp-item {
+  margin-bottom: 20px;
+}
+
+.pdf-export-mode .classic-edu-item {
+  margin-bottom: 18px;
+}
+
+.pdf-export-mode .classic-skills-grid {
+  gap: 16px;
+}
+
+.pdf-export-mode .classic-generic-item {
+  margin-bottom: 18px;
+}
+
+.pdf-export-mode .classic-summary {
+  text-align: left; /* Remove justify for better PDF rendering */
+}
+
+.pdf-export-mode .classic-item-description {
+  text-align: left; /* Remove justify for better PDF rendering */
+}
+
+/* Print Styles */
+@media print {
+  .cv-template-classic {
+    padding: 40px 60px;
+  }
+
+  .classic-name {
+    font-size: 2.2rem;
+  }
+
+  .classic-section {
+    margin-bottom: 25px;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cv-template-classic {
+    padding: 40px 30px;
+  }
+
+  .classic-name {
+    font-size: 2rem;
+  }
+
+  .classic-exp-header,
+  .classic-edu-header,
+  .classic-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+/* ===== RTL Support ===== */
+.cv-template-classic.rtl {
+  direction: rtl;
+  text-align: right;
+  /* Font is set via inline style in component */
+}
+
+.cv-template-classic.rtl .classic-header {
+  text-align: center;
+}
+
+.cv-template-classic.rtl .classic-section-title {
+  text-align: right;
+}
+
+.cv-template-classic.rtl .classic-exp-header,
+.cv-template-classic.rtl .classic-edu-header,
+.cv-template-classic.rtl .classic-item-header {
+  flex-direction: row-reverse;
+}
+
+.cv-template-classic.rtl .classic-exp-date,
+.cv-template-classic.rtl .classic-edu-date {
+  text-align: left;
+}
+
+.cv-template-classic.rtl .classic-exp-title,
+.cv-template-classic.rtl .classic-exp-company,
+.cv-template-classic.rtl .classic-edu-degree,
+.cv-template-classic.rtl .classic-edu-school {
+  text-align: right;
+}
+
+.cv-template-classic.rtl .classic-summary,
+.cv-template-classic.rtl .classic-exp-description,
+.cv-template-classic.rtl .classic-item-description {
+  text-align: right;
+}
+
+.cv-template-classic.rtl .classic-skill-row {
+  text-align: right;
+}
+
+.cv-template-classic.rtl .classic-skill-group {
+  text-align: right;
+}
+
+.cv-template-classic.rtl .classic-skill-group strong {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+.cv-template-classic.rtl .classic-skill-tags {
+  justify-content: flex-start;
+}
+
+.cv-template-classic.rtl .classic-generic-item {
+  text-align: right;
+}

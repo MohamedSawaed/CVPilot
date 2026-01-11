@@ -1,0 +1,203 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  min-height: 100vh;
+  background: #f7fafc;
+  /* Font is inherited from body in index.css */
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Utility classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Animation classes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Loading Screen */
+.loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========== RTL SUPPORT ========== */
+[dir="rtl"] {
+  text-align: right;
+}
+
+/* Font is set globally in index.css for RTL */
+
+/* RTL flex direction fixes */
+[dir="rtl"] .header-actions-redesigned,
+[dir="rtl"] .btn-group,
+[dir="rtl"] .nav-buttons,
+[dir="rtl"] .download-option,
+[dir="rtl"] .pricing-features li,
+[dir="rtl"] .summary-row,
+[dir="rtl"] .payment-footer,
+[dir="rtl"] .template-preview-mini,
+[dir="rtl"] .language-option {
+  flex-direction: row-reverse;
+}
+
+/* RTL text alignment fixes */
+[dir="rtl"] .modal-header,
+[dir="rtl"] .pricing-header,
+[dir="rtl"] .language-selector-header,
+[dir="rtl"] .language-selector-footer {
+  text-align: center;
+}
+
+[dir="rtl"] .option-content,
+[dir="rtl"] .language-info {
+  text-align: right;
+}
+
+/* RTL margin/padding adjustments */
+[dir="rtl"] .change-template-link {
+  margin-left: 0;
+  margin-right: 8px;
+}
+
+[dir="rtl"] .back-btn svg {
+  transform: rotate(180deg);
+}
+
+[dir="rtl"] .nav-btn-enhanced.secondary:hover:not(:disabled) {
+  transform: translateX(4px);
+}
+
+[dir="rtl"] .nav-btn-enhanced.secondary:hover:not(:disabled) svg {
+  transform: translateX(4px);
+}
+
+[dir="rtl"] .nav-btn-enhanced.primary:hover {
+  transform: translateX(-4px);
+}
+
+[dir="rtl"] .nav-btn-enhanced.primary:hover svg {
+  transform: translateX(-4px);
+}
+
+/* RTL form layout */
+[dir="rtl"] .payment-form input,
+[dir="rtl"] .form-input,
+[dir="rtl"] input,
+[dir="rtl"] textarea {
+  text-align: right;
+}
+
+/* RTL navigation */
+[dir="rtl"] .section-navigation {
+  direction: rtl;
+}
+
+[dir="rtl"] .section-nav-btn {
+  text-align: right;
+}
+
+/* RTL skills and tags */
+[dir="rtl"] .pricing-features li svg {
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+/* RTL gradients adjustment */
+[dir="rtl"] .completion-fill {
+  right: 0;
+  left: auto;
+  border-radius: 20px;
+}
+
+/* RTL arrows */
+[dir="rtl"] .FaArrowRight {
+  transform: rotate(180deg);
+}
+
+[dir="rtl"] .FaArrowLeft {
+  transform: rotate(180deg);
+}
+
+/* Font enhancement is handled in index.css */
+
+/* RTL CV Templates */
+[dir="rtl"] .cv-template-modern,
+[dir="rtl"] .cv-template-classic,
+[dir="rtl"] .cv-template-creative,
+[dir="rtl"] .cv-template-ats {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .modern-sidebar,
+[dir="rtl"] .creative-sidebar {
+  right: auto;
+  left: 0;
+}
+
+[dir="rtl"] .modern-main,
+[dir="rtl"] .creative-main {
+  margin-left: 0;
+  margin-right: 300px;
+}

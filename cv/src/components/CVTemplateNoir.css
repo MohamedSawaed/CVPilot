@@ -1,0 +1,373 @@
+/* ========================================
+   NOIR TEMPLATE - DARK SOPHISTICATED
+   ======================================== */
+
+.noir-cv-container {
+  font-family: 'Cormorant Garamond', 'Cairo', Georgia, serif;
+  background: linear-gradient(180deg, #0a0a0a 0%, #141414 50%, #1a1a1a 100%);
+  min-height: 100%;
+  color: #d0d0d0;
+}
+
+/* RTL Support */
+.noir-cv-container.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ========== HEADER ========== */
+.noir-header {
+  padding: 40px 35px;
+  text-align: center;
+  position: relative;
+}
+
+.noir-accent-line {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #4a4a4a, #a8a8a8, #4a4a4a);
+}
+
+.noir-header-content {
+  margin-top: 20px;
+}
+
+.noir-name {
+  font-size: 34px;
+  font-weight: 300;
+  color: #ffffff;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  margin: 0 0 10px 0;
+}
+
+.noir-headline {
+  font-size: 13px;
+  color: #808080;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.noir-divider {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #a8a8a8, transparent);
+  margin: 0 auto 18px;
+}
+
+.noir-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  font-size: 11px;
+  color: #909090;
+  letter-spacing: 1px;
+}
+
+.noir-contact-item {
+  position: relative;
+}
+
+.noir-contact-item:not(:last-child)::after {
+  content: '◆';
+  position: absolute;
+  right: -16px;
+  color: #505050;
+  font-size: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.noir-cv-container.rtl .noir-contact-item:not(:last-child)::after {
+  right: auto;
+  left: -16px;
+}
+
+/* ========== BODY ========== */
+.noir-body {
+  padding: 30px 35px;
+}
+
+/* ========== SECTIONS ========== */
+.noir-section {
+  margin-bottom: 30px;
+}
+
+.noir-section-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.noir-section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(168, 168, 168, 0.3));
+}
+
+.noir-section-line.right {
+  background: linear-gradient(90deg, rgba(168, 168, 168, 0.3), transparent);
+}
+
+.noir-section-title {
+  font-size: 12px;
+  font-weight: 400;
+  color: #a8a8a8;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* ========== SUMMARY ========== */
+.noir-summary {
+  font-size: 12px;
+  line-height: 1.9;
+  color: #909090;
+  text-align: center;
+  font-style: italic;
+  margin: 0;
+  padding: 0 30px;
+}
+
+/* ========== EXPERIENCE ========== */
+.noir-exp-item {
+  margin-bottom: 22px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(168, 168, 168, 0.1);
+}
+
+.noir-exp-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.noir-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  flex-direction: row;
+}
+
+.noir-item-title-group {
+  order: 1;
+}
+
+.noir-item-date {
+  order: 2;
+  font-size: 11px;
+  color: #a8a8a8;
+  letter-spacing: 1px;
+  direction: ltr;
+  font-variant-numeric: tabular-nums;
+}
+
+.noir-cv-container.rtl .noir-item-title-group {
+  order: 2;
+  text-align: right;
+}
+
+.noir-cv-container.rtl .noir-item-date {
+  order: 1;
+  text-align: left;
+}
+
+.noir-exp-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #e8e8e8;
+  margin: 0 0 4px 0;
+}
+
+.noir-exp-company {
+  font-size: 12px;
+  color: #707070;
+}
+
+.noir-exp-description {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #808080;
+  margin: 10px 0 0 0;
+}
+
+/* ========== EDUCATION ========== */
+.noir-edu-item {
+  margin-bottom: 18px;
+}
+
+.noir-edu-item:last-child {
+  margin-bottom: 0;
+}
+
+.noir-edu-degree {
+  font-size: 14px;
+  font-weight: 500;
+  color: #e8e8e8;
+  margin: 0 0 3px 0;
+}
+
+.noir-edu-school {
+  font-size: 12px;
+  color: #707070;
+}
+
+.noir-edu-gpa {
+  font-size: 11px;
+  color: #a8a8a8;
+  margin-top: 5px;
+}
+
+/* ========== SKILLS ========== */
+.noir-skills-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.noir-skill-category {
+  text-align: center;
+}
+
+.noir-skill-category-name {
+  font-size: 11px;
+  color: #707070;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.noir-skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.noir-skill-tag {
+  font-size: 10px;
+  color: #c0c0c0;
+  padding: 6px 14px;
+  border: 1px solid rgba(168, 168, 168, 0.25);
+  background: rgba(168, 168, 168, 0.05);
+  letter-spacing: 1px;
+}
+
+/* ========== CERTIFICATIONS ========== */
+.noir-cert-item {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(168, 168, 168, 0.08);
+}
+
+.noir-cert-item:last-child {
+  border-bottom: none;
+}
+
+.noir-cert-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #d0d0d0;
+  margin: 0;
+}
+
+.noir-cert-issuer {
+  font-size: 11px;
+  color: #606060;
+  margin-top: 3px;
+}
+
+/* ========== PROJECTS ========== */
+.noir-project-item {
+  margin-bottom: 20px;
+}
+
+.noir-project-item:last-child {
+  margin-bottom: 0;
+}
+
+.noir-project-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #d0d0d0;
+  margin: 0;
+}
+
+.noir-project-description {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #707070;
+  margin: 8px 0;
+}
+
+.noir-project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.noir-tech-tag {
+  font-size: 9px;
+  color: #909090;
+  background: rgba(168, 168, 168, 0.08);
+  padding: 3px 8px;
+  letter-spacing: 0.5px;
+}
+
+/* ========== LANGUAGES ========== */
+.noir-languages-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+}
+
+.noir-language-item {
+  text-align: center;
+  min-width: 100px;
+}
+
+.noir-language-name {
+  display: block;
+  font-size: 12px;
+  color: #d0d0d0;
+  margin-bottom: 4px;
+}
+
+.noir-language-level {
+  font-size: 10px;
+  color: #707070;
+  letter-spacing: 1px;
+}
+
+/* ========== ACHIEVEMENTS ========== */
+.noir-achievements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.noir-achievement-item {
+  font-size: 11px;
+  color: #909090;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.noir-diamond-bullet {
+  color: #606060;
+  font-size: 7px;
+  margin-top: 4px;
+  flex-shrink: 0;
+}

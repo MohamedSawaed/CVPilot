@@ -1,0 +1,409 @@
+/* ========================================
+   EXECUTIVE TEMPLATE - LUXURY PREMIUM DESIGN
+   Navy & Gold color scheme for executives
+   ======================================== */
+
+.cv-template-executive {
+  background: white;
+  min-height: 100%;
+  font-size: 10pt;
+  line-height: 1.5;
+  color: #1a1a1a;
+}
+
+/* ========== HEADER ========== */
+.exec-header {
+  background: linear-gradient(135deg, #1a365d 0%, #2c5282 50%, #1a365d 100%);
+  color: white;
+  padding: 28pt 24pt 24pt;
+  position: relative;
+}
+
+.exec-header-gold-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6pt;
+  height: 100%;
+  background: linear-gradient(180deg, #d69e2e, #ecc94b, #d69e2e);
+}
+
+.cv-template-executive.rtl .exec-header-gold-bar {
+  left: auto;
+  right: 0;
+}
+
+.exec-header-gold-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3pt;
+  background: linear-gradient(90deg, transparent, #d69e2e 20%, #ecc94b 50%, #d69e2e 80%, transparent);
+}
+
+.exec-header-content {
+  position: relative;
+  z-index: 1;
+}
+
+.exec-name {
+  font-size: 26pt;
+  font-weight: 300;
+  letter-spacing: 4pt;
+  text-transform: uppercase;
+  margin: 0 0 6pt 0;
+}
+
+.exec-headline {
+  font-size: 12pt;
+  font-weight: 400;
+  color: #ecc94b;
+  letter-spacing: 2pt;
+  text-transform: uppercase;
+  margin-bottom: 16pt;
+}
+
+.exec-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8pt;
+  font-size: 9.5pt;
+  color: rgba(255, 255, 255, 0.9);
+  align-items: center;
+}
+
+.cv-template-executive.rtl .exec-contact {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.exec-contact-item {
+  white-space: nowrap;
+}
+
+.exec-divider {
+  color: #d69e2e;
+  font-weight: 300;
+  margin: 0 4pt;
+}
+
+/* ========== BODY ========== */
+.exec-body {
+  padding: 20pt 24pt 24pt;
+}
+
+/* ========== SECTIONS ========== */
+.exec-section {
+  margin-bottom: 20pt;
+}
+
+.exec-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12pt;
+  margin-bottom: 14pt;
+}
+
+.cv-template-executive.rtl .exec-section-header {
+  flex-direction: row-reverse;
+}
+
+.exec-section-title {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #1a365d;
+  text-transform: uppercase;
+  letter-spacing: 2pt;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.exec-section-line {
+  flex: 1;
+  height: 1pt;
+  background: linear-gradient(90deg, #d69e2e 0%, transparent 100%);
+}
+
+.cv-template-executive.rtl .exec-section-line {
+  background: linear-gradient(270deg, #d69e2e 0%, transparent 100%);
+}
+
+/* ========== ITEM HEADER ========== */
+.exec-item-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16pt;
+  margin-bottom: 4pt;
+}
+
+.exec-item-title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.exec-item-date {
+  font-size: 9.5pt;
+  font-weight: 400;
+  color: #718096;
+  white-space: nowrap;
+  direction: ltr;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  font-style: italic;
+}
+
+/* ========== EXPERIENCE ========== */
+.exec-exp-item {
+  margin-bottom: 16pt;
+  padding-bottom: 14pt;
+  border-bottom: 1pt solid #e8ecf4;
+}
+
+.exec-exp-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.exec-exp-title {
+  font-size: 12pt;
+  font-weight: 600;
+  color: #1a365d;
+  margin: 0 0 2pt 0;
+}
+
+.exec-exp-company {
+  font-size: 10.5pt;
+  color: #d69e2e;
+  font-weight: 500;
+  margin-bottom: 6pt;
+}
+
+.exec-exp-description {
+  font-size: 10pt;
+  color: #4a5568;
+  line-height: 1.7;
+  margin: 0;
+  text-align: justify;
+}
+
+.cv-template-executive.rtl .exec-exp-description {
+  text-align-last: right;
+}
+
+/* ========== EDUCATION ========== */
+.exec-edu-item {
+  margin-bottom: 12pt;
+  padding-bottom: 10pt;
+  border-bottom: 1pt solid #e8ecf4;
+}
+
+.exec-edu-item:last-child {
+  border-bottom: none;
+}
+
+.exec-edu-degree {
+  font-size: 11.5pt;
+  font-weight: 600;
+  color: #1a365d;
+  margin: 0;
+}
+
+.exec-edu-school {
+  font-size: 10pt;
+  color: #d69e2e;
+  font-weight: 500;
+}
+
+.exec-edu-details {
+  font-size: 9.5pt;
+  color: #718096;
+  margin-top: 2pt;
+  font-style: italic;
+}
+
+/* ========== SUMMARY ========== */
+.exec-summary {
+  font-size: 10.5pt;
+  color: #4a5568;
+  line-height: 1.75;
+  text-align: justify;
+  margin: 0;
+  padding: 12pt 16pt;
+  background: #f8fafc;
+  border-left: 3pt solid #d69e2e;
+}
+
+.cv-template-executive.rtl .exec-summary {
+  border-left: none;
+  border-right: 3pt solid #d69e2e;
+  text-align-last: right;
+}
+
+/* ========== SKILLS ========== */
+.exec-skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12pt 24pt;
+}
+
+.exec-skill-category {
+  margin-bottom: 8pt;
+}
+
+.exec-skill-category-title {
+  font-size: 9.5pt;
+  font-weight: 600;
+  color: #1a365d;
+  text-transform: uppercase;
+  letter-spacing: 1pt;
+  margin-bottom: 6pt;
+  border-bottom: 1pt solid #d69e2e;
+  padding-bottom: 3pt;
+}
+
+.exec-skills-list {
+  font-size: 9.5pt;
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+/* ========== LANGUAGES ========== */
+.exec-lang-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10pt;
+}
+
+.exec-lang-item {
+  text-align: center;
+  padding: 8pt;
+  background: #f8fafc;
+  border-radius: 4pt;
+}
+
+.exec-lang-name {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #1a365d;
+  margin-bottom: 2pt;
+}
+
+.exec-lang-level {
+  font-size: 8.5pt;
+  color: #d69e2e;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5pt;
+}
+
+/* ========== GENERIC ITEMS ========== */
+.exec-generic-item {
+  margin-bottom: 10pt;
+  padding-bottom: 8pt;
+  border-bottom: 1pt solid #e8ecf4;
+}
+
+.exec-generic-item:last-child {
+  border-bottom: none;
+}
+
+.exec-item-title {
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: #1a365d;
+  margin: 0;
+}
+
+.exec-item-meta {
+  font-size: 9.5pt;
+  color: #d69e2e;
+  font-weight: 500;
+}
+
+.exec-item-description {
+  font-size: 9.5pt;
+  color: #4a5568;
+  margin: 4pt 0 0 0;
+  line-height: 1.55;
+}
+
+/* ========== REFERENCES ========== */
+.exec-ref-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14pt;
+}
+
+.exec-ref-item {
+  padding: 10pt 12pt;
+  background: #f8fafc;
+  border-radius: 4pt;
+  border-left: 3pt solid #d69e2e;
+}
+
+.cv-template-executive.rtl .exec-ref-item {
+  border-left: none;
+  border-right: 3pt solid #d69e2e;
+}
+
+.exec-ref-name {
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: #1a365d;
+}
+
+.exec-ref-title {
+  font-size: 9pt;
+  color: #d69e2e;
+  font-style: italic;
+}
+
+.exec-ref-contact {
+  font-size: 8.5pt;
+  color: #718096;
+  margin-top: 4pt;
+}
+
+/* ========== INTERESTS / TAGS ========== */
+.exec-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8pt;
+}
+
+.cv-template-executive.rtl .exec-tags-container {
+  flex-direction: row-reverse;
+}
+
+.exec-tag {
+  background: transparent;
+  color: #1a365d;
+  padding: 4pt 12pt;
+  border: 1pt solid #d69e2e;
+  font-size: 9pt;
+  font-weight: 500;
+}
+
+.exec-info-text {
+  font-size: 10pt;
+  color: #4a5568;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px) {
+  .exec-skills-grid,
+  .exec-ref-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .exec-lang-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

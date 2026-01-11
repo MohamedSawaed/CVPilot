@@ -1,0 +1,414 @@
+/* ========================================
+   ELEGANT TEMPLATE - SOPHISTICATED GRADIENT
+   Purple-rose theme with modern elegance
+   ======================================== */
+
+.cv-template-elegant {
+  background: white;
+  min-height: 100%;
+  font-size: 10pt;
+  line-height: 1.5;
+  color: #1a1a1a;
+}
+
+/* ========== HEADER ========== */
+.elegant-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  padding: 32pt 28pt;
+  position: relative;
+  overflow: hidden;
+}
+
+.elegant-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.elegant-header-content {
+  position: relative;
+  z-index: 1;
+}
+
+.elegant-name {
+  font-size: 28pt;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.5pt;
+  margin: 0 0 6pt 0;
+  line-height: 1.1;
+  text-shadow: 0 2pt 8pt rgba(0, 0, 0, 0.2);
+}
+
+.elegant-headline {
+  font-size: 12pt;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 18pt;
+}
+
+.elegant-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6pt 18pt;
+  font-size: 9.5pt;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.cv-template-elegant.rtl .elegant-contact-row {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.elegant-contact-item {
+  position: relative;
+}
+
+.elegant-contact-item::after {
+  content: '•';
+  position: absolute;
+  right: -11pt;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.cv-template-elegant.rtl .elegant-contact-item::after {
+  right: auto;
+  left: -11pt;
+}
+
+.elegant-contact-item:last-child::after {
+  display: none;
+}
+
+/* ========== BODY ========== */
+.elegant-body {
+  padding: 24pt 28pt;
+}
+
+/* ========== SECTIONS ========== */
+.elegant-section {
+  margin-bottom: 22pt;
+  background: #fafafa;
+  border-radius: 8pt;
+  padding: 16pt 18pt;
+  border-left: 4pt solid #764ba2;
+}
+
+.cv-template-elegant.rtl .elegant-section {
+  border-left: none;
+  border-right: 4pt solid #764ba2;
+}
+
+.elegant-section-title {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #764ba2;
+  text-transform: uppercase;
+  letter-spacing: 1.5pt;
+  margin: 0 0 14pt 0;
+  display: flex;
+  align-items: center;
+  gap: 8pt;
+}
+
+.elegant-section-icon {
+  color: #f093fb;
+  font-size: 10pt;
+}
+
+/* ========== ITEM HEADER ========== */
+.elegant-item-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20pt;
+  margin-bottom: 3pt;
+}
+
+.elegant-item-title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.elegant-item-date {
+  font-size: 9pt;
+  font-weight: 500;
+  color: #764ba2;
+  white-space: nowrap;
+  direction: ltr;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+/* ========== EXPERIENCE ========== */
+.elegant-exp-item {
+  margin-bottom: 16pt;
+  padding-bottom: 14pt;
+  border-bottom: 1pt solid #e8e8e8;
+}
+
+.elegant-exp-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.elegant-exp-title {
+  font-size: 12pt;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.elegant-exp-company {
+  font-size: 10pt;
+  color: #667eea;
+  font-weight: 500;
+  margin-bottom: 6pt;
+}
+
+.elegant-exp-description {
+  font-size: 9.5pt;
+  color: #4a4a4a;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ========== EDUCATION ========== */
+.elegant-edu-item {
+  margin-bottom: 12pt;
+}
+
+.elegant-edu-item:last-child {
+  margin-bottom: 0;
+}
+
+.elegant-edu-degree {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.elegant-edu-school {
+  font-size: 10pt;
+  color: #667eea;
+  font-weight: 500;
+}
+
+.elegant-edu-details {
+  font-size: 9pt;
+  color: #6b6b6b;
+  margin-top: 2pt;
+}
+
+/* ========== SUMMARY ========== */
+.elegant-summary {
+  font-size: 10.5pt;
+  color: #4a4a4a;
+  line-height: 1.8;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ========== SKILLS ========== */
+.elegant-skills-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12pt;
+}
+
+.elegant-skill-category {
+  margin-bottom: 0;
+}
+
+.elegant-skill-category-title {
+  font-size: 9pt;
+  font-weight: 600;
+  color: #764ba2;
+  margin-bottom: 6pt;
+  text-transform: uppercase;
+  letter-spacing: 0.5pt;
+}
+
+.elegant-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6pt;
+}
+
+.cv-template-elegant.rtl .elegant-skills-list {
+  flex-direction: row-reverse;
+}
+
+.elegant-skill-tag {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 4pt 10pt;
+  border-radius: 12pt;
+  font-size: 8.5pt;
+  font-weight: 500;
+}
+
+/* ========== LANGUAGES ========== */
+.elegant-lang-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8pt 24pt;
+}
+
+.cv-template-elegant.rtl .elegant-lang-row {
+  flex-direction: row-reverse;
+}
+
+.elegant-lang-item {
+  display: flex;
+  align-items: baseline;
+  gap: 6pt;
+}
+
+.elegant-lang-name {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.elegant-lang-level {
+  font-size: 9pt;
+  color: #764ba2;
+  font-weight: 500;
+}
+
+/* ========== PROJECTS ========== */
+.elegant-project-item {
+  margin-bottom: 14pt;
+}
+
+.elegant-project-item:last-child {
+  margin-bottom: 0;
+}
+
+.elegant-project-tech {
+  font-size: 8.5pt;
+  color: #667eea;
+  font-weight: 500;
+  margin-bottom: 4pt;
+}
+
+/* ========== GENERIC ITEMS ========== */
+.elegant-generic-item {
+  margin-bottom: 12pt;
+}
+
+.elegant-generic-item:last-child {
+  margin-bottom: 0;
+}
+
+.elegant-item-title {
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.elegant-item-meta {
+  font-size: 9pt;
+  color: #667eea;
+  font-weight: 500;
+}
+
+.elegant-item-description {
+  font-size: 9pt;
+  color: #4a4a4a;
+  margin: 4pt 0 0 0;
+  line-height: 1.6;
+}
+
+/* ========== REFERENCES ========== */
+.elegant-ref-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16pt;
+}
+
+.elegant-ref-item {
+  background: white;
+  padding: 12pt;
+  border-radius: 6pt;
+  border: 1pt solid #e8e8e8;
+}
+
+.elegant-ref-name {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.elegant-ref-title {
+  font-size: 9pt;
+  color: #667eea;
+}
+
+.elegant-ref-contact {
+  font-size: 8.5pt;
+  color: #6b6b6b;
+  margin-top: 4pt;
+}
+
+/* ========== INTERESTS / TAGS ========== */
+.elegant-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8pt;
+}
+
+.cv-template-elegant.rtl .elegant-tags {
+  flex-direction: row-reverse;
+}
+
+.elegant-tag {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  padding: 5pt 12pt;
+  border-radius: 14pt;
+  font-size: 9pt;
+  font-weight: 500;
+  border: 1pt solid rgba(102, 126, 234, 0.2);
+}
+
+.elegant-info-text {
+  font-size: 9.5pt;
+  color: #4a4a4a;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px) {
+  .elegant-header {
+    padding: 24pt 20pt;
+  }
+
+  .elegant-body {
+    padding: 20pt;
+  }
+
+  .elegant-name {
+    font-size: 22pt;
+  }
+
+  .elegant-ref-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .elegant-section {
+    padding: 14pt 16pt;
+  }
+}

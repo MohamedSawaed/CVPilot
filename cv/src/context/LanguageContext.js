@@ -1,0 +1,1111 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+// Translations object
+const translations = {
+  en: {
+    // Language selector
+    selectLanguage: 'Select Your Language',
+    selectLanguageDesc: 'Choose the language for your resume',
+    changeLanguage: 'Change Language',
+    continue: 'Continue',
+
+    // Header
+    resume: 'Resume',
+    complete: 'Complete',
+
+    // Buttons
+    sections: 'Sections',
+    score: 'Score',
+    template: 'Template',
+    save: 'Save',
+    preview: 'Preview',
+    hide: 'Hide',
+    reset: 'Reset',
+    previous: 'Previous',
+    next: 'Next',
+    finishDownload: 'Finish & Download',
+
+    // Sections
+    personalInfo: 'Personal Information',
+    summary: 'Professional Summary',
+    experience: 'Work Experience',
+    education: 'Education',
+    skills: 'Skills',
+    certifications: 'Certifications',
+    projects: 'Projects',
+    achievements: 'Achievements',
+    publications: 'Publications',
+    licenses: 'Licenses',
+    portfolio: 'Portfolio',
+
+    // Personal Info Fields
+    fullName: 'Full Name',
+    email: 'Email',
+    phone: 'Phone',
+    location: 'Location',
+    linkedin: 'LinkedIn',
+    website: 'Website',
+
+    // Experience Fields
+    jobTitle: 'Job Title',
+    company: 'Company',
+    startDate: 'Start Date',
+    endDate: 'End Date',
+    currentlyWorking: 'Currently working here',
+    description: 'Description',
+    addExperience: 'Add Experience',
+
+    // Education Fields
+    degree: 'Degree',
+    institution: 'Institution',
+    graduationDate: 'Graduation Date',
+    gpa: 'GPA',
+    honors: 'Honors',
+    addEducation: 'Add Education',
+
+    // Skills
+    technicalSkills: 'Technical Skills',
+    softSkills: 'Soft Skills',
+    languages: 'Languages',
+    addSkill: 'Add Skill',
+    skillName: 'Skill Name',
+    proficiency: 'Proficiency',
+    category: 'Category',
+
+    // Proficiency levels
+    beginner: 'Beginner',
+    intermediate: 'Intermediate',
+    advanced: 'Advanced',
+    expert: 'Expert',
+    master: 'Master',
+
+    // Payment
+    yourCvReady: 'Your CV is Ready!',
+    choosePlan: 'Choose a plan to download your professional resume',
+    basic: 'Basic',
+    professional: 'Professional',
+    premium: 'Premium',
+    oneTime: 'one-time',
+    mostPopular: 'Most Popular',
+    pdfDownload: 'PDF Download',
+    oneTemplate: '1 Template',
+    basicSupport: 'Basic Support',
+    pdfWordDownload: 'PDF & Word Download',
+    allTemplates: 'All 4 Templates',
+    prioritySupport: 'Priority Support',
+    unlimitedEdits: 'Unlimited Edits',
+    allProFeatures: 'All Pro Features',
+    aiCoverLetter: 'AI Cover Letter',
+    linkedinOptimization: 'LinkedIn Optimization',
+    yearUpdates: '1-Year Updates',
+    selectPlan: 'Select a Plan',
+    continueWith: 'Continue with',
+
+    // Payment form
+    paymentDetails: 'Payment Details',
+    completePurchase: 'Complete your purchase to download',
+    plan: 'Plan',
+    total: 'Total',
+    cardNumber: 'Card Number',
+    expiryDate: 'Expiry Date',
+    cvv: 'CVV',
+    cardholderName: 'Cardholder Name',
+    securePayment: 'Secure payment via:',
+    back: 'Back',
+    payNow: 'Pay Now',
+
+    // Download
+    paymentSuccessful: 'Payment Successful!',
+    chooseFormat: 'Choose your preferred download format',
+    pdfDocument: 'PDF Document',
+    pdfDesc: 'Best for printing and professional applications',
+    recommended: 'Recommended',
+    jsonData: 'JSON Data',
+    jsonDesc: 'Save your data to import later or use elsewhere',
+    currentTemplate: 'Current Template',
+    change: 'Change',
+
+    // Templates
+    modern: 'Modern',
+    classic: 'Classic',
+    creative: 'Creative',
+    atsFriendly: 'ATS-Friendly',
+
+    // Misc
+    step: 'Step',
+    of: 'of',
+    moreToUnlock: 'more to unlock',
+    moreToFinish: 'more to finish',
+    downloadYourCv: 'Download your CV',
+    manualSaved: 'Manually saved!',
+    startOver: 'Start Over',
+    confirmStartOver: 'Are you sure you want to start over? All current data will be lost.',
+
+    // Landing Page
+    createProfessionalResume: 'Create Your Professional Resume',
+    landingSubtitle: 'Build a stunning CV that gets you noticed. Choose your profession to get started.',
+    selectProfession: 'Select Your Profession',
+    getStarted: 'Get Started',
+    chooseTemplate: 'Choose a Template',
+
+    // Questionnaire
+    tellUsAboutYourself: 'Tell Us About Yourself',
+    questionnaireDesc: 'Help us customize your CV by answering a few questions',
+    yearsOfExperience: 'Years of Experience',
+    careerLevel: 'Career Level',
+    entryLevel: 'Entry Level',
+    midLevel: 'Mid Level',
+    seniorLevel: 'Senior Level',
+    executive: 'Executive',
+    continueBtn: 'Continue',
+
+    // CV Labels for templates
+    present: 'Present',
+    technicalSkillsLabel: 'Technical Skills',
+    professionalSkills: 'Professional Skills',
+    toolsSoftware: 'Tools & Software',
+    frameworksLibraries: 'Frameworks & Libraries',
+
+    // Professions
+    softwareEngineer: 'Software Engineer',
+    dataScientist: 'Data Scientist',
+    productManager: 'Product Manager',
+    designer: 'Designer',
+    marketing: 'Marketing',
+    sales: 'Sales',
+    finance: 'Finance',
+    healthcare: 'Healthcare',
+    teacher: 'Teacher',
+    other: 'Other',
+
+    // Landing Page Extended
+    heroTitle: 'Create Your Perfect Resume',
+    heroHighlight: ' for Any Profession',
+    heroSubtitle: 'Our intelligent system works for EVERY profession in the world. From traditional careers to emerging roles - we\'ve got you covered.',
+    heroBadge: '✨ AI-Powered Resume Builder',
+    resumesCreated: 'Resumes Created',
+    professionsSupported: 'Professions Supported',
+    userRating: 'User Rating',
+    whatsYourRole: 'What\'s Your Target Role?',
+    enterJobTitle: 'Enter any job title - our AI will create the perfect resume structure for you',
+    letsBuildResume: 'Let\'s Build Your Resume',
+    takesLessThan: 'Takes less than 10 minutes • No sign-up required',
+    jobTitlePlaceholder: 'e.g., Software Engineer, Chef, Teacher, Artist, Entrepreneur...',
+    proTip: 'Pro tip:',
+    proTipText: 'Be specific! "Senior Data Scientist" works better than just "Scientist"',
+    skipForNow: 'Skip for now',
+    worksForAll: 'Works for all professions including:',
+    techIt: '👨‍💻 Tech & IT',
+    educationField: '👨‍🏫 Education',
+    creativeField: '🎨 Creative',
+    business: '💼 Business',
+    skilledTrades: '🔧 Skilled Trades',
+    entertainment: '🎭 Entertainment',
+    startups: '🚀 Startups',
+    legal: '⚖️ Legal',
+    financeField: '📊 Finance',
+    engineering: '🏗️ Engineering',
+    nonProfit: '🌍 Non-Profit',
+    whyChoose: 'Why Choose Our Platform?',
+    poweredByAi: 'Powered by AI, designed for universal success',
+    universalAiEngine: 'Universal AI Engine',
+    universalAiDesc: 'Intelligent system that adapts to any profession automatically',
+    atsOptimized: 'ATS-Optimized',
+    atsDesc: '95% pass rate with applicant tracking systems across all industries',
+    tenMinSetup: '10-Minute Setup',
+    tenMinDesc: 'Create a professional resume faster than making coffee',
+    fourTemplates: '4 Premium Templates',
+    fourTemplatesDesc: 'Modern, Classic, Creative, and ATS-Friendly designs',
+    smartScoring: 'Smart Scoring',
+    smartScoringDesc: 'Real-time feedback with 100-point quality scoring',
+    exportAnywhere: 'Export Anywhere',
+    exportAnywhereDesc: 'Download PDF, export JSON, or print instantly',
+    trustedWorldwide: 'Trusted by Professionals Worldwide',
+    trustedDesc: 'From entry-level to C-suite, traditional to cutting-edge - our system works for everyone',
+    noRegistration: 'No Registration',
+    freePercent: '100% Free',
+    dataPrivate: 'Your Data Stays Private',
+    footerBuiltWith: 'Built with ❤️ using React & AI Technology',
+    footerCopyright: '© 2026 Universal Resume Builder',
+    worksForEvery: 'Works for Every Profession',
+
+    // Questionnaire Extended
+    aboutYourBackground: 'About Your Background',
+    tellUsExperience: 'Tell us about your experience and education',
+    yearsOfExperienceQuestion: 'How many years of experience do you have in this field?',
+    highestDegree: 'What is your highest degree or education level?',
+    selectDegree: 'Select your degree',
+    exactYears: 'Exact years in the field (e.g., 5)',
+    enterYears: 'Enter number of years',
+    currentRoleQuestion: 'What is your current or most recent role?',
+    careerGoalOptional: 'What is your career goal? (Optional)',
+    describeGoal: 'Describe what you\'re looking for in your next position...',
+    continueToPreferences: 'Continue to Section Preferences',
+    contentToInclude: 'Content You\'ll Include',
+    arrangeOptimally: 'Help us arrange your resume sections optimally',
+    whatToEmphasize: 'What should your resume emphasize the most?',
+    educationQualifications: 'Education & Qualifications',
+    educationDesc: 'Best if you have advanced degrees or recent graduation',
+    workExperienceFocus: 'Work Experience',
+    workExperienceDesc: 'Best if you have substantial relevant work history',
+    skillsExpertise: 'Skills & Expertise',
+    skillsDesc: 'Best for technical roles or career changers',
+    achievementsAwards: 'Achievements & Awards',
+    achievementsDesc: 'Best if you have notable accomplishments and recognition',
+    whichToInclude: 'Which of these will you include in your resume? (Check all that apply)',
+    publicationsResearch: 'Publications & Research',
+    projectsPortfolio: 'Projects & Portfolio Work',
+    certificationsTraining: 'Certifications & Professional Training',
+    achievementsAwardsCheck: 'Achievements & Awards',
+    professionalLicenses: 'Professional Licenses',
+    portfolioLinks: 'Portfolio Links',
+    smartArrangement: 'Smart Arrangement:',
+    smartArrangementDesc: 'Based on your answers, we\'ll automatically arrange your resume sections in the most effective order to highlight your strengths and match industry standards for',
+    backBtn: 'Back',
+    startBuilding: 'Start Building My Resume',
+    backgroundStep: 'Background',
+    preferencesStep: 'Preferences',
+
+    // CVBuilder Extended
+    writeSummary: 'Write a compelling summary of your professional background',
+    example: 'Example',
+    characters: 'characters',
+    position: 'Position',
+    remove: 'Remove',
+    descriptionAchievements: 'Description & Achievements',
+    optional: 'Optional',
+    certification: 'Certification',
+    certificationName: 'Certification Name',
+    issuingOrganization: 'Issuing Organization',
+    issueDate: 'Issue Date',
+    ifApplicable: 'if applicable',
+    credentialId: 'Credential ID',
+    addCertification: 'Add Certification',
+    project: 'Project',
+    projectName: 'Project Name',
+    yourRole: 'Your Role',
+    duration: 'Duration',
+    technologiesUsed: 'Technologies Used',
+    addProject: 'Add Project',
+    achievement: 'Achievement',
+    achievementTitle: 'Achievement/Award Title',
+    date: 'Date',
+    addAchievement: 'Add Achievement',
+
+    // Experience levels
+    entryLevelYears: 'Entry Level (0-2 years)',
+    midLevelYears: 'Mid Level (3-5 years)',
+    seniorLevelYears: 'Senior (6-10 years)',
+    expertLevelYears: 'Expert (10+ years)',
+
+    // Degree types
+    highSchoolDiploma: 'High School Diploma',
+    associateDegree: 'Associate Degree',
+    bachelorDegree: "Bachelor's Degree",
+    masterDegree: "Master's Degree",
+    phdDegree: 'Ph.D.',
+    professionalDegree: 'Professional Degree (MD, JD, etc.)',
+    professionalCertificate: 'Professional Certificate',
+
+    // Misc additions
+    currentRoleLabel: 'Current or Most Recent Role',
+    pro: 'Professional',
+
+    // Skills Manager
+    skillPlaceholderTechnical: 'e.g., JavaScript, Python, React',
+    skillPlaceholderSoft: 'e.g., Leadership, Communication',
+    skillPlaceholderLanguages: 'e.g., English, Spanish',
+    skillPlaceholderTools: 'e.g., Git, Docker, Figma',
+    skillPlaceholderFrameworks: 'e.g., React, Express, TensorFlow',
+    quickTip: 'Quick tip',
+    bulkAddHint: 'Paste multiple skills separated by commas to add them all at once',
+    noSkillsYet: 'No skills added yet',
+    addFirstSkill: 'Add your first skill above to get started',
+    suggestedSkills: 'Suggested Skills',
+    totalSkills: 'Total Skills',
+    expertLevel: 'Expert Level',
+    categoriesCount: 'Categories',
+
+    // Arrangement Modal
+    entryLevelStructure: 'Entry-Level Resume Structure',
+    midLevelStructure: 'Mid-Level Resume Structure',
+    seniorLevelStructure: 'Senior-Level Resume Structure',
+    expertLevelStructure: 'Expert-Level Resume Structure',
+    tipsForSuccess: 'Tips for Success:',
+    gotItLetsBuild: "Got it! Let's build my resume",
+
+    // Entry level explanations
+    entryLevelAdvancedDegreeReason: 'Your education is highlighted early because your advanced degree is a strong selling point with limited work experience.',
+    entryLevelAdvancedDegreeTip1: 'Emphasize academic achievements and projects',
+    entryLevelAdvancedDegreeTip2: 'Include relevant coursework and research',
+    entryLevelAdvancedDegreeTip3: 'Highlight internships and volunteer work',
+    entryLevelAdvancedDegreeTip4: 'Focus on transferable skills',
+    entryLevelSkillsReason: 'Your skills are highlighted early to compensate for limited work experience.',
+    entryLevelSkillsTip1: 'Include projects that demonstrate your abilities',
+    entryLevelSkillsTip2: 'Emphasize certifications and training',
+    entryLevelSkillsTip3: 'Highlight volunteer work and extracurriculars',
+    entryLevelSkillsTip4: 'Focus on potential and eagerness to learn',
+
+    // Mid level explanation
+    midLevelReason: 'Your experience is balanced with your skills. This structure showcases both your practical achievements and technical capabilities.',
+    midLevelTip1: 'Quantify achievements in your experience section',
+    midLevelTip2: 'Show progression and growth in responsibilities',
+    midLevelTip3: 'Highlight specific projects and their impact',
+    midLevelTip4: 'Include relevant certifications',
+
+    // Senior level explanation
+    seniorLevelReason: 'Your extensive experience leads the resume. Education is placed later as your professional accomplishments speak louder.',
+    seniorLevelTip1: 'Emphasize leadership and mentoring experience',
+    seniorLevelTip2: 'Highlight major projects and their business impact',
+    seniorLevelTip3: 'Include awards and recognition',
+    seniorLevelTip4: 'Show strategic thinking and problem-solving',
+
+    // Expert level explanation
+    expertLevelReason: 'Your resume emphasizes achievements, publications, and thought leadership. Education is placed at the end as your extensive track record demonstrates your expertise.',
+    expertLevelTip1: 'Focus on high-impact achievements and innovations',
+    expertLevelTip2: 'Include speaking engagements and publications',
+    expertLevelTip3: 'Highlight strategic initiatives and their outcomes',
+    expertLevelTip4: 'Show industry influence and thought leadership',
+  },
+
+  ar: {
+    // Language selector
+    selectLanguage: 'اختر لغتك',
+    selectLanguageDesc: 'اختر لغة سيرتك الذاتية',
+    changeLanguage: 'تغيير اللغة',
+    continue: 'متابعة',
+
+    // Header
+    resume: 'السيرة الذاتية',
+    complete: 'مكتمل',
+
+    // Buttons
+    sections: 'الأقسام',
+    score: 'النتيجة',
+    template: 'القالب',
+    save: 'حفظ',
+    preview: 'معاينة',
+    hide: 'إخفاء',
+    reset: 'إعادة تعيين',
+    previous: 'السابق',
+    next: 'التالي',
+    finishDownload: 'إنهاء وتحميل',
+
+    // Sections
+    personalInfo: 'المعلومات الشخصية',
+    summary: 'الملخص المهني',
+    experience: 'الخبرة العملية',
+    education: 'التعليم',
+    skills: 'المهارات',
+    certifications: 'الشهادات',
+    projects: 'المشاريع',
+    achievements: 'الإنجازات',
+    publications: 'المنشورات',
+    licenses: 'التراخيص',
+    portfolio: 'معرض الأعمال',
+
+    // Personal Info Fields
+    fullName: 'الاسم الكامل',
+    email: 'البريد الإلكتروني',
+    phone: 'الهاتف',
+    location: 'الموقع',
+    linkedin: 'لينكد إن',
+    website: 'الموقع الإلكتروني',
+
+    // Experience Fields
+    jobTitle: 'المسمى الوظيفي',
+    company: 'الشركة',
+    startDate: 'تاريخ البدء',
+    endDate: 'تاريخ الانتهاء',
+    currentlyWorking: 'أعمل هنا حاليًا',
+    description: 'الوصف',
+    addExperience: 'إضافة خبرة',
+
+    // Education Fields
+    degree: 'الدرجة العلمية',
+    institution: 'المؤسسة التعليمية',
+    graduationDate: 'تاريخ التخرج',
+    gpa: 'المعدل التراكمي',
+    honors: 'مرتبة الشرف',
+    addEducation: 'إضافة تعليم',
+
+    // Skills
+    technicalSkills: 'المهارات التقنية',
+    softSkills: 'المهارات الشخصية',
+    languages: 'اللغات',
+    addSkill: 'إضافة مهارة',
+    skillName: 'اسم المهارة',
+    proficiency: 'مستوى الإتقان',
+    category: 'الفئة',
+
+    // Proficiency levels
+    beginner: 'مبتدئ',
+    intermediate: 'متوسط',
+    advanced: 'متقدم',
+    expert: 'خبير',
+    master: 'محترف',
+
+    // Payment
+    yourCvReady: 'سيرتك الذاتية جاهزة!',
+    choosePlan: 'اختر خطة لتحميل سيرتك الذاتية المهنية',
+    basic: 'أساسي',
+    professional: 'احترافي',
+    premium: 'متميز',
+    oneTime: 'دفعة واحدة',
+    mostPopular: 'الأكثر شعبية',
+    pdfDownload: 'تحميل PDF',
+    oneTemplate: 'قالب واحد',
+    basicSupport: 'دعم أساسي',
+    pdfWordDownload: 'تحميل PDF و Word',
+    allTemplates: 'جميع القوالب الأربعة',
+    prioritySupport: 'دعم ذو أولوية',
+    unlimitedEdits: 'تعديلات غير محدودة',
+    allProFeatures: 'جميع مزايا الاحترافي',
+    aiCoverLetter: 'خطاب تغطية بالذكاء الاصطناعي',
+    linkedinOptimization: 'تحسين لينكد إن',
+    yearUpdates: 'تحديثات لمدة سنة',
+    selectPlan: 'اختر خطة',
+    continueWith: 'متابعة مع',
+
+    // Payment form
+    paymentDetails: 'تفاصيل الدفع',
+    completePurchase: 'أكمل عملية الشراء للتحميل',
+    plan: 'الخطة',
+    total: 'المجموع',
+    cardNumber: 'رقم البطاقة',
+    expiryDate: 'تاريخ الانتهاء',
+    cvv: 'رمز CVV',
+    cardholderName: 'اسم حامل البطاقة',
+    securePayment: 'دفع آمن عبر:',
+    back: 'رجوع',
+    payNow: 'ادفع الآن',
+
+    // Download
+    paymentSuccessful: 'تم الدفع بنجاح!',
+    chooseFormat: 'اختر تنسيق التحميل المفضل',
+    pdfDocument: 'مستند PDF',
+    pdfDesc: 'الأفضل للطباعة والتطبيقات المهنية',
+    recommended: 'موصى به',
+    jsonData: 'بيانات JSON',
+    jsonDesc: 'احفظ بياناتك لاستيرادها لاحقًا',
+    currentTemplate: 'القالب الحالي',
+    change: 'تغيير',
+
+    // Templates
+    modern: 'عصري',
+    classic: 'كلاسيكي',
+    creative: 'إبداعي',
+    atsFriendly: 'متوافق مع ATS',
+
+    // Misc
+    step: 'خطوة',
+    of: 'من',
+    moreToUnlock: 'المزيد لفتح',
+    moreToFinish: 'المزيد للإنهاء',
+    downloadYourCv: 'حمّل سيرتك الذاتية',
+    manualSaved: 'تم الحفظ!',
+    startOver: 'البدء من جديد',
+    confirmStartOver: 'هل أنت متأكد من البدء من جديد؟ ستفقد جميع البيانات الحالية.',
+
+    // Landing Page
+    createProfessionalResume: 'أنشئ سيرتك الذاتية المثالية',
+    landingSubtitle: 'نظامنا الذكي يعمل مع جميع المهن في العالم',
+    heroTitle: 'أنشئ سيرتك الذاتية المثالية',
+    heroHighlight: ' لأي مهنة',
+    heroSubtitle: 'نظامنا الذكي يعمل مع جميع المهن في العالم. من الوظائف التقليدية إلى الأدوار الناشئة - نحن نغطيك.',
+    heroBadge: '✨ منشئ السيرة الذاتية بالذكاء الاصطناعي',
+    resumesCreated: 'سيرة ذاتية تم إنشاؤها',
+    professionsSupported: 'مهن مدعومة',
+    userRating: 'تقييم المستخدمين',
+    whatsYourRole: 'ما هو دورك المستهدف؟',
+    enterJobTitle: 'أدخل أي مسمى وظيفي - سيقوم الذكاء الاصطناعي بإنشاء هيكل السيرة الذاتية المثالي لك',
+    letsBuildResume: 'لنبني سيرتك الذاتية',
+    takesLessThan: 'يستغرق أقل من 10 دقائق • لا حاجة للتسجيل',
+    jobTitlePlaceholder: 'مثال: مهندس برمجيات، طاهٍ، مدرس، فنان، رائد أعمال...',
+    proTip: 'نصيحة:',
+    proTipText: 'كن محدداً! "عالم بيانات أول" يعمل أفضل من مجرد "عالم"',
+    continueBtn: 'متابعة',
+    skipForNow: 'تخطي الآن',
+    worksForAll: 'يعمل مع جميع المهن بما في ذلك:',
+    techIt: '👨‍💻 التقنية وتكنولوجيا المعلومات',
+    healthcare: '👨‍⚕️ الرعاية الصحية',
+    educationField: '👨‍🏫 التعليم',
+    creativeField: '🎨 الإبداعي',
+    business: '💼 الأعمال',
+    skilledTrades: '🔧 الحرف الماهرة',
+    entertainment: '🎭 الترفيه',
+    startups: '🚀 الشركات الناشئة',
+    legal: '⚖️ القانون',
+    financeField: '📊 المالية',
+    engineering: '🏗️ الهندسة',
+    nonProfit: '🌍 غير الربحي',
+    whyChoose: 'لماذا تختار منصتنا؟',
+    poweredByAi: 'مدعوم بالذكاء الاصطناعي، مصمم للنجاح العالمي',
+    universalAiEngine: 'محرك ذكاء اصطناعي عالمي',
+    universalAiDesc: 'نظام ذكي يتكيف مع أي مهنة تلقائياً',
+    atsOptimized: 'محسّن لـ ATS',
+    atsDesc: 'معدل نجاح 95% مع أنظمة تتبع المتقدمين في جميع الصناعات',
+    tenMinSetup: 'إعداد في 10 دقائق',
+    tenMinDesc: 'أنشئ سيرة ذاتية احترافية أسرع من صنع القهوة',
+    fourTemplates: '4 قوالب متميزة',
+    fourTemplatesDesc: 'تصاميم عصرية، كلاسيكية، إبداعية، ومتوافقة مع ATS',
+    smartScoring: 'تقييم ذكي',
+    smartScoringDesc: 'تغذية راجعة فورية مع تقييم جودة من 100 نقطة',
+    exportAnywhere: 'تصدير في أي مكان',
+    exportAnywhereDesc: 'تحميل PDF، تصدير JSON، أو طباعة فوراً',
+    trustedWorldwide: 'موثوق من المحترفين حول العالم',
+    trustedDesc: 'من المبتدئين إلى المديرين التنفيذيين - نظامنا يعمل للجميع',
+    noRegistration: 'لا تسجيل',
+    freePercent: 'مجاني 100%',
+    dataPrivate: 'بياناتك تبقى خاصة',
+    footerBuiltWith: 'صُنع بـ ❤️ باستخدام React وتقنية الذكاء الاصطناعي',
+    footerCopyright: '© 2026 منشئ السيرة الذاتية العالمي',
+    worksForEvery: 'يعمل لكل مهنة',
+
+    // Questionnaire
+    tellUsAboutYourself: 'أخبرنا عن نفسك',
+    questionnaireDesc: 'ساعدنا في تخصيص سيرتك الذاتية من خلال الإجابة على بعض الأسئلة',
+    aboutYourBackground: 'عن خلفيتك',
+    tellUsExperience: 'أخبرنا عن خبرتك وتعليمك',
+    yearsOfExperienceQuestion: 'كم سنة من الخبرة لديك في هذا المجال؟',
+    highestDegree: 'ما هي أعلى درجة علمية أو مستوى تعليمي لديك؟',
+    selectDegree: 'اختر درجتك العلمية',
+    exactYears: 'سنوات الخبرة بالضبط (مثال: 5)',
+    enterYears: 'أدخل عدد السنوات',
+    currentRole: 'ما هو دورك الحالي أو الأخير؟',
+    careerGoalOptional: 'ما هو هدفك المهني؟ (اختياري)',
+    describeGoal: 'صف ما تبحث عنه في منصبك القادم...',
+    continueToPreferences: 'المتابعة إلى تفضيلات الأقسام',
+    contentToInclude: 'المحتوى الذي ستضيفه',
+    arrangeOptimally: 'ساعدنا في ترتيب أقسام سيرتك الذاتية بشكل مثالي',
+    whatToEmphasize: 'ما الذي يجب أن تركز عليه سيرتك الذاتية أكثر؟',
+    educationQualifications: 'التعليم والمؤهلات',
+    educationDesc: 'الأفضل إذا كان لديك درجات متقدمة أو تخرجت حديثاً',
+    workExperienceFocus: 'الخبرة العملية',
+    workExperienceDesc: 'الأفضل إذا كان لديك تاريخ عمل كبير وذي صلة',
+    skillsExpertise: 'المهارات والخبرة',
+    skillsDesc: 'الأفضل للأدوار التقنية أو مغيري المهنة',
+    achievementsAwards: 'الإنجازات والجوائز',
+    achievementsDesc: 'الأفضل إذا كان لديك إنجازات وتقديرات ملحوظة',
+    whichToInclude: 'أي من هذه ستضيفها في سيرتك الذاتية؟ (اختر كل ما ينطبق)',
+    publicationsResearch: 'المنشورات والأبحاث',
+    projectsPortfolio: 'المشاريع وأعمال المعرض',
+    certificationsTraining: 'الشهادات والتدريب المهني',
+    achievementsAwardsCheck: 'الإنجازات والجوائز',
+    professionalLicenses: 'التراخيص المهنية',
+    portfolioLinks: 'روابط المعرض',
+    smartArrangement: 'ترتيب ذكي:',
+    smartArrangementDesc: 'بناءً على إجاباتك، سنرتب تلقائياً أقسام سيرتك الذاتية بأكثر ترتيب فعال لإبراز نقاط قوتك ومطابقة معايير الصناعة لوظائف',
+    backBtn: 'رجوع',
+    startBuilding: 'ابدأ ببناء سيرتي الذاتية',
+    backgroundStep: 'الخلفية',
+    preferencesStep: 'التفضيلات',
+
+    // CVBuilder Extended
+    writeSummary: 'اكتب ملخصاً مقنعاً عن خلفيتك المهنية',
+    example: 'مثال',
+    characters: 'حرف',
+    position: 'المنصب',
+    remove: 'إزالة',
+    descriptionAchievements: 'الوصف والإنجازات',
+    optional: 'اختياري',
+    certification: 'الشهادة',
+    certificationName: 'اسم الشهادة',
+    issuingOrganization: 'المنظمة المانحة',
+    issueDate: 'تاريخ الإصدار',
+    ifApplicable: 'إن وجد',
+    credentialId: 'رقم الاعتماد',
+    addCertification: 'إضافة شهادة',
+    project: 'المشروع',
+    projectName: 'اسم المشروع',
+    yourRole: 'دورك',
+    duration: 'المدة',
+    technologiesUsed: 'التقنيات المستخدمة',
+    addProject: 'إضافة مشروع',
+    achievement: 'الإنجاز',
+    achievementTitle: 'عنوان الإنجاز/الجائزة',
+    date: 'التاريخ',
+    addAchievement: 'إضافة إنجاز',
+
+    // Experience levels
+    entryLevelYears: 'مستوى مبتدئ (0-2 سنوات)',
+    midLevelYears: 'مستوى متوسط (3-5 سنوات)',
+    seniorLevelYears: 'مستوى أول (6-10 سنوات)',
+    expertLevelYears: 'خبير (10+ سنوات)',
+
+    // Degree types
+    highSchoolDiploma: 'شهادة الثانوية العامة',
+    associateDegree: 'درجة الدبلوم',
+    bachelorDegree: 'درجة البكالوريوس',
+    masterDegree: 'درجة الماجستير',
+    phdDegree: 'درجة الدكتوراه',
+    professionalDegree: 'درجة مهنية (طب، قانون، إلخ)',
+    professionalCertificate: 'شهادة مهنية',
+
+    // Misc additions
+    currentRoleLabel: 'الدور الحالي أو الأخير',
+    pro: 'احترافي',
+
+    // Skills Manager
+    skillPlaceholderTechnical: 'مثال: JavaScript, Python, React',
+    skillPlaceholderSoft: 'مثال: القيادة، التواصل',
+    skillPlaceholderLanguages: 'مثال: الإنجليزية، الإسبانية',
+    skillPlaceholderTools: 'مثال: Git, Docker, Figma',
+    skillPlaceholderFrameworks: 'مثال: React, Express, TensorFlow',
+    quickTip: 'نصيحة سريعة',
+    bulkAddHint: 'الصق عدة مهارات مفصولة بفواصل لإضافتها جميعًا دفعة واحدة',
+    noSkillsYet: 'لم تتم إضافة مهارات بعد',
+    addFirstSkill: 'أضف أول مهارة لك أعلاه للبدء',
+    suggestedSkills: 'مهارات مقترحة',
+    totalSkills: 'إجمالي المهارات',
+    expertLevel: 'مستوى خبير',
+    categoriesCount: 'الفئات',
+
+    // Arrangement Modal
+    entryLevelStructure: 'هيكل السيرة الذاتية للمبتدئين',
+    midLevelStructure: 'هيكل السيرة الذاتية للمستوى المتوسط',
+    seniorLevelStructure: 'هيكل السيرة الذاتية للمستوى الأول',
+    expertLevelStructure: 'هيكل السيرة الذاتية للخبراء',
+    tipsForSuccess: 'نصائح للنجاح:',
+    gotItLetsBuild: 'فهمت! لنبني سيرتي الذاتية',
+
+    // Entry level explanations
+    entryLevelAdvancedDegreeReason: 'يتم إبراز تعليمك في البداية لأن شهادتك العليا نقطة قوة مع خبرة عمل محدودة.',
+    entryLevelAdvancedDegreeTip1: 'ركز على الإنجازات الأكاديمية والمشاريع',
+    entryLevelAdvancedDegreeTip2: 'أضف المقررات والأبحاث ذات الصلة',
+    entryLevelAdvancedDegreeTip3: 'أبرز التدريب والعمل التطوعي',
+    entryLevelAdvancedDegreeTip4: 'ركز على المهارات القابلة للنقل',
+    entryLevelSkillsReason: 'يتم إبراز مهاراتك في البداية للتعويض عن خبرة العمل المحدودة.',
+    entryLevelSkillsTip1: 'أضف مشاريع تثبت قدراتك',
+    entryLevelSkillsTip2: 'ركز على الشهادات والتدريب',
+    entryLevelSkillsTip3: 'أبرز العمل التطوعي والأنشطة اللامنهجية',
+    entryLevelSkillsTip4: 'ركز على الإمكانات والرغبة في التعلم',
+
+    // Mid level explanation
+    midLevelReason: 'خبرتك متوازنة مع مهاراتك. هذا الهيكل يعرض إنجازاتك العملية وقدراتك التقنية.',
+    midLevelTip1: 'حدد الإنجازات بالأرقام في قسم الخبرة',
+    midLevelTip2: 'أظهر التقدم والنمو في المسؤوليات',
+    midLevelTip3: 'أبرز المشاريع المحددة وتأثيرها',
+    midLevelTip4: 'أضف الشهادات ذات الصلة',
+
+    // Senior level explanation
+    seniorLevelReason: 'خبرتك الواسعة تقود السيرة الذاتية. التعليم يأتي لاحقاً لأن إنجازاتك المهنية تتحدث بصوت أعلى.',
+    seniorLevelTip1: 'ركز على خبرة القيادة والإرشاد',
+    seniorLevelTip2: 'أبرز المشاريع الكبرى وتأثيرها على الأعمال',
+    seniorLevelTip3: 'أضف الجوائز والتقدير',
+    seniorLevelTip4: 'أظهر التفكير الاستراتيجي وحل المشكلات',
+
+    // Expert level explanation
+    expertLevelReason: 'سيرتك الذاتية تركز على الإنجازات والمنشورات والقيادة الفكرية. التعليم في النهاية لأن سجلك الحافل يثبت خبرتك.',
+    expertLevelTip1: 'ركز على الإنجازات عالية التأثير والابتكارات',
+    expertLevelTip2: 'أضف المحاضرات والمنشورات',
+    expertLevelTip3: 'أبرز المبادرات الاستراتيجية ونتائجها',
+    expertLevelTip4: 'أظهر التأثير في الصناعة والقيادة الفكرية',
+
+    // CV Labels
+    present: 'حتى الآن',
+    technicalSkillsLabel: 'المهارات التقنية',
+    professionalSkills: 'المهارات المهنية',
+    toolsSoftware: 'الأدوات والبرامج',
+    frameworksLibraries: 'الأطر والمكتبات',
+  },
+
+  he: {
+    // Language selector
+    selectLanguage: 'בחר את השפה שלך',
+    selectLanguageDesc: 'בחר את השפה לקורות החיים שלך',
+    changeLanguage: 'שנה שפה',
+    continue: 'המשך',
+
+    // Header
+    resume: 'קורות חיים',
+    complete: 'הושלם',
+
+    // Buttons
+    sections: 'סעיפים',
+    score: 'ציון',
+    template: 'תבנית',
+    save: 'שמור',
+    preview: 'תצוגה מקדימה',
+    hide: 'הסתר',
+    reset: 'איפוס',
+    previous: 'הקודם',
+    next: 'הבא',
+    finishDownload: 'סיים והורד',
+
+    // Sections
+    personalInfo: 'מידע אישי',
+    summary: 'תקציר מקצועי',
+    experience: 'ניסיון תעסוקתי',
+    education: 'השכלה',
+    skills: 'כישורים',
+    certifications: 'הסמכות',
+    projects: 'פרויקטים',
+    achievements: 'הישגים',
+    publications: 'פרסומים',
+    licenses: 'רישיונות',
+    portfolio: 'תיק עבודות',
+
+    // Personal Info Fields
+    fullName: 'שם מלא',
+    email: 'אימייל',
+    phone: 'טלפון',
+    location: 'מיקום',
+    linkedin: 'לינקדאין',
+    website: 'אתר אינטרנט',
+
+    // Experience Fields
+    jobTitle: 'תפקיד',
+    company: 'חברה',
+    startDate: 'תאריך התחלה',
+    endDate: 'תאריך סיום',
+    currentlyWorking: 'עובד כאן כעת',
+    description: 'תיאור',
+    addExperience: 'הוסף ניסיון',
+
+    // Education Fields
+    degree: 'תואר',
+    institution: 'מוסד לימודים',
+    graduationDate: 'תאריך סיום',
+    gpa: 'ממוצע ציונים',
+    honors: 'הצטיינות',
+    addEducation: 'הוסף השכלה',
+
+    // Skills
+    technicalSkills: 'כישורים טכניים',
+    softSkills: 'כישורים רכים',
+    languages: 'שפות',
+    addSkill: 'הוסף כישור',
+    skillName: 'שם הכישור',
+    proficiency: 'רמת מיומנות',
+    category: 'קטגוריה',
+
+    // Proficiency levels
+    beginner: 'מתחיל',
+    intermediate: 'בינוני',
+    advanced: 'מתקדם',
+    expert: 'מומחה',
+    master: 'אמן',
+
+    // Payment
+    yourCvReady: 'קורות החיים שלך מוכנים!',
+    choosePlan: 'בחר תוכנית להורדת קורות החיים המקצועיים שלך',
+    basic: 'בסיסי',
+    professional: 'מקצועי',
+    premium: 'פרימיום',
+    oneTime: 'תשלום חד פעמי',
+    mostPopular: 'הכי פופולרי',
+    pdfDownload: 'הורדת PDF',
+    oneTemplate: 'תבנית אחת',
+    basicSupport: 'תמיכה בסיסית',
+    pdfWordDownload: 'הורדת PDF ו-Word',
+    allTemplates: 'כל 4 התבניות',
+    prioritySupport: 'תמיכה בעדיפות',
+    unlimitedEdits: 'עריכות ללא הגבלה',
+    allProFeatures: 'כל התכונות המקצועיות',
+    aiCoverLetter: 'מכתב מקדים AI',
+    linkedinOptimization: 'אופטימיזציה ללינקדאין',
+    yearUpdates: 'עדכונים לשנה',
+    selectPlan: 'בחר תוכנית',
+    continueWith: 'המשך עם',
+
+    // Payment form
+    paymentDetails: 'פרטי תשלום',
+    completePurchase: 'השלם את הרכישה להורדה',
+    plan: 'תוכנית',
+    total: 'סה"כ',
+    cardNumber: 'מספר כרטיס',
+    expiryDate: 'תאריך תפוגה',
+    cvv: 'CVV',
+    cardholderName: 'שם בעל הכרטיס',
+    securePayment: 'תשלום מאובטח דרך:',
+    back: 'חזור',
+    payNow: 'שלם עכשיו',
+
+    // Download
+    paymentSuccessful: 'התשלום הצליח!',
+    chooseFormat: 'בחר את פורמט ההורדה המועדף',
+    pdfDocument: 'מסמך PDF',
+    pdfDesc: 'הטוב ביותר להדפסה ולמועמדויות מקצועיות',
+    recommended: 'מומלץ',
+    jsonData: 'נתוני JSON',
+    jsonDesc: 'שמור את הנתונים שלך לייבוא מאוחר יותר',
+    currentTemplate: 'תבנית נוכחית',
+    change: 'שנה',
+
+    // Templates
+    modern: 'מודרני',
+    classic: 'קלאסי',
+    creative: 'יצירתי',
+    atsFriendly: 'ידידותי ל-ATS',
+
+    // Misc
+    step: 'שלב',
+    of: 'מתוך',
+    moreToUnlock: 'עוד לפתיחה',
+    moreToFinish: 'עוד לסיום',
+    downloadYourCv: 'הורד את קורות החיים שלך',
+    manualSaved: 'נשמר!',
+    startOver: 'התחל מחדש',
+    confirmStartOver: 'האם אתה בטוח שברצונך להתחיל מחדש? כל הנתונים הנוכחיים יאבדו.',
+
+    // Landing Page
+    createProfessionalResume: 'צור את קורות החיים המושלמים שלך',
+    landingSubtitle: 'המערכת החכמה שלנו עובדת עם כל מקצוע בעולם',
+    heroTitle: 'צור את קורות החיים המושלמים שלך',
+    heroHighlight: ' לכל מקצוע',
+    heroSubtitle: 'המערכת החכמה שלנו עובדת עם כל מקצוע בעולם. מקריירות מסורתיות ועד תפקידים חדשניים - אנחנו מכסים אותך.',
+    heroBadge: '✨ בונה קורות חיים מבוסס AI',
+    resumesCreated: 'קורות חיים נוצרו',
+    professionsSupported: 'מקצועות נתמכים',
+    userRating: 'דירוג משתמשים',
+    whatsYourRole: 'מה התפקיד המבוקש שלך?',
+    enterJobTitle: 'הכנס כל כותרת תפקיד - ה-AI שלנו יצור את מבנה קורות החיים המושלם עבורך',
+    letsBuildResume: 'בואו נבנה את קורות החיים שלך',
+    takesLessThan: 'לוקח פחות מ-10 דקות • ללא הרשמה',
+    jobTitlePlaceholder: 'לדוגמה: מהנדס תוכנה, שף, מורה, אמן, יזם...',
+    proTip: 'טיפ:',
+    proTipText: 'היה ספציפי! "מדען נתונים בכיר" עובד טוב יותר מסתם "מדען"',
+    continueBtn: 'המשך',
+    skipForNow: 'דלג לעת עתה',
+    worksForAll: 'עובד עם כל המקצועות כולל:',
+    techIt: '👨‍💻 טכנולוגיה ו-IT',
+    healthcare: '👨‍⚕️ בריאות',
+    educationField: '👨‍🏫 חינוך',
+    creativeField: '🎨 יצירתיות',
+    business: '💼 עסקים',
+    skilledTrades: '🔧 מקצועות מיומנים',
+    entertainment: '🎭 בידור',
+    startups: '🚀 סטארטאפים',
+    legal: '⚖️ משפטים',
+    financeField: '📊 פיננסים',
+    engineering: '🏗️ הנדסה',
+    nonProfit: '🌍 ללא מטרות רווח',
+    whyChoose: 'למה לבחור בפלטפורמה שלנו?',
+    poweredByAi: 'מופעל על ידי AI, מעוצב להצלחה אוניברסלית',
+    universalAiEngine: 'מנוע AI אוניברסלי',
+    universalAiDesc: 'מערכת חכמה שמתאימה את עצמה לכל מקצוע אוטומטית',
+    atsOptimized: 'מותאם ל-ATS',
+    atsDesc: 'שיעור הצלחה של 95% עם מערכות מעקב מועמדים בכל התעשיות',
+    tenMinSetup: 'הקמה ב-10 דקות',
+    tenMinDesc: 'צור קורות חיים מקצועיים מהר יותר מלהכין קפה',
+    fourTemplates: '4 תבניות פרימיום',
+    fourTemplatesDesc: 'עיצובים מודרניים, קלאסיים, יצירתיים וידידותיים ל-ATS',
+    smartScoring: 'ציון חכם',
+    smartScoringDesc: 'משוב בזמן אמת עם ציון איכות של 100 נקודות',
+    exportAnywhere: 'ייצוא לכל מקום',
+    exportAnywhereDesc: 'הורדת PDF, ייצוא JSON, או הדפסה מיידית',
+    trustedWorldwide: 'אמין על ידי מקצוענים ברחבי העולם',
+    trustedDesc: 'מרמת כניסה ועד הנהלה בכירה - המערכת שלנו עובדת עבור כולם',
+    noRegistration: 'ללא רישום',
+    freePercent: '100% חינם',
+    dataPrivate: 'המידע שלך נשאר פרטי',
+    footerBuiltWith: 'נבנה עם ❤️ באמצעות React וטכנולוגיית AI',
+    footerCopyright: '© 2026 בונה קורות חיים אוניברסלי',
+    worksForEvery: 'עובד לכל מקצוע',
+
+    // Questionnaire
+    tellUsAboutYourself: 'ספר לנו על עצמך',
+    questionnaireDesc: 'עזור לנו להתאים את קורות החיים שלך על ידי מענה על כמה שאלות',
+    aboutYourBackground: 'על הרקע שלך',
+    tellUsExperience: 'ספר לנו על הניסיון וההשכלה שלך',
+    yearsOfExperienceQuestion: 'כמה שנות ניסיון יש לך בתחום זה?',
+    highestDegree: 'מהי הדרגה או רמת ההשכלה הגבוהה ביותר שלך?',
+    selectDegree: 'בחר את התואר שלך',
+    exactYears: 'שנים מדויקות בתחום (לדוגמה: 5)',
+    enterYears: 'הכנס מספר שנים',
+    currentRole: 'מה התפקיד הנוכחי או האחרון שלך?',
+    careerGoalOptional: 'מה המטרה הקריירית שלך? (אופציונלי)',
+    describeGoal: 'תאר מה אתה מחפש במשרה הבאה שלך...',
+    continueToPreferences: 'המשך להעדפות סעיפים',
+    contentToInclude: 'תוכן שתכלול',
+    arrangeOptimally: 'עזור לנו לסדר את סעיפי קורות החיים שלך בצורה אופטימלית',
+    whatToEmphasize: 'על מה קורות החיים שלך צריכים להדגיש הכי הרבה?',
+    educationQualifications: 'השכלה וכישורים',
+    educationDesc: 'הכי טוב אם יש לך תארים מתקדמים או סיימת לאחרונה',
+    workExperienceFocus: 'ניסיון תעסוקתי',
+    workExperienceDesc: 'הכי טוב אם יש לך היסטוריית עבודה רלוונטית משמעותית',
+    skillsExpertise: 'כישורים ומומחיות',
+    skillsDesc: 'הכי טוב לתפקידים טכניים או למשני קריירה',
+    achievementsAwards: 'הישגים ופרסים',
+    achievementsDesc: 'הכי טוב אם יש לך הישגים בולטים והכרה',
+    whichToInclude: 'אילו מאלה תכלול בקורות החיים שלך? (סמן את כל המתאים)',
+    publicationsResearch: 'פרסומים ומחקר',
+    projectsPortfolio: 'פרויקטים ועבודות תיק עבודות',
+    certificationsTraining: 'הסמכות והכשרה מקצועית',
+    achievementsAwardsCheck: 'הישגים ופרסים',
+    professionalLicenses: 'רישיונות מקצועיים',
+    portfolioLinks: 'קישורי תיק עבודות',
+    smartArrangement: 'סידור חכם:',
+    smartArrangementDesc: 'בהתבסס על התשובות שלך, נסדר אוטומטית את סעיפי קורות החיים שלך בסדר היעיל ביותר כדי להדגיש את החוזקות שלך ולהתאים לסטנדרטים בתעשייה עבור משרות',
+    backBtn: 'חזור',
+    startBuilding: 'התחל לבנות את קורות החיים שלי',
+    backgroundStep: 'רקע',
+    preferencesStep: 'העדפות',
+
+    // CVBuilder Extended
+    writeSummary: 'כתוב תקציר משכנע על הרקע המקצועי שלך',
+    example: 'דוגמה',
+    characters: 'תווים',
+    position: 'משרה',
+    remove: 'הסר',
+    descriptionAchievements: 'תיאור והישגים',
+    optional: 'אופציונלי',
+    certification: 'הסמכה',
+    certificationName: 'שם ההסמכה',
+    issuingOrganization: 'ארגון מנפיק',
+    issueDate: 'תאריך הנפקה',
+    ifApplicable: 'אם רלוונטי',
+    credentialId: 'מספר אישור',
+    addCertification: 'הוסף הסמכה',
+    project: 'פרויקט',
+    projectName: 'שם הפרויקט',
+    yourRole: 'התפקיד שלך',
+    duration: 'משך',
+    technologiesUsed: 'טכנולוגיות בשימוש',
+    addProject: 'הוסף פרויקט',
+    achievement: 'הישג',
+    achievementTitle: 'כותרת ההישג/הפרס',
+    date: 'תאריך',
+    addAchievement: 'הוסף הישג',
+
+    // Experience levels
+    entryLevelYears: 'רמת כניסה (0-2 שנים)',
+    midLevelYears: 'רמה בינונית (3-5 שנים)',
+    seniorLevelYears: 'רמה בכירה (6-10 שנים)',
+    expertLevelYears: 'מומחה (10+ שנים)',
+
+    // Degree types
+    highSchoolDiploma: 'תעודת בגרות',
+    associateDegree: 'תעודה אקדמית',
+    bachelorDegree: 'תואר ראשון',
+    masterDegree: 'תואר שני',
+    phdDegree: 'דוקטורט',
+    professionalDegree: 'תואר מקצועי (רפואה, משפטים, וכו\')',
+    professionalCertificate: 'תעודה מקצועית',
+
+    // Misc additions
+    currentRoleLabel: 'התפקיד הנוכחי או האחרון',
+    pro: 'מקצועי',
+
+    // Skills Manager
+    skillPlaceholderTechnical: 'לדוגמה: JavaScript, Python, React',
+    skillPlaceholderSoft: 'לדוגמה: מנהיגות, תקשורת',
+    skillPlaceholderLanguages: 'לדוגמה: אנגלית, ספרדית',
+    skillPlaceholderTools: 'לדוגמה: Git, Docker, Figma',
+    skillPlaceholderFrameworks: 'לדוגמה: React, Express, TensorFlow',
+    quickTip: 'טיפ מהיר',
+    bulkAddHint: 'הדבק מספר כישורים מופרדים בפסיקים להוסיף את כולם בבת אחת',
+    noSkillsYet: 'עדיין לא נוספו כישורים',
+    addFirstSkill: 'הוסף את הכישור הראשון שלך למעלה כדי להתחיל',
+    suggestedSkills: 'כישורים מומלצים',
+    totalSkills: 'סה"כ כישורים',
+    expertLevel: 'רמת מומחה',
+    categoriesCount: 'קטגוריות',
+
+    // Arrangement Modal
+    entryLevelStructure: 'מבנה קורות חיים לרמת כניסה',
+    midLevelStructure: 'מבנה קורות חיים לרמה בינונית',
+    seniorLevelStructure: 'מבנה קורות חיים לרמה בכירה',
+    expertLevelStructure: 'מבנה קורות חיים למומחים',
+    tipsForSuccess: 'טיפים להצלחה:',
+    gotItLetsBuild: 'הבנתי! בואו נבנה את קורות החיים שלי',
+
+    // Entry level explanations
+    entryLevelAdvancedDegreeReason: 'ההשכלה שלך מודגשת בהתחלה כי התואר המתקדם שלך הוא נקודת מכירה חזקה עם ניסיון עבודה מוגבל.',
+    entryLevelAdvancedDegreeTip1: 'הדגש הישגים אקדמיים ופרויקטים',
+    entryLevelAdvancedDegreeTip2: 'כלול קורסים ומחקר רלוונטיים',
+    entryLevelAdvancedDegreeTip3: 'הדגש התמחויות ועבודה התנדבותית',
+    entryLevelAdvancedDegreeTip4: 'התמקד בכישורים ניידים',
+    entryLevelSkillsReason: 'הכישורים שלך מודגשים בהתחלה כדי לפצות על ניסיון עבודה מוגבל.',
+    entryLevelSkillsTip1: 'כלול פרויקטים שמדגימים את היכולות שלך',
+    entryLevelSkillsTip2: 'הדגש הסמכות והכשרות',
+    entryLevelSkillsTip3: 'הדגש עבודה התנדבותית ופעילויות חוץ-לימודיות',
+    entryLevelSkillsTip4: 'התמקד בפוטנציאל ובנכונות ללמוד',
+
+    // Mid level explanation
+    midLevelReason: 'הניסיון שלך מאוזן עם הכישורים שלך. מבנה זה מציג גם את ההישגים המעשיים וגם את היכולות הטכניות שלך.',
+    midLevelTip1: 'כמת הישגים בסעיף הניסיון',
+    midLevelTip2: 'הראה התקדמות וצמיחה באחריות',
+    midLevelTip3: 'הדגש פרויקטים ספציפיים והשפעתם',
+    midLevelTip4: 'כלול הסמכות רלוונטיות',
+
+    // Senior level explanation
+    seniorLevelReason: 'הניסיון הנרחב שלך מוביל את קורות החיים. ההשכלה מוצבת מאוחר יותר כי ההישגים המקצועיים שלך מדברים חזק יותר.',
+    seniorLevelTip1: 'הדגש ניסיון מנהיגות וחונכות',
+    seniorLevelTip2: 'הדגש פרויקטים גדולים והשפעתם העסקית',
+    seniorLevelTip3: 'כלול פרסים והכרה',
+    seniorLevelTip4: 'הראה חשיבה אסטרטגית ופתרון בעיות',
+
+    // Expert level explanation
+    expertLevelReason: 'קורות החיים שלך מדגישים הישגים, פרסומים ומנהיגות מחשבתית. ההשכלה בסוף כי הרקורד הנרחב שלך מוכיח את המומחיות שלך.',
+    expertLevelTip1: 'התמקד בהישגים בעלי השפעה גבוהה וחדשנות',
+    expertLevelTip2: 'כלול הרצאות ופרסומים',
+    expertLevelTip3: 'הדגש יוזמות אסטרטגיות ותוצאותיהן',
+    expertLevelTip4: 'הראה השפעה בתעשייה ומנהיגות מחשבתית',
+
+    // CV Labels
+    present: 'עד היום',
+    technicalSkillsLabel: 'כישורים טכניים',
+    professionalSkills: 'כישורים מקצועיים',
+    toolsSoftware: 'כלים ותוכנות',
+    frameworksLibraries: 'פריימוורקים וספריות',
+  }
+};
+
+const LanguageContext = createContext();
+
+export function LanguageProvider({ children, initialLanguage = null }) {
+  const [language, setLanguage] = useState(() => {
+    // If initialLanguage is provided, use it (for PDF export)
+    if (initialLanguage) return initialLanguage;
+    const saved = localStorage.getItem('cv-language');
+    return saved || null; // null means language not selected yet
+  });
+
+  const [showLanguageSelector, setShowLanguageSelector] = useState(!initialLanguage && !localStorage.getItem('cv-language'));
+
+  useEffect(() => {
+    if (language) {
+      localStorage.setItem('cv-language', language);
+      // Set document direction for RTL languages
+      document.documentElement.dir = ['ar', 'he'].includes(language) ? 'rtl' : 'ltr';
+      document.documentElement.lang = language;
+    }
+  }, [language]);
+
+  const t = (key) => {
+    if (!language) return translations.en[key] || key;
+    return translations[language]?.[key] || translations.en[key] || key;
+  };
+
+  const isRTL = ['ar', 'he'].includes(language);
+
+  const selectLanguage = (lang) => {
+    setLanguage(lang);
+    setShowLanguageSelector(false);
+  };
+
+  return (
+    <LanguageContext.Provider value={{
+      language,
+      setLanguage: selectLanguage,
+      t,
+      isRTL,
+      showLanguageSelector,
+      setShowLanguageSelector
+    }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
+export function useLanguage() {
+  const context = useContext(LanguageContext);
+  if (!context) {
+    throw new Error('useLanguage must be used within a LanguageProvider');
+  }
+  return context;
+}
+
+export default LanguageContext;

@@ -1,0 +1,446 @@
+/* ========================================
+   BOLD TEMPLATE - REFINED ELEGANCE
+   Sophisticated teal with elegant design
+   ======================================== */
+
+.cv-template-bold {
+  display: flex;
+  min-height: 100%;
+  background: white;
+  font-size: 10pt;
+  line-height: 1.5;
+  color: #1a1a1a;
+}
+
+.cv-template-bold.rtl {
+  flex-direction: row-reverse;
+}
+
+/* ========== SIDEBAR ========== */
+.bold-sidebar {
+  width: 35%;
+  background: linear-gradient(180deg, #1e3a3a 0%, #234545 40%, #2d5a5a 100%);
+  color: white;
+  padding: 28pt 18pt;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== AVATAR ========== */
+.bold-avatar {
+  width: 70pt;
+  height: 70pt;
+  background: linear-gradient(135deg, #4db6ac 0%, #64b5a0 50%, #80cbc4 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22pt;
+  font-weight: 600;
+  color: white;
+  margin: 0 auto 16pt auto;
+  box-shadow: 0 6pt 24pt rgba(77, 182, 172, 0.35);
+  border: 3pt solid rgba(255, 255, 255, 0.15);
+}
+
+/* ========== NAME & HEADLINE ========== */
+.bold-name {
+  font-size: 16pt;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  margin: 0 0 6pt 0;
+  line-height: 1.2;
+}
+
+.bold-headline {
+  font-size: 9pt;
+  color: #80cbc4;
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 20pt;
+  text-transform: uppercase;
+  letter-spacing: 1.5pt;
+}
+
+/* ========== CONTACT ========== */
+.bold-contact {
+  margin-bottom: 24pt;
+  padding-bottom: 20pt;
+  border-bottom: 1pt solid rgba(128, 203, 196, 0.2);
+}
+
+.bold-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10pt;
+  margin-bottom: 10pt;
+  font-size: 8.5pt;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.bold-contact-icon {
+  width: 20pt;
+  height: 20pt;
+  background: rgba(128, 203, 196, 0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7pt;
+  color: #80cbc4;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ========== SIDEBAR SECTIONS ========== */
+.bold-sidebar-section {
+  margin-bottom: 20pt;
+}
+
+.bold-sidebar-title {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #80cbc4;
+  text-transform: uppercase;
+  letter-spacing: 2pt;
+  margin: 0 0 12pt 0;
+  padding-bottom: 8pt;
+  border-bottom: 1pt solid rgba(128, 203, 196, 0.3);
+}
+
+/* ========== SKILL BARS ========== */
+.bold-skill-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 12pt;
+}
+
+.bold-skill-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4pt;
+}
+
+.bold-skill-name {
+  font-size: 8.5pt;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.bold-skill-bar {
+  height: 3pt;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2pt;
+  overflow: hidden;
+}
+
+.bold-skill-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4db6ac, #80cbc4);
+  border-radius: 2pt;
+}
+
+/* ========== LANGUAGES ========== */
+.bold-languages {
+  display: flex;
+  flex-direction: column;
+  gap: 10pt;
+}
+
+.bold-lang-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4pt;
+}
+
+.bold-lang-name {
+  font-size: 9pt;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.bold-lang-bar {
+  height: 3pt;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2pt;
+  overflow: hidden;
+}
+
+.bold-lang-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4db6ac, #80cbc4);
+  border-radius: 2pt;
+}
+
+/* ========== MAIN CONTENT ========== */
+.bold-main {
+  flex: 1;
+  padding: 28pt 24pt;
+}
+
+/* ========== SECTIONS ========== */
+.bold-section {
+  margin-bottom: 22pt;
+}
+
+.bold-section-title {
+  font-size: 11pt;
+  font-weight: 700;
+  color: #4db6ac;
+  text-transform: uppercase;
+  letter-spacing: 1.5pt;
+  margin: 0 0 14pt 0;
+  padding-bottom: 8pt;
+  border-bottom: 2pt solid #4db6ac;
+}
+
+/* ========== ITEM HEADER ========== */
+.bold-item-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16pt;
+  margin-bottom: 4pt;
+}
+
+.bold-item-title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.bold-item-date {
+  font-size: 8pt;
+  font-weight: 600;
+  color: #1e3a3a;
+  white-space: nowrap;
+  direction: ltr;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+  padding: 4pt 12pt;
+  border-radius: 12pt;
+}
+
+/* ========== EXPERIENCE ========== */
+.bold-exp-item {
+  margin-bottom: 16pt;
+  padding-bottom: 14pt;
+  border-bottom: 1pt solid #e8f5f3;
+}
+
+.bold-exp-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.bold-exp-title {
+  font-size: 11pt;
+  font-weight: 700;
+  color: #1e3a3a;
+  margin: 0 0 2pt 0;
+}
+
+.bold-exp-company {
+  font-size: 9.5pt;
+  color: #4db6ac;
+  font-weight: 600;
+}
+
+.bold-exp-description {
+  font-size: 9.5pt;
+  color: #4a4a4a;
+  line-height: 1.7;
+  margin: 8pt 0 0 0;
+}
+
+/* ========== EDUCATION ========== */
+.bold-edu-item {
+  margin-bottom: 14pt;
+}
+
+.bold-edu-item:last-child {
+  margin-bottom: 0;
+}
+
+.bold-edu-degree {
+  font-size: 11pt;
+  font-weight: 700;
+  color: #1e3a3a;
+  margin: 0 0 2pt 0;
+}
+
+.bold-edu-school {
+  font-size: 9.5pt;
+  color: #4db6ac;
+  font-weight: 600;
+}
+
+.bold-edu-details {
+  font-size: 9pt;
+  color: #6b6b6b;
+  margin-top: 4pt;
+}
+
+/* ========== SUMMARY ========== */
+.bold-summary {
+  font-size: 10pt;
+  color: #4a4a4a;
+  line-height: 1.8;
+  margin: 0;
+  padding-left: 14pt;
+  border-left: 3pt solid #4db6ac;
+  position: relative;
+}
+
+.cv-template-bold.rtl .bold-summary {
+  padding-left: 0;
+  padding-right: 14pt;
+  border-left: none;
+  border-right: 3pt solid #4db6ac;
+}
+
+/* ========== PROJECTS ========== */
+.bold-project-item {
+  margin-bottom: 14pt;
+}
+
+.bold-project-item:last-child {
+  margin-bottom: 0;
+}
+
+.bold-project-tech {
+  font-size: 8.5pt;
+  color: #4db6ac;
+  font-weight: 600;
+  margin-bottom: 4pt;
+}
+
+/* ========== GENERIC ITEMS ========== */
+.bold-generic-item {
+  margin-bottom: 12pt;
+}
+
+.bold-generic-item:last-child {
+  margin-bottom: 0;
+}
+
+.bold-item-title {
+  font-size: 10pt;
+  font-weight: 700;
+  color: #1e3a3a;
+  margin: 0;
+}
+
+.bold-item-meta {
+  font-size: 9pt;
+  color: #4db6ac;
+  font-weight: 600;
+}
+
+.bold-item-description {
+  font-size: 9pt;
+  color: #4a4a4a;
+  margin: 4pt 0 0 0;
+  line-height: 1.6;
+}
+
+/* ========== REFERENCES ========== */
+.bold-ref-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14pt;
+}
+
+.bold-ref-item {
+  background: linear-gradient(135deg, #f5fafa 0%, #e8f5f3 100%);
+  padding: 12pt;
+  border-radius: 8pt;
+  border-left: 3pt solid #4db6ac;
+}
+
+.cv-template-bold.rtl .bold-ref-item {
+  border-left: none;
+  border-right: 3pt solid #4db6ac;
+}
+
+.bold-ref-name {
+  font-size: 10pt;
+  font-weight: 700;
+  color: #1e3a3a;
+}
+
+.bold-ref-title {
+  font-size: 9pt;
+  color: #4db6ac;
+}
+
+.bold-ref-contact {
+  font-size: 8.5pt;
+  color: #6b6b6b;
+  margin-top: 4pt;
+}
+
+/* ========== INTERESTS / TAGS ========== */
+.bold-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8pt;
+}
+
+.cv-template-bold.rtl .bold-tags {
+  flex-direction: row-reverse;
+}
+
+.bold-tag {
+  background: linear-gradient(135deg, #1e3a3a 0%, #2d5a5a 100%);
+  color: #80cbc4;
+  padding: 6pt 14pt;
+  border-radius: 16pt;
+  font-size: 8.5pt;
+  font-weight: 500;
+}
+
+.bold-info-text {
+  font-size: 9.5pt;
+  color: #4a4a4a;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px) {
+  .cv-template-bold {
+    flex-direction: column;
+  }
+
+  .cv-template-bold.rtl {
+    flex-direction: column;
+  }
+
+  .bold-sidebar {
+    width: 100%;
+    padding: 24pt 20pt;
+  }
+
+  .bold-main {
+    padding: 20pt;
+  }
+
+  .bold-avatar {
+    width: 60pt;
+    height: 60pt;
+    font-size: 18pt;
+  }
+
+  .bold-name {
+    font-size: 14pt;
+  }
+
+  .bold-ref-grid {
+    grid-template-columns: 1fr;
+  }
+}

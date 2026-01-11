@@ -1,0 +1,435 @@
+/* ========================================
+   AZURE TEMPLATE - PROFESSIONAL BLUE GRADIENT
+   ======================================== */
+
+.azure-cv-container {
+  font-family: 'Montserrat', 'Cairo', sans-serif;
+  background: #ffffff;
+  min-height: 100%;
+  color: #2d3748;
+}
+
+/* RTL Support */
+.azure-cv-container.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ========== HEADER ========== */
+.azure-header {
+  background: linear-gradient(135deg, #0077b6 0%, #0096c7 30%, #00b4d8 70%, #48cae4 100%);
+  padding: 35px 30px;
+  color: white;
+}
+
+.azure-header-content {
+  text-align: center;
+}
+
+.azure-name {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.azure-headline {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 18px;
+  font-weight: 400;
+}
+
+.azure-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  font-size: 11px;
+}
+
+.azure-contact-item {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 5px 12px;
+  border-radius: 15px;
+}
+
+/* ========== BODY LAYOUT ========== */
+.azure-body {
+  display: flex;
+  gap: 0;
+}
+
+.azure-main {
+  flex: 1;
+  padding: 25px 30px;
+}
+
+.azure-sidebar {
+  width: 200px;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 25px 20px;
+  border-left: 3px solid #00b4d8;
+}
+
+.azure-cv-container.rtl .azure-sidebar {
+  border-left: none;
+  border-right: 3px solid #00b4d8;
+}
+
+/* ========== SECTIONS ========== */
+.azure-section {
+  margin-bottom: 25px;
+}
+
+.azure-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0077b6;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 15px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #00b4d8;
+}
+
+/* ========== SUMMARY ========== */
+.azure-summary {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #4a5568;
+  margin: 0;
+  padding: 12px 15px;
+  background: linear-gradient(135deg, rgba(0, 180, 216, 0.05) 0%, rgba(72, 202, 228, 0.08) 100%);
+  border-radius: 8px;
+  border-left: 3px solid #00b4d8;
+}
+
+.azure-cv-container.rtl .azure-summary {
+  border-left: none;
+  border-right: 3px solid #00b4d8;
+}
+
+/* ========== EXPERIENCE WITH TIMELINE ========== */
+.azure-exp-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.azure-exp-item:last-child {
+  margin-bottom: 0;
+}
+
+.azure-timeline-dot {
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+  box-shadow: 0 2px 6px rgba(0, 119, 182, 0.3);
+}
+
+.azure-exp-item::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 20px;
+  bottom: -20px;
+  width: 2px;
+  background: linear-gradient(180deg, #00b4d8, rgba(0, 180, 216, 0.2));
+}
+
+.azure-cv-container.rtl .azure-exp-item::before {
+  left: auto;
+  right: 5px;
+}
+
+.azure-exp-item:last-child::before {
+  display: none;
+}
+
+.azure-exp-content {
+  flex: 1;
+}
+
+.azure-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+  flex-direction: row;
+}
+
+.azure-item-title-group {
+  order: 1;
+}
+
+.azure-item-date {
+  order: 2;
+  font-size: 10px;
+  color: white;
+  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+  direction: ltr;
+  font-variant-numeric: tabular-nums;
+}
+
+.azure-cv-container.rtl .azure-item-title-group {
+  order: 2;
+  text-align: right;
+}
+
+.azure-cv-container.rtl .azure-item-date {
+  order: 1;
+  text-align: left;
+}
+
+.azure-exp-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a365d;
+  margin: 0 0 2px 0;
+}
+
+.azure-exp-company {
+  font-size: 11px;
+  color: #0077b6;
+  font-weight: 500;
+}
+
+.azure-exp-description {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #4a5568;
+  margin: 8px 0 0 0;
+}
+
+/* ========== EDUCATION ========== */
+.azure-edu-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.azure-edu-item:last-child {
+  margin-bottom: 0;
+}
+
+.azure-edu-item::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 20px;
+  bottom: -15px;
+  width: 2px;
+  background: linear-gradient(180deg, #00b4d8, rgba(0, 180, 216, 0.2));
+}
+
+.azure-cv-container.rtl .azure-edu-item::before {
+  left: auto;
+  right: 5px;
+}
+
+.azure-edu-item:last-child::before {
+  display: none;
+}
+
+.azure-edu-content {
+  flex: 1;
+}
+
+.azure-edu-degree {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a365d;
+  margin: 0 0 2px 0;
+}
+
+.azure-edu-school {
+  font-size: 11px;
+  color: #718096;
+}
+
+.azure-edu-gpa {
+  font-size: 10px;
+  color: #0077b6;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* ========== CERTIFICATIONS ========== */
+.azure-cert-item {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border-radius: 6px;
+  border-left: 3px solid #00b4d8;
+}
+
+.azure-cv-container.rtl .azure-cert-item {
+  border-left: none;
+  border-right: 3px solid #00b4d8;
+}
+
+.azure-cert-item:last-child {
+  margin-bottom: 0;
+}
+
+.azure-cert-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a365d;
+  margin: 0;
+}
+
+.azure-cert-issuer {
+  font-size: 10px;
+  color: #718096;
+  margin-top: 2px;
+}
+
+/* ========== PROJECTS ========== */
+.azure-project-item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.azure-project-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.azure-project-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a365d;
+  margin: 0;
+}
+
+.azure-project-description {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #4a5568;
+  margin: 6px 0;
+}
+
+.azure-project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.azure-tech-tag {
+  font-size: 9px;
+  color: #0077b6;
+  background: rgba(0, 119, 182, 0.1);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* ========== ACHIEVEMENTS ========== */
+.azure-achievements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.azure-achievement-item {
+  font-size: 11px;
+  color: #4a5568;
+  margin-bottom: 8px;
+  padding-left: 15px;
+  position: relative;
+}
+
+.azure-cv-container.rtl .azure-achievement-item {
+  padding-left: 0;
+  padding-right: 15px;
+}
+
+.azure-achievement-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 6px;
+  height: 6px;
+  background: #00b4d8;
+  border-radius: 50%;
+}
+
+.azure-cv-container.rtl .azure-achievement-item::before {
+  left: auto;
+  right: 0;
+}
+
+/* ========== SIDEBAR ========== */
+.azure-sidebar-section {
+  margin-bottom: 25px;
+}
+
+.azure-sidebar-section:last-child {
+  margin-bottom: 0;
+}
+
+.azure-sidebar-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0077b6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 12px 0;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #00b4d8;
+}
+
+.azure-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.azure-skill-tag {
+  font-size: 9px;
+  color: #1a365d;
+  background: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid #00b4d8;
+  font-weight: 500;
+}
+
+.azure-languages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.azure-language-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.azure-language-name {
+  font-size: 11px;
+  color: #1a365d;
+  font-weight: 500;
+}
+
+.azure-language-level {
+  font-size: 9px;
+  color: #0077b6;
+  background: rgba(0, 119, 182, 0.1);
+  padding: 2px 8px;
+  border-radius: 10px;
+}

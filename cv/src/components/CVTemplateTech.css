@@ -1,0 +1,443 @@
+/* ========================================
+   TECH TEMPLATE - DEVELOPER FOCUSED
+   Terminal aesthetics with dark header
+   ======================================== */
+
+.cv-template-tech {
+  background: #f8fafc;
+  min-height: 100%;
+  font-size: 10pt;
+  line-height: 1.5;
+  color: #1a1a1a;
+}
+
+/* ========== HEADER - TERMINAL STYLE ========== */
+.tech-header {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: white;
+  padding: 22pt 20pt;
+  position: relative;
+}
+
+.tech-header-prompt {
+  font-family: 'Courier New', monospace;
+  font-size: 8pt;
+  color: #10b981;
+  opacity: 0.7;
+  margin-bottom: 4pt;
+}
+
+.tech-name {
+  font-size: 24pt;
+  font-weight: 700;
+  margin: 0 0 4pt 0;
+}
+
+.tech-prompt-symbol {
+  color: #10b981;
+  margin-right: 8pt;
+  font-family: 'Courier New', monospace;
+}
+
+.cv-template-tech.rtl .tech-prompt-symbol {
+  margin-right: 0;
+  margin-left: 8pt;
+}
+
+.tech-headline {
+  font-size: 11pt;
+  color: #22d3ee;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 14pt;
+  padding-left: 24pt;
+}
+
+.cv-template-tech.rtl .tech-headline {
+  padding-left: 0;
+  padding-right: 24pt;
+}
+
+.tech-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6pt 16pt;
+  font-size: 9pt;
+}
+
+.cv-template-tech.rtl .tech-contact-row {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.tech-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6pt;
+  color: #94a3b8;
+}
+
+.tech-contact-icon {
+  color: #10b981;
+  font-family: 'Courier New', monospace;
+  font-size: 10pt;
+}
+
+.tech-contact-item.tech-link {
+  color: #22d3ee;
+}
+
+/* ========== BODY ========== */
+.tech-body {
+  padding: 16pt 18pt;
+  background: white;
+}
+
+/* ========== SECTIONS ========== */
+.tech-section {
+  margin-bottom: 18pt;
+}
+
+.tech-section-title {
+  font-size: 10pt;
+  font-weight: 700;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 1.5pt;
+  margin: 0 0 12pt 0;
+  padding-bottom: 4pt;
+  border-bottom: 2pt solid #10b981;
+  display: flex;
+  align-items: center;
+  gap: 8pt;
+}
+
+.cv-template-tech.rtl .tech-section-title {
+  flex-direction: row-reverse;
+}
+
+.tech-section-icon {
+  font-family: 'Courier New', monospace;
+  color: #10b981;
+  font-size: 11pt;
+}
+
+/* ========== ITEM HEADER ========== */
+.tech-item-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14pt;
+  margin-bottom: 3pt;
+}
+
+.tech-item-title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.tech-item-date {
+  font-size: 8.5pt;
+  font-weight: 400;
+  color: #64748b;
+  white-space: nowrap;
+  direction: ltr;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  font-family: 'Courier New', monospace;
+  background: #f1f5f9;
+  padding: 2pt 6pt;
+  border-radius: 2pt;
+}
+
+/* ========== EXPERIENCE ========== */
+.tech-exp-item {
+  margin-bottom: 14pt;
+  padding-left: 12pt;
+  border-left: 3pt solid #10b981;
+}
+
+.cv-template-tech.rtl .tech-exp-item {
+  padding-left: 0;
+  padding-right: 12pt;
+  border-left: none;
+  border-right: 3pt solid #10b981;
+}
+
+.tech-exp-title {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+.tech-exp-company {
+  font-size: 10pt;
+  color: #10b981;
+  font-weight: 500;
+  margin-bottom: 4pt;
+}
+
+.tech-exp-description {
+  font-size: 9.5pt;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ========== EDUCATION ========== */
+.tech-edu-item {
+  margin-bottom: 12pt;
+  padding-left: 12pt;
+  border-left: 3pt solid #22d3ee;
+}
+
+.cv-template-tech.rtl .tech-edu-item {
+  padding-left: 0;
+  padding-right: 12pt;
+  border-left: none;
+  border-right: 3pt solid #22d3ee;
+}
+
+.tech-edu-degree {
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+.tech-edu-school {
+  font-size: 9.5pt;
+  color: #22d3ee;
+  font-weight: 500;
+}
+
+.tech-edu-details {
+  font-size: 8.5pt;
+  color: #64748b;
+  margin-top: 2pt;
+}
+
+/* ========== SUMMARY ========== */
+.tech-summary {
+  font-size: 10pt;
+  color: #475569;
+  line-height: 1.7;
+  margin: 0;
+  padding: 10pt 12pt;
+  background: #f8fafc;
+  border-left: 3pt solid #10b981;
+}
+
+.cv-template-tech.rtl .tech-summary {
+  border-left: none;
+  border-right: 3pt solid #10b981;
+}
+
+/* ========== SKILLS - CODE BLOCK STYLE ========== */
+.tech-skills-block {
+  background: #0f172a;
+  border-radius: 4pt;
+  padding: 10pt 12pt;
+  margin-bottom: 10pt;
+}
+
+.tech-skills-header {
+  font-family: 'Courier New', monospace;
+  font-size: 8pt;
+  color: #10b981;
+  margin-bottom: 6pt;
+}
+
+.tech-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4pt;
+}
+
+.cv-template-tech.rtl .tech-skills-list {
+  flex-direction: row-reverse;
+}
+
+.tech-skill-tag {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 3pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-family: 'Courier New', monospace;
+  border: 1pt solid #334155;
+}
+
+.tech-skill-tag.primary {
+  border-color: #10b981;
+  color: #10b981;
+}
+
+/* ========== LANGUAGES ========== */
+.tech-lang-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8pt;
+  padding: 6pt 8pt;
+  background: #f8fafc;
+  border-radius: 3pt;
+}
+
+.tech-lang-name {
+  font-size: 9pt;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.tech-lang-level {
+  font-size: 8pt;
+  color: #10b981;
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+}
+
+/* ========== PROJECTS - GITHUB CARD STYLE ========== */
+.tech-project-item {
+  margin-bottom: 12pt;
+  padding: 10pt 12pt;
+  background: #f8fafc;
+  border-radius: 4pt;
+  border: 1pt solid #e2e8f0;
+}
+
+.tech-project-header {
+  display: flex;
+  align-items: center;
+  gap: 8pt;
+  margin-bottom: 4pt;
+}
+
+.cv-template-tech.rtl .tech-project-header {
+  flex-direction: row-reverse;
+}
+
+.tech-project-icon {
+  font-size: 10pt;
+}
+
+.tech-project-name {
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.tech-project-tech {
+  font-size: 8pt;
+  color: #22d3ee;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 4pt;
+}
+
+.tech-project-description {
+  font-size: 9pt;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ========== GENERIC ITEMS ========== */
+.tech-generic-item {
+  margin-bottom: 10pt;
+}
+
+.tech-item-title {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+.tech-item-meta {
+  font-size: 9pt;
+  color: #10b981;
+}
+
+.tech-item-description {
+  font-size: 9pt;
+  color: #475569;
+  margin: 3pt 0 0 0;
+  line-height: 1.5;
+}
+
+/* ========== REFERENCES ========== */
+.tech-ref-item {
+  margin-bottom: 10pt;
+  padding: 8pt 10pt;
+  background: #f8fafc;
+  border-radius: 4pt;
+  border-left: 3pt solid #10b981;
+}
+
+.cv-template-tech.rtl .tech-ref-item {
+  border-left: none;
+  border-right: 3pt solid #10b981;
+}
+
+.tech-ref-name {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.tech-ref-title {
+  font-size: 9pt;
+  color: #10b981;
+}
+
+.tech-ref-contact {
+  font-size: 8pt;
+  color: #64748b;
+  margin-top: 3pt;
+  font-family: 'Courier New', monospace;
+}
+
+/* ========== INTERESTS / TAGS ========== */
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6pt;
+}
+
+.cv-template-tech.rtl .tech-tags {
+  flex-direction: row-reverse;
+}
+
+.tech-tag {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 4pt 10pt;
+  border-radius: 12pt;
+  font-size: 8.5pt;
+  border: 1pt solid #e2e8f0;
+}
+
+.tech-info-text {
+  font-size: 9.5pt;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px) {
+  .tech-header {
+    padding: 16pt 14pt;
+  }
+
+  .tech-body {
+    padding: 14pt 14pt;
+  }
+
+  .tech-name {
+    font-size: 20pt;
+  }
+}

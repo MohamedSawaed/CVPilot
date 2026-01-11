@@ -1,0 +1,252 @@
+.cv-template-ats {
+  background: white;
+  color: #000;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 40px;
+  line-height: 1.5;
+  font-size: 11pt;
+}
+
+/* Ensure all text elements inherit font from parent container */
+.cv-template-ats,
+.cv-template-ats *,
+.cv-template-ats *::before,
+.cv-template-ats *::after {
+  font-family: inherit !important;
+}
+
+/* ATS-Friendly: No graphics, simple black text, clear hierarchy */
+
+/* Header */
+.ats-header {
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.ats-name {
+  font-size: 18pt;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ats-contact {
+  font-size: 10pt;
+  line-height: 1.6;
+}
+
+.ats-contact div {
+  margin: 2px 0;
+}
+
+/* Sections */
+.ats-section {
+  margin-bottom: 25px;
+  page-break-inside: avoid;
+}
+
+.ats-section-title {
+  font-size: 12pt;
+  font-weight: bold;
+  margin-bottom: 12px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #000;
+  letter-spacing: 1px;
+}
+
+.ats-section-content {
+  margin-top: 10px;
+}
+
+/* Summary */
+.ats-summary {
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* Items (Experience, Education, etc.) */
+.ats-item {
+  margin-bottom: 18px;
+}
+
+.ats-item-title {
+  font-size: 11pt;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.ats-item-company {
+  font-size: 10pt;
+  margin-bottom: 3px;
+}
+
+.ats-item-date {
+  font-size: 10pt;
+  margin-bottom: 5px;
+  font-style: italic;
+}
+
+.ats-item-meta {
+  font-size: 10pt;
+  margin: 3px 0;
+}
+
+.ats-item-description {
+  font-size: 10pt;
+  line-height: 1.6;
+  margin-top: 6px;
+  text-align: justify;
+}
+
+/* Skills */
+.ats-skills {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ats-skill-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ats-skill-label {
+  font-weight: bold;
+  font-size: 10pt;
+}
+
+.ats-skill-list {
+  font-size: 10pt;
+  line-height: 1.6;
+}
+
+/* PDF Export Mode - Optimized spacing */
+.pdf-export-mode .cv-template-ats {
+  padding: 35px 40px;
+  max-width: 100%;
+}
+
+.pdf-export-mode .ats-header {
+  margin-bottom: 22px;
+}
+
+.pdf-export-mode .ats-name {
+  font-size: 20pt;
+  margin-bottom: 6px;
+}
+
+.pdf-export-mode .ats-contact {
+  margin-bottom: 6px;
+  font-size: 10pt;
+}
+
+.pdf-export-mode .ats-section {
+  margin: 20px 0;
+  page-break-inside: avoid;
+}
+
+.pdf-export-mode .ats-section-title {
+  margin-bottom: 10px;
+  font-size: 12pt;
+}
+
+.pdf-export-mode .ats-item {
+  margin-bottom: 16px;
+  page-break-inside: avoid;
+}
+
+.pdf-export-mode .ats-item-title {
+  margin-bottom: 3px;
+}
+
+.pdf-export-mode .ats-item-subtitle {
+  margin-bottom: 3px;
+}
+
+/* Print Optimization */
+@media print {
+  .cv-template-ats {
+    padding: 0.5in;
+    max-width: 8.5in;
+  }
+
+  .ats-section {
+    page-break-inside: avoid;
+  }
+
+  .ats-item {
+    page-break-inside: avoid;
+  }
+}
+
+/* Ensure ATS Compatibility */
+/*
+  ATS Best Practices Applied:
+  - No tables, columns, or complex layouts
+  - No images, graphics, or icons
+  - Simple, standard fonts (Arial)
+  - Clear section headers
+  - Standard section names
+  - Linear, top-to-bottom flow
+  - No background colors
+  - No text in headers/footers
+  - Standard bullet characters (if needed)
+  - Clear date formats
+  - No abbreviations in section titles
+*/
+
+/* ===== RTL Support ===== */
+.cv-template-ats.rtl {
+  direction: rtl;
+  text-align: right;
+  /* Font is set via inline style in component */
+}
+
+.cv-template-ats.rtl .ats-header {
+  text-align: center;
+}
+
+.cv-template-ats.rtl .ats-contact {
+  text-align: center;
+}
+
+.cv-template-ats.rtl .ats-section-title {
+  text-align: right;
+  border-bottom-width: 2px;
+}
+
+.cv-template-ats.rtl .ats-item-title {
+  text-align: right;
+}
+
+.cv-template-ats.rtl .ats-item-company {
+  text-align: right;
+}
+
+.cv-template-ats.rtl .ats-item-date {
+  text-align: right;
+}
+
+.cv-template-ats.rtl .ats-item-meta {
+  text-align: right;
+}
+
+.cv-template-ats.rtl .ats-summary,
+.cv-template-ats.rtl .ats-item-description {
+  text-align: right;
+}
+
+.cv-template-ats.rtl .ats-skill-section {
+  text-align: right;
+}
+
+.cv-template-ats.rtl .ats-skill-label {
+  text-align: right;
+}
+
+.cv-template-ats.rtl .ats-skill-list {
+  text-align: right;
+}
