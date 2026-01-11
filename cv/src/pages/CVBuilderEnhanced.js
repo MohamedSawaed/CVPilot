@@ -160,18 +160,47 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
     return () => clearTimeout(timer);
   }, [profession, userProfile]);
 
-  // Auto-save functionality
+  // Auto-save functionality - saves to localStorage AND Firestore
   useEffect(() => {
-    const autoSave = debounce(() => {
+    const autoSave = debounce(async () => {
+      // Always save to localStorage first
       storage.autoSave(cvData, profession, userProfile);
+
+      // Also save to Firestore if user is logged in and has meaningful data
+      if (user && cvData.personalInfo?.fullName) {
+        try {
+          const existingCvId = currentCvId || cvIdRef.current;
+
+          if (existingCvId) {
+            // Update existing CV
+            await updateCV(existingCvId, cvData, `${cvData.personalInfo.fullName}'s CV`);
+          } else if (!creatingCvRef.current) {
+            // Create new CV only if not already creating
+            creatingCvRef.current = true;
+            try {
+              const { id, error } = await createCV(user.uid, cvData, profession);
+              if (id && !error) {
+                cvIdRef.current = id;
+                setCurrentCvId(id);
+                console.log('Auto-saved new CV to Firestore:', id);
+              }
+            } finally {
+              creatingCvRef.current = false;
+            }
+          }
+        } catch (error) {
+          console.warn('Auto-save to Firestore failed:', error.message);
+        }
+      }
+
       setSaveStatus('Saved');
       setTimeout(() => setSaveStatus(''), 2000);
-    }, 2000);
+    }, 3000); // 3 second debounce for Firestore
 
     if (cvData.personalInfo.fullName || cvData.summary) {
       autoSave();
     }
-  }, [cvData, profession, userProfile]);
+  }, [cvData, profession, userProfile, user, currentCvId]);
 
   // Load CV data - either from Firestore (editing) or local storage (new)
   useEffect(() => {
