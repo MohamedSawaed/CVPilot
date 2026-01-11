@@ -138,6 +138,10 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
   const [paymentStep, setPaymentStep] = useState('pricing'); // 'pricing', 'payment', 'complete'
   const [selectedPlan, setSelectedPlan] = useState(null);
 
+  // Ref to track if CV creation is in progress (prevents duplicate creates)
+  const creatingCvRef = React.useRef(false);
+  const cvIdRef = React.useRef(cvId || null); // Store cvId in ref for immediate access
+
   // Smart section arrangement based on user profile
   const arrangedSections = arrangeCV(profession, userProfile);
   const sections = activeSections || arrangedSections;
@@ -340,17 +344,26 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
     setSaveStatus(language === 'ar' ? 'جاري الحفظ...' : 'Saving...');
 
     try {
-      if (currentCvId) {
+      // Check ref first for immediate access to cvId
+      const existingCvId = currentCvId || cvIdRef.current;
+
+      if (existingCvId) {
         // Update existing CV
         const title = cvData.personalInfo?.fullName
           ? `${cvData.personalInfo.fullName}'s CV`
           : 'Untitled CV';
-        await updateCV(currentCvId, cvData, title);
-      } else {
-        // Create new CV
-        const { id, error } = await createCV(user.uid, cvData, profession);
-        if (id && !error) {
-          setCurrentCvId(id);
+        await updateCV(existingCvId, cvData, title);
+      } else if (!creatingCvRef.current) {
+        // Create new CV only if not already creating
+        creatingCvRef.current = true;
+        try {
+          const { id, error } = await createCV(user.uid, cvData, profession);
+          if (id && !error) {
+            cvIdRef.current = id;
+            setCurrentCvId(id);
+          }
+        } finally {
+          creatingCvRef.current = false;
         }
       }
 
@@ -378,21 +391,30 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
       if (user) {
         const saveInBackground = async () => {
           try {
-            if (currentCvId) {
+            const existingCvId = currentCvId || cvIdRef.current;
+
+            if (existingCvId) {
               const title = cvData.personalInfo?.fullName
                 ? `${cvData.personalInfo.fullName}'s CV`
                 : 'Untitled CV';
               await Promise.race([
-                updateCV(currentCvId, cvData, title),
+                updateCV(existingCvId, cvData, title),
                 new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 3000))
               ]);
-            } else {
-              const result = await Promise.race([
-                createCV(user.uid, cvData, profession),
-                new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 3000))
-              ]);
-              if (result?.id && !result?.error) {
-                setCurrentCvId(result.id);
+            } else if (!creatingCvRef.current) {
+              // Only create if not already creating
+              creatingCvRef.current = true;
+              try {
+                const result = await Promise.race([
+                  createCV(user.uid, cvData, profession),
+                  new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 3000))
+                ]);
+                if (result?.id && !result?.error) {
+                  cvIdRef.current = result.id;
+                  setCurrentCvId(result.id);
+                }
+              } finally {
+                creatingCvRef.current = false;
               }
             }
           } catch (saveError) {
@@ -435,16 +457,28 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
       }
 
       try {
-        const saveOperation = currentCvId
-          ? updateCV(currentCvId, cvData, cvData.personalInfo?.fullName ? `${cvData.personalInfo.fullName}'s CV` : 'Untitled CV')
-          : createCV(user.uid, cvData, profession).then(({ id, error }) => {
-              if (id && !error) setCurrentCvId(id);
-            });
+        const existingCvId = currentCvId || cvIdRef.current;
 
-        await Promise.race([
-          saveOperation,
-          new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 3000))
-        ]);
+        if (existingCvId) {
+          await Promise.race([
+            updateCV(existingCvId, cvData, cvData.personalInfo?.fullName ? `${cvData.personalInfo.fullName}'s CV` : 'Untitled CV'),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 3000))
+          ]);
+        } else if (!creatingCvRef.current) {
+          creatingCvRef.current = true;
+          try {
+            const result = await Promise.race([
+              createCV(user.uid, cvData, profession),
+              new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 3000))
+            ]);
+            if (result?.id && !result?.error) {
+              cvIdRef.current = result.id;
+              setCurrentCvId(result.id);
+            }
+          } finally {
+            creatingCvRef.current = false;
+          }
+        }
       } catch (error) {
         console.warn('Could not save CV:', error.message);
       }
