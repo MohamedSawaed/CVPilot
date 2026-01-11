@@ -44,7 +44,6 @@ export const createCV = async (userId, cvData, profession) => {
       return { id: null, error: 'CV data is required' };
     }
 
-    console.log('Creating CV for user:', userId);
     const cvRef = await addDoc(collection(db, CV_COLLECTION), {
       userId,
       title: cvData.personalInfo?.fullName
@@ -55,7 +54,6 @@ export const createCV = async (userId, cvData, profession) => {
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     });
-    console.log('CV created successfully with ID:', cvRef.id);
     return { id: cvRef.id, error: null };
   } catch (error) {
     console.error('Error creating CV:', error);
@@ -72,17 +70,14 @@ export const getUserCVs = async (userId) => {
       return { cvs: [], error: 'User ID is required' };
     }
 
-    console.log('Fetching CVs for userId:', userId);
     // Use simple where query without orderBy to avoid requiring composite index
     const q = query(
       collection(db, CV_COLLECTION),
       where('userId', '==', userId)
     );
     const querySnapshot = await getDocs(q);
-    console.log('Query returned', querySnapshot.size, 'documents');
     const cvs = [];
     querySnapshot.forEach((docSnap) => {
-      console.log('Found CV:', docSnap.id, docSnap.data().title);
       cvs.push({ id: docSnap.id, ...docSnap.data() });
     });
 
@@ -97,7 +92,6 @@ export const getUserCVs = async (userId) => {
       return getDate(b.updatedAt) - getDate(a.updatedAt);
     });
 
-    console.log('Returning', cvs.length, 'CVs');
     return { cvs, error: null };
   } catch (error) {
     console.error('Error getting CVs:', error);

@@ -90,28 +90,38 @@ const Dashboard = () => {
   const t = translations[language] || translations.en;
 
   useEffect(() => {
-    loadCVs();
-    loadPaymentStatus();
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+
+    // Load CVs and payment status in parallel for faster loading
+    const loadData = async () => {
+      try {
+        const [cvsResult, paymentResult] = await Promise.all([
+          getUserCVs(user.uid),
+          getUserPaymentStatus(user.uid)
+        ]);
+
+        if (!cvsResult.error) {
+          setCvs(cvsResult.cvs);
+        }
+        setHasPaid(paymentResult.hasPaid || false);
+      } catch (error) {
+        console.error('Error loading dashboard data:', error);
+      }
+      setLoading(false);
+    };
+
+    loadData();
   }, [user]);
 
   const loadCVs = async () => {
     if (!user) return;
-    setLoading(true);
-    console.log('Loading CVs for user:', user.uid);
     const { cvs: userCVs, error } = await getUserCVs(user.uid);
-    console.log('getUserCVs result:', { cvs: userCVs, error });
     if (!error) {
       setCvs(userCVs);
-    } else {
-      console.error('Error loading CVs:', error);
     }
-    setLoading(false);
-  };
-
-  const loadPaymentStatus = async () => {
-    if (!user) return;
-    const { hasPaid: paid } = await getUserPaymentStatus(user.uid);
-    setHasPaid(paid);
   };
 
   const handleCreateNew = () => {
