@@ -1,14 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
-import { FiCheck, FiAward, FiUsers, FiZap, FiShield, FiGlobe, FiStar, FiArrowRight, FiDownload, FiLayout, FiEdit3 } from 'react-icons/fi';
+import { FiCheck, FiAward, FiZap, FiShield, FiGlobe, FiStar, FiArrowRight, FiDownload, FiLayout, FiEdit3, FiMenu, FiX, FiChevronDown } from 'react-icons/fi';
 import './LandingPage.css';
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const { language } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const isRTL = language === 'ar' || language === 'he';
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const langDropdownRef = useRef(null);
+
+  const languages = [
+    { code: 'en', name: 'EN', fullName: 'English', flag: '🇺🇸' },
+    { code: 'ar', name: 'AR', fullName: 'العربية', flag: '🇸🇦' },
+    { code: 'he', name: 'HE', fullName: 'עברית', flag: '🇮🇱' }
+  ];
+
+  const currentLang = languages.find(l => l.code === language) || languages[0];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +28,29 @@ const LandingPage = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target)) {
+        setLangDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Close mobile menu on navigation
+  const handleNavigation = (path) => {
+    setMobileMenuOpen(false);
+    navigate(path);
+  };
+
+  const handleLanguageChange = (langCode) => {
+    setLanguage(langCode);
+    localStorage.setItem('cv-language', langCode);
+    setLangDropdownOpen(false);
+  };
 
   const translations = {
     en: {
@@ -473,12 +507,76 @@ const LandingPage = () => {
           </div>
 
           <div className="nav-actions">
-            <button className="nav-login" onClick={() => navigate('/login')}>
+            {/* Language Selector */}
+            <div className="lang-dropdown" ref={langDropdownRef}>
+              <button
+                className="lang-dropdown-btn"
+                onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+              >
+                <span className="lang-flag">{currentLang.flag}</span>
+                <span className="lang-code">{currentLang.name}</span>
+                <FiChevronDown className={`lang-chevron ${langDropdownOpen ? 'open' : ''}`} />
+              </button>
+              {langDropdownOpen && (
+                <div className="lang-dropdown-menu">
+                  {languages.map(lang => (
+                    <button
+                      key={lang.code}
+                      className={`lang-option ${lang.code === language ? 'active' : ''}`}
+                      onClick={() => handleLanguageChange(lang.code)}
+                    >
+                      <span className="lang-flag">{lang.flag}</span>
+                      <span className="lang-full-name">{lang.fullName}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <button className="nav-login" onClick={() => handleNavigation('/login')}>
               {t.nav.login}
             </button>
-            <button className="nav-cta" onClick={() => navigate('/register')}>
+            <button className="nav-cta" onClick={() => handleNavigation('/register')}>
               {t.nav.getStarted}
             </button>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              className="mobile-menu-toggle"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <FiX /> : <FiMenu />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
+          <div className="mobile-menu-content">
+            <a href="#features" onClick={() => setMobileMenuOpen(false)}>{t.nav.features}</a>
+            <a href="#templates" onClick={() => setMobileMenuOpen(false)}>{t.nav.templates}</a>
+            <a href="#pricing" onClick={() => setMobileMenuOpen(false)}>{t.nav.pricing}</a>
+            <div className="mobile-menu-divider"></div>
+            <button className="mobile-login" onClick={() => handleNavigation('/login')}>
+              {t.nav.login}
+            </button>
+            <button className="mobile-cta" onClick={() => handleNavigation('/register')}>
+              {t.nav.getStarted}
+            </button>
+            <div className="mobile-menu-divider"></div>
+            <div className="mobile-lang-selector">
+              {languages.map(lang => (
+                <button
+                  key={lang.code}
+                  className={`mobile-lang-btn ${lang.code === language ? 'active' : ''}`}
+                  onClick={() => handleLanguageChange(lang.code)}
+                >
+                  <span>{lang.flag}</span>
+                  <span>{lang.fullName}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </nav>
