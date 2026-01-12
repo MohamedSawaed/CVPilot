@@ -526,7 +526,7 @@ const CVBuilderPro = () => {
 
   // Navigate back to dashboard
   const handleBack = () => {
-    navigate('/dashboard');
+    navigate('/');
   };
 
   // Toggle section
