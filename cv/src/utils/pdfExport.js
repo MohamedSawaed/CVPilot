@@ -1,13 +1,17 @@
 // PDF Export - Multiple fallback methods for PDF generation
-// 1. Local Puppeteer server (best quality, requires running server)
-// 2. Browser print dialog (works everywhere, user must "Save as PDF")
+// 1. Client-side with jsPDF + html2canvas (works everywhere, no server needed)
+// 2. Remote Puppeteer server (best quality, requires deployed server)
+// 3. Browser print dialog (fallback)
 
 import { uploadPDF } from '../services/cvService';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
-const PDF_SERVER_URL = 'http://localhost:3001';
+// Use environment variable for PDF server URL, fallback to localhost for dev
+const PDF_SERVER_URL = process.env.REACT_APP_PDF_SERVER_URL || 'http://localhost:3001';
 const SERVER_TIMEOUT = 30000; // 30 second timeout for PDF generation
 
-// Main PDF generation function - calls Puppeteer server for direct PDF download
+// Main PDF generation function - uses client-side generation (works on Vercel)
 // Optional: pass userId and cvId to save PDF to Firebase Storage
 export const generatePDFFromServer = async (cvData, templateStyle = 'modern', sections = [], language = null, userId = null, cvId = null) => {
   // Validate required parameters
@@ -50,88 +54,368 @@ export const generatePDFFromServer = async (cvData, templateStyle = 'modern', se
   document.body.appendChild(loadingOverlay);
 
   try {
-    // Quick server check with timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), SERVER_TIMEOUT);
-
-    try {
-      const response = await fetch(`${PDF_SERVER_URL}/api/generate-pdf`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          cvData,
-          templateStyle,
-          language: currentLanguage,
-          sections: sectionsArray
-        }),
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `Server error: ${response.status}`);
-      }
-
-      // Get the PDF blob
-      const pdfBlob = await response.blob();
-      const fileName = `${cvData.personalInfo?.fullName || 'CV'}_${templateStyle}.pdf`;
-
-      // Create download link
-      const downloadUrl = URL.createObjectURL(pdfBlob);
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // Clean up
-      URL.revokeObjectURL(downloadUrl);
-
-      // Upload to Firebase Storage if userId and cvId are provided
-      if (userId && cvId) {
-        console.log('Attempting to upload PDF to Firebase Storage...', { userId, cvId, fileName });
-        try {
-          const { url, error } = await uploadPDF(userId, cvId, pdfBlob, fileName);
-          if (error) {
-            console.error('PDF generated but failed to upload to storage:', error);
-          } else {
-            console.log('PDF saved to Firebase Storage:', url);
-          }
-        } catch (uploadError) {
-          console.error('PDF upload error:', uploadError);
-        }
-      } else {
-        console.log('Skipping PDF upload - missing userId or cvId:', { userId, cvId });
-      }
-
-      // Remove loading overlay
-      if (loadingOverlay.parentNode) {
-        document.body.removeChild(loadingOverlay);
-      }
-
-      return true;
-
-    } catch (fetchError) {
-      clearTimeout(timeoutId);
-      throw fetchError;
-    }
-
-  } catch (error) {
-    console.log('PDF server unavailable, using browser print:', error.message);
+    // Use client-side PDF generation (works on Vercel, no server needed)
+    const result = await generatePDFClientSide(cvData, templateStyle, sectionsArray, currentLanguage, isRTL, userId, cvId);
 
     // Remove loading overlay
     if (loadingOverlay.parentNode) {
       document.body.removeChild(loadingOverlay);
     }
 
-    // Automatically use browser print fallback (no prompt)
+    return result;
+
+  } catch (error) {
+    console.error('Client-side PDF generation failed:', error.message);
+
+    // Remove loading overlay
+    if (loadingOverlay.parentNode) {
+      document.body.removeChild(loadingOverlay);
+    }
+
+    // Fallback to browser print
     return await generatePDFWithBrowserPrint(cvData, templateStyle, sectionsArray, currentLanguage, isRTL);
   }
+};
+
+// Client-side PDF generation using jsPDF + html2canvas
+const generatePDFClientSide = async (cvData, templateStyle, sections, language, isRTL, userId, cvId) => {
+  const info = cvData.personalInfo || {};
+  const t = getTranslations(language);
+
+  // Create a hidden container for rendering
+  const container = document.createElement('div');
+  container.id = 'pdf-render-container';
+  container.style.cssText = `
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    width: 794px;
+    background: white;
+    font-family: ${isRTL ? "'Cairo', 'Segoe UI', sans-serif" : "'Inter', 'Segoe UI', sans-serif"};
+    direction: ${isRTL ? 'rtl' : 'ltr'};
+  `;
+
+  // Build HTML content
+  container.innerHTML = buildPDFHTML(cvData, sections, language, isRTL, templateStyle, t);
+  document.body.appendChild(container);
+
+  // Wait for fonts to load
+  await document.fonts.ready;
+  await new Promise(resolve => setTimeout(resolve, 300));
+
+  try {
+    // Convert to canvas
+    const canvas = await html2canvas(container, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false
+    });
+
+    // Create PDF
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+
+    const pageWidth = 210;
+    const pageHeight = 297;
+    const imgWidth = pageWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    // Add first page
+    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    // Add additional pages if needed
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
+    const fileName = `${info.fullName || 'CV'}_${templateStyle}.pdf`;
+
+    // Get PDF as blob for Firebase upload
+    const pdfBlob = pdf.output('blob');
+
+    // Download the PDF
+    pdf.save(fileName);
+
+    // Upload to Firebase Storage if userId and cvId are provided
+    if (userId && cvId) {
+      console.log('Uploading PDF to Firebase Storage...', { userId, cvId, fileName });
+      try {
+        const { url, error } = await uploadPDF(userId, cvId, pdfBlob, fileName);
+        if (error) {
+          console.error('PDF upload failed:', error);
+        } else {
+          console.log('PDF saved to Firebase Storage:', url);
+        }
+      } catch (uploadError) {
+        console.error('PDF upload error:', uploadError);
+      }
+    }
+
+    return true;
+
+  } finally {
+    // Clean up
+    if (container.parentNode) {
+      document.body.removeChild(container);
+    }
+  }
+};
+
+// Build HTML for PDF rendering
+const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
+  const info = cvData.personalInfo || {};
+  const colors = getTemplateColors(templateStyle);
+
+  let html = `
+    <div style="padding: 40px; color: #1a1a1a; line-height: 1.6;">
+      <!-- Header -->
+      <div style="background: ${colors.headerBg}; color: ${colors.headerText}; padding: 30px; margin: -40px -40px 30px -40px; ${isRTL ? 'text-align: right;' : ''}">
+        <h1 style="font-size: 28px; font-weight: 700; margin: 0 0 10px 0;">${escapeHtml(info.fullName) || (isRTL ? 'اسمك' : 'Your Name')}</h1>
+        <div style="font-size: 13px; opacity: 0.9;">
+          ${info.email ? `<span style="margin-${isRTL ? 'left' : 'right'}: 20px;">${escapeHtml(info.email)}</span>` : ''}
+          ${info.phone ? `<span style="margin-${isRTL ? 'left' : 'right'}: 20px;">${escapeHtml(info.phone)}</span>` : ''}
+          ${info.location ? `<span>${escapeHtml(info.location)}</span>` : ''}
+        </div>
+        ${(info.linkedin || info.website) ? `
+          <div style="font-size: 12px; margin-top: 8px; opacity: 0.8;">
+            ${info.linkedin ? `<span style="margin-${isRTL ? 'left' : 'right'}: 20px;">${info.linkedin}</span>` : ''}
+            ${info.website ? `<span>${info.website}</span>` : ''}
+          </div>
+        ` : ''}
+      </div>
+  `;
+
+  // Summary
+  if (cvData.summary && sections.includes('summary')) {
+    html += `
+      <div style="margin-bottom: 25px;">
+        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.summary}</h2>
+        <p style="font-size: 13px; color: #4a5568; margin: 0;">${escapeHtml(cvData.summary)}</p>
+      </div>
+    `;
+  }
+
+  // Experience
+  if (Array.isArray(cvData.experience) && cvData.experience.length > 0 && sections.includes('experience')) {
+    html += `
+      <div style="margin-bottom: 25px;">
+        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.experience}</h2>
+        ${cvData.experience.map(exp => `
+          <div style="margin-bottom: 15px; padding-${isRTL ? 'right' : 'left'}: 12px; border-${isRTL ? 'right' : 'left'}: 3px solid ${colors.accent};">
+            <div style="display: flex; justify-content: space-between; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
+              <span style="font-size: 14px; font-weight: 600;">${escapeHtml(exp.jobTitle)}</span>
+              <span style="font-size: 12px; color: #718096;">${escapeHtml(exp.startDate)} - ${exp.current ? t.present : escapeHtml(exp.endDate)}</span>
+            </div>
+            <div style="font-size: 13px; color: ${colors.accent}; margin: 3px 0;">${escapeHtml(exp.company)}</div>
+            <p style="font-size: 12px; color: #4a5568; margin: 5px 0 0 0;">${escapeHtml(exp.description)}</p>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // Education
+  if (Array.isArray(cvData.education) && cvData.education.length > 0 && sections.includes('education')) {
+    html += `
+      <div style="margin-bottom: 25px;">
+        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.education}</h2>
+        ${cvData.education.map(edu => `
+          <div style="margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
+              <span style="font-size: 14px; font-weight: 600;">${escapeHtml(edu.degree)}</span>
+              <span style="font-size: 12px; color: #718096;">${escapeHtml(edu.graduationDate)}</span>
+            </div>
+            <div style="font-size: 13px; color: ${colors.accent};">${escapeHtml(edu.institution)}</div>
+            ${edu.honors ? `<p style="font-size: 12px; color: #4a5568; font-style: italic; margin: 3px 0 0 0;">${escapeHtml(edu.honors)}</p>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // Skills
+  if (cvData.skills && sections.includes('skills')) {
+    const skillsHTML = buildSkillsForPDF(cvData.skills, t, colors, isRTL);
+    if (skillsHTML) {
+      html += `
+        <div style="margin-bottom: 25px;">
+          <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.skills}</h2>
+          ${skillsHTML}
+        </div>
+      `;
+    }
+  }
+
+  // Projects
+  if (Array.isArray(cvData.projects) && cvData.projects.length > 0 && sections.includes('projects')) {
+    html += `
+      <div style="margin-bottom: 25px;">
+        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.projects}</h2>
+        ${cvData.projects.map(project => `
+          <div style="margin-bottom: 12px;">
+            <div style="font-size: 14px; font-weight: 600;">${escapeHtml(project.projectName || project.title)}</div>
+            <p style="font-size: 12px; color: #4a5568; margin: 3px 0 0 0;">${escapeHtml(project.description)}</p>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // Certifications
+  if (Array.isArray(cvData.certifications) && cvData.certifications.length > 0 && sections.includes('certifications')) {
+    html += `
+      <div style="margin-bottom: 25px;">
+        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.certifications}</h2>
+        ${cvData.certifications.map(cert => `
+          <div style="margin-bottom: 10px;">
+            <div style="display: flex; justify-content: space-between; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
+              <span style="font-size: 13px; font-weight: 600;">${escapeHtml(cert.certification || cert.title)}</span>
+              ${cert.date ? `<span style="font-size: 12px; color: #718096;">${escapeHtml(cert.date)}</span>` : ''}
+            </div>
+            ${cert.issuer ? `<div style="font-size: 12px; color: ${colors.accent};">${escapeHtml(cert.issuer)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // Achievements
+  if (Array.isArray(cvData.achievements) && cvData.achievements.length > 0 && sections.includes('achievements')) {
+    html += `
+      <div style="margin-bottom: 25px;">
+        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.achievements}</h2>
+        ${cvData.achievements.map(achievement => `
+          <div style="margin-bottom: 10px;">
+            <div style="display: flex; justify-content: space-between; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
+              <span style="font-size: 13px; font-weight: 600;">${escapeHtml(achievement.achievement || achievement.title)}</span>
+              ${achievement.date ? `<span style="font-size: 12px; color: #718096;">${escapeHtml(achievement.date)}</span>` : ''}
+            </div>
+            ${achievement.description ? `<p style="font-size: 12px; color: #4a5568; margin: 3px 0 0 0;">${escapeHtml(achievement.description)}</p>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  html += '</div>';
+  return html;
+};
+
+// Get template colors
+const getTemplateColors = (templateStyle) => {
+  const templates = {
+    modern: { headerBg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', headerText: 'white', accent: '#667eea' },
+    elegant: { headerBg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', headerText: 'white', accent: '#667eea' },
+    classic: { headerBg: '#1a1a1a', headerText: 'white', accent: '#1a1a1a' },
+    ats: { headerBg: '#f8f9fa', headerText: '#1a1a1a', accent: '#333333' },
+    creative: { headerBg: 'linear-gradient(180deg, #1a1a2e, #16213e)', headerText: 'white', accent: '#667eea' },
+    bold: { headerBg: '#0d9488', headerText: 'white', accent: '#0d9488' },
+    executive: { headerBg: '#1e3a5f', headerText: '#d4af37', accent: '#1e3a5f' },
+    minimal: { headerBg: '#ffffff', headerText: '#1a1a1a', accent: '#333333' },
+    tech: { headerBg: '#0f172a', headerText: '#22d3ee', accent: '#22d3ee' },
+    luxe: { headerBg: '#1a1a1a', headerText: '#d4af37', accent: '#d4af37' },
+    azure: { headerBg: 'linear-gradient(135deg, #0077b6, #00b4d8)', headerText: 'white', accent: '#0077b6' },
+    noir: { headerBg: '#1a1a1a', headerText: '#c0c0c0', accent: '#c0c0c0' },
+    coral: { headerBg: '#f8b4b4', headerText: '#7c2d12', accent: '#dc2626' }
+  };
+  return templates[templateStyle] || templates.modern;
+};
+
+// Build skills HTML for PDF
+const buildSkillsForPDF = (skills, t, colors, isRTL) => {
+  if (!skills) return '';
+
+  // Handle array of strings (simple skills)
+  if (Array.isArray(skills)) {
+    if (skills.length === 0) return '';
+    return `
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
+        ${skills.map(skill => `
+          <span style="background: ${colors.accent}; color: white; padding: 5px 12px; border-radius: 15px; font-size: 11px;">${escapeHtml(skill)}</span>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // Handle object with items array
+  const items = Array.isArray(skills.items) ? skills.items : [];
+  if (items.length > 0) {
+    const categories = {};
+    items.forEach(skill => {
+      if (skill && skill.category && skill.name) {
+        if (!categories[skill.category]) categories[skill.category] = [];
+        categories[skill.category].push(skill.name);
+      }
+    });
+
+    const categoryLabels = {
+      technical: t.technicalSkills,
+      soft: t.softSkills,
+      languages: t.languages,
+      tools: 'Tools',
+      frameworks: 'Frameworks'
+    };
+
+    return Object.entries(categories).map(([cat, catSkills]) => `
+      <div style="margin-bottom: 10px;">
+        <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 6px;">${categoryLabels[cat] || cat}</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
+          ${catSkills.map(s => `<span style="background: ${colors.accent}; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px;">${escapeHtml(s)}</span>`).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Handle old format with separate arrays
+  let html = '';
+  const technicalSkills = Array.isArray(skills.technicalSkills) ? skills.technicalSkills.filter(Boolean) : [];
+  const softSkills = Array.isArray(skills.softSkills) ? skills.softSkills.filter(Boolean) : [];
+  const languages = Array.isArray(skills.languages) ? skills.languages.filter(Boolean) : [];
+
+  if (technicalSkills.length > 0) {
+    html += `
+      <div style="margin-bottom: 10px;">
+        <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 6px;">${t.technicalSkills}</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
+          ${technicalSkills.map(s => `<span style="background: ${colors.accent}; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px;">${escapeHtml(s)}</span>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+  if (softSkills.length > 0) {
+    html += `
+      <div style="margin-bottom: 10px;">
+        <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 6px;">${t.softSkills}</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
+          ${softSkills.map(s => `<span style="background: ${colors.accent}; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px;">${escapeHtml(s)}</span>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+  if (languages.length > 0) {
+    html += `
+      <div style="margin-bottom: 10px;">
+        <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 6px;">${t.languages}</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
+          ${languages.map(s => `<span style="background: ${colors.accent}; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px;">${escapeHtml(s)}</span>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+  return html;
 };
 
 // Fallback: Generate PDF using browser's print dialog
