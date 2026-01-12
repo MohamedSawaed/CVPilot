@@ -151,17 +151,21 @@ const generatePDFClientSide = async (cvData, templateStyle, sections, language, 
 
     // Upload to Firebase Storage if userId and cvId are provided
     if (userId && cvId) {
-      console.log('Uploading PDF to Firebase Storage...', { userId, cvId, fileName });
+      console.log('Uploading PDF to Firebase Storage...', { userId, cvId, fileName, blobSize: pdfBlob.size });
       try {
         const { url, error } = await uploadPDF(userId, cvId, pdfBlob, fileName);
         if (error) {
           console.error('PDF upload failed:', error);
+          alert('PDF downloaded but failed to save to cloud: ' + error);
         } else {
           console.log('PDF saved to Firebase Storage:', url);
         }
       } catch (uploadError) {
         console.error('PDF upload error:', uploadError);
+        alert('PDF downloaded but upload error: ' + uploadError.message);
       }
+    } else {
+      console.warn('Skipping Firebase upload - missing userId or cvId:', { userId, cvId });
     }
 
     return true;

@@ -337,10 +337,36 @@ const CVBuilderPro = () => {
   }, [cvId]);
 
   const loadCV = async () => {
+    console.log('Loading CV with ID:', cvId);
     const { cv, error } = await getCV(cvId);
-    if (!error && cv) {
-      setCvData(cv.cvData || cvData);
+    console.log('Loaded CV result:', { cv, error });
+    if (!error && cv && cv.cvData) {
+      // Merge loaded data with default structure to ensure all fields exist
+      const loadedData = {
+        personalInfo: {
+          fullName: '',
+          email: '',
+          phone: '',
+          location: '',
+          linkedin: '',
+          website: '',
+          ...(cv.cvData.personalInfo || {})
+        },
+        summary: cv.cvData.summary || '',
+        experience: cv.cvData.experience || [],
+        education: cv.cvData.education || [],
+        skills: cv.cvData.skills || [],
+        certifications: cv.cvData.certifications || [],
+        projects: cv.cvData.projects || [],
+        achievements: cv.cvData.achievements || []
+      };
+      console.log('Setting CV data:', loadedData);
+      setCvData(loadedData);
       setCurrentCvId(cvId);
+      // Mark as initialized since we're loading existing data
+      isInitializedRef.current = true;
+    } else {
+      console.error('Failed to load CV:', error);
     }
   };
 
