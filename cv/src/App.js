@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import TemplateSelection from './pages/TemplateSelection';
 import Questionnaire from './pages/Questionnaire';
 import CVBuilderEnhanced from './pages/CVBuilderEnhanced';
+import CVBuilderPro from './pages/CVBuilderPro';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import './App.css';
@@ -153,6 +154,26 @@ function AppContent() {
             element={
               <ProtectedRoute>
                 <EditCV />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* New Pro Builder - Create */}
+          <Route
+            path="/builder"
+            element={
+              <ProtectedRoute>
+                <CVBuilderPro />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* New Pro Builder - Edit */}
+          <Route
+            path="/builder/:cvId"
+            element={
+              <ProtectedRoute>
+                <CVBuilderPro />
               </ProtectedRoute>
             }
           />

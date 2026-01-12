@@ -1,4 +1,4 @@
-// CV Management Service - Firestore CRUD operations
+// CV Management Service - Firestore CRUD operations with caching & real-time
 import {
   db,
   collection,
@@ -10,11 +10,111 @@ import {
   deleteDoc,
   query,
   where,
-  serverTimestamp
+  serverTimestamp,
+  onSnapshot
 } from '../config/firebase';
 
 const CV_COLLECTION = 'cvs';
 const USERS_COLLECTION = 'users';
+
+// ==================== Persistent Cache (localStorage + Memory) ====================
+const STORAGE_KEY = 'cv_app_cache';
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+
+// Load cache from localStorage on startup
+const loadPersistedCache = () => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      // Check if cache is still valid
+      if (parsed.timestamp && Date.now() - parsed.timestamp < CACHE_DURATION) {
+        return parsed;
+      }
+    }
+  } catch (e) {
+    console.warn('Failed to load cache:', e);
+  }
+  return { cvs: {}, payment: {}, timestamp: Date.now() };
+};
+
+// Save cache to localStorage
+const persistCache = (cacheData) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      ...cacheData,
+      timestamp: Date.now()
+    }));
+  } catch (e) {
+    console.warn('Failed to persist cache:', e);
+  }
+};
+
+// Initialize from localStorage for instant loading
+let persistedData = loadPersistedCache();
+
+const cache = {
+  cvs: new Map(Object.entries(persistedData.cvs || {})),
+  paymentStatus: new Map(Object.entries(persistedData.payment || {})),
+  lastFetch: new Map(),
+  CACHE_DURATION: CACHE_DURATION,
+
+  isValid(key) {
+    const lastFetch = this.lastFetch.get(key);
+    if (!lastFetch) {
+      // Check if we have persisted data (from previous session)
+      if (key.startsWith('cvs_') && this.cvs.has(key)) return true;
+      if (key.startsWith('payment_') && this.paymentStatus.has(key)) return true;
+      return false;
+    }
+    return Date.now() - lastFetch < this.CACHE_DURATION;
+  },
+
+  set(key, data) {
+    if (key.startsWith('cvs_')) {
+      this.cvs.set(key, data);
+    } else if (key.startsWith('payment_')) {
+      this.paymentStatus.set(key, data);
+    }
+    this.lastFetch.set(key, Date.now());
+
+    // Persist to localStorage
+    this._persist();
+  },
+
+  get(key) {
+    if (key.startsWith('cvs_')) {
+      return this.cvs.get(key);
+    } else if (key.startsWith('payment_')) {
+      return this.paymentStatus.get(key);
+    }
+    return null;
+  },
+
+  invalidate(key) {
+    if (key.startsWith('cvs_')) {
+      this.cvs.delete(key);
+    } else if (key.startsWith('payment_')) {
+      this.paymentStatus.delete(key);
+    }
+    this.lastFetch.delete(key);
+    this._persist();
+  },
+
+  invalidateUser(userId) {
+    this.invalidate(`cvs_${userId}`);
+    this.invalidate(`payment_${userId}`);
+  },
+
+  _persist() {
+    // Convert Maps to objects for JSON serialization
+    const cvsObj = {};
+    const paymentObj = {};
+    this.cvs.forEach((v, k) => { cvsObj[k] = v; });
+    this.paymentStatus.forEach((v, k) => { paymentObj[k] = v; });
+    persistCache({ cvs: cvsObj, payment: paymentObj });
+  }
+};
 
 // ==================== CV Operations ====================
 
@@ -27,7 +127,9 @@ const serializeProfession = (profession) => {
     // Store icon as string name instead of function
     iconName: profession.icon?.name || profession.iconName || null,
     tips: profession.tips || null,
-    suggestedSkills: profession.suggestedSkills || null
+    suggestedSkills: profession.suggestedSkills || null,
+    // Include sections array to prevent white screen when editing CVs
+    sections: profession.sections || ['personalInfo', 'summary', 'experience', 'education', 'skills', 'certifications', 'projects', 'achievements']
   };
 };
 
@@ -54,6 +156,10 @@ export const createCV = async (userId, cvData, profession) => {
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     });
+
+    // Invalidate cache so next fetch gets fresh data
+    cache.invalidate(`cvs_${userId}`);
+
     return { id: cvRef.id, error: null };
   } catch (error) {
     console.error('Error creating CV:', error);
@@ -61,13 +167,23 @@ export const createCV = async (userId, cvData, profession) => {
   }
 };
 
-// Get all CVs for a user
-export const getUserCVs = async (userId) => {
+// Get all CVs for a user (with caching for fast loading)
+export const getUserCVs = async (userId, forceRefresh = false) => {
   try {
     // Validate userId
     if (!userId) {
       console.error('getUserCVs: userId is required');
       return { cvs: [], error: 'User ID is required' };
+    }
+
+    const cacheKey = `cvs_${userId}`;
+
+    // Return cached data if valid and not forcing refresh
+    if (!forceRefresh && cache.isValid(cacheKey)) {
+      const cachedCvs = cache.get(cacheKey);
+      if (cachedCvs) {
+        return { cvs: cachedCvs, error: null, fromCache: true };
+      }
     }
 
     // Use simple where query without orderBy to avoid requiring composite index
@@ -92,11 +208,55 @@ export const getUserCVs = async (userId) => {
       return getDate(b.updatedAt) - getDate(a.updatedAt);
     });
 
-    return { cvs, error: null };
+    // Cache the result
+    cache.set(cacheKey, cvs);
+
+    return { cvs, error: null, fromCache: false };
   } catch (error) {
     console.error('Error getting CVs:', error);
     return { cvs: [], error: error.message };
   }
+};
+
+// Real-time listener for CVs (instant updates)
+export const subscribeToUserCVs = (userId, callback) => {
+  if (!userId) {
+    console.error('subscribeToUserCVs: userId is required');
+    return () => {};
+  }
+
+  const q = query(
+    collection(db, CV_COLLECTION),
+    where('userId', '==', userId)
+  );
+
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+    const cvs = [];
+    snapshot.forEach((docSnap) => {
+      cvs.push({ id: docSnap.id, ...docSnap.data() });
+    });
+
+    // Sort by updatedAt (newest first)
+    cvs.sort((a, b) => {
+      const getDate = (timestamp) => {
+        if (!timestamp) return new Date(0);
+        if (typeof timestamp.toDate === 'function') return timestamp.toDate();
+        if (timestamp instanceof Date) return timestamp;
+        return new Date(timestamp) || new Date(0);
+      };
+      return getDate(b.updatedAt) - getDate(a.updatedAt);
+    });
+
+    // Update cache
+    cache.set(`cvs_${userId}`, cvs);
+
+    callback(cvs);
+  }, (error) => {
+    console.error('Real-time CVs error:', error);
+    callback([], error);
+  });
+
+  return unsubscribe;
 };
 
 // Get a single CV by ID
@@ -169,8 +329,8 @@ export const deleteCV = async (cvId) => {
 
 // ==================== User Payment Status ====================
 
-// Get user payment status
-export const getUserPaymentStatus = async (userId) => {
+// Get user payment status (with caching)
+export const getUserPaymentStatus = async (userId, forceRefresh = false) => {
   try {
     // Validate userId
     if (!userId) {
@@ -178,18 +338,34 @@ export const getUserPaymentStatus = async (userId) => {
       return { hasPaid: false, paidAt: null, error: 'User ID is required' };
     }
 
+    const cacheKey = `payment_${userId}`;
+
+    // Return cached data if valid
+    if (!forceRefresh && cache.isValid(cacheKey)) {
+      const cachedStatus = cache.get(cacheKey);
+      if (cachedStatus) {
+        return { ...cachedStatus, error: null, fromCache: true };
+      }
+    }
+
     const docRef = doc(db, USERS_COLLECTION, userId);
     const docSnap = await getDoc(docRef);
+
+    let result;
     if (docSnap.exists()) {
       const data = docSnap.data() || {};
-      return {
+      result = {
         hasPaid: data.hasPaid || false,
-        paidAt: data.paidAt || null,
-        error: null
+        paidAt: data.paidAt || null
       };
+    } else {
+      result = { hasPaid: false, paidAt: null };
     }
-    // User document doesn't exist yet
-    return { hasPaid: false, paidAt: null, error: null };
+
+    // Cache the result
+    cache.set(cacheKey, result);
+
+    return { ...result, error: null, fromCache: false };
   } catch (error) {
     console.error('Error getting payment status:', error);
     return { hasPaid: false, paidAt: null, error: error.message };

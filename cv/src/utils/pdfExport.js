@@ -1,7 +1,9 @@
-// PDF Export - Uses Puppeteer server for proper Arabic support with direct download
-// Server runs on localhost:3001 and uses headless Chromium for PDF generation
+// PDF Export - Multiple fallback methods for PDF generation
+// 1. Local Puppeteer server (best quality, requires running server)
+// 2. Browser print dialog (works everywhere, user must "Save as PDF")
 
 const PDF_SERVER_URL = 'http://localhost:3001';
+const SERVER_TIMEOUT = 30000; // 30 second timeout for PDF generation
 
 // Main PDF generation function - calls Puppeteer server for direct PDF download
 export const generatePDFFromServer = async (cvData, templateStyle = 'modern', sections = [], language = null) => {
@@ -45,76 +47,69 @@ export const generatePDFFromServer = async (cvData, templateStyle = 'modern', se
   document.body.appendChild(loadingOverlay);
 
   try {
-    // Try Puppeteer server first
-    const response = await fetch(`${PDF_SERVER_URL}/api/generate-pdf`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        cvData,
-        templateStyle,
-        language: currentLanguage,
-        sections: sectionsArray
-      })
-    });
+    // Quick server check with timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), SERVER_TIMEOUT);
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || `Server error: ${response.status}`);
+    try {
+      const response = await fetch(`${PDF_SERVER_URL}/api/generate-pdf`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          cvData,
+          templateStyle,
+          language: currentLanguage,
+          sections: sectionsArray
+        }),
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `Server error: ${response.status}`);
+      }
+
+      // Get the PDF blob
+      const pdfBlob = await response.blob();
+
+      // Create download link
+      const downloadUrl = URL.createObjectURL(pdfBlob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = `${cvData.personalInfo?.fullName || 'CV'}_${templateStyle}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Clean up
+      URL.revokeObjectURL(downloadUrl);
+
+      // Remove loading overlay
+      if (loadingOverlay.parentNode) {
+        document.body.removeChild(loadingOverlay);
+      }
+
+      return true;
+
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      throw fetchError;
     }
-
-    // Get the PDF blob
-    const pdfBlob = await response.blob();
-
-    // Create download link
-    const downloadUrl = URL.createObjectURL(pdfBlob);
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = `${cvData.personalInfo?.fullName || 'CV'}_${templateStyle}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    // Clean up
-    URL.revokeObjectURL(downloadUrl);
-
-    // Remove loading overlay
-    if (loadingOverlay.parentNode) {
-      document.body.removeChild(loadingOverlay);
-    }
-
-    return true;
 
   } catch (error) {
-    console.error('Puppeteer server error:', error);
+    console.log('PDF server unavailable, using browser print:', error.message);
 
     // Remove loading overlay
     if (loadingOverlay.parentNode) {
       document.body.removeChild(loadingOverlay);
     }
 
-    // Check if server is running
-    const isServerDown = error.message.includes('Failed to fetch') ||
-                         error.message.includes('NetworkError') ||
-                         error.message.includes('fetch');
-
-    if (isServerDown) {
-      // Show server connection error with instructions
-      const shouldUseFallback = window.confirm(
-        isRTL
-          ? 'تعذر الاتصال بخادم PDF.\n\nيرجى تشغيل الخادم:\n1. افتح Terminal\n2. cd pdf-server\n3. npm start\n\nهل تريد استخدام طريقة الطباعة البديلة؟'
-          : 'Could not connect to PDF server.\n\nPlease start the server:\n1. Open Terminal\n2. cd pdf-server\n3. npm start\n\nWould you like to use the browser print fallback?'
-      );
-
-      if (shouldUseFallback) {
-        return await generatePDFWithBrowserPrint(cvData, templateStyle, sectionsArray, currentLanguage, isRTL);
-      }
-    } else {
-      alert(isRTL ? `خطأ: ${error.message}` : `Error: ${error.message}`);
-    }
-
-    return false;
+    // Automatically use browser print fallback (no prompt)
+    return await generatePDFWithBrowserPrint(cvData, templateStyle, sectionsArray, currentLanguage, isRTL);
   }
 };
 

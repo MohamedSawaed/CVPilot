@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sectionDefinitions } from '../data/templates';
 import SuggestionBox from '../components/SuggestionBox';
@@ -142,13 +142,26 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
   const creatingCvRef = React.useRef(false);
   const cvIdRef = React.useRef(cvId || null); // Store cvId in ref for immediate access
 
+  // When editing and profession is missing or invalid, use a default profession
+  // This happens when CV was saved with a serialized profession that lost its sections array
+  const effectiveProfession = useMemo(() => {
+    if (profession?.sections) return profession;
+    return {
+      id: 'general',
+      name: 'General',
+      sections: ['personalInfo', 'summary', 'experience', 'education', 'skills', 'certifications', 'projects', 'achievements'],
+      tips: {},
+      suggestedSkills: []
+    };
+  }, [profession]);
+
   // Smart section arrangement based on user profile
-  const arrangedSections = arrangeCV(profession, userProfile);
+  const arrangedSections = arrangeCV(effectiveProfession, userProfile);
   const sections = activeSections || arrangedSections;
 
   // Get arrangement explanation on mount
   useEffect(() => {
-    const info = getArrangementExplanation(profession, userProfile);
+    const info = getArrangementExplanation(effectiveProfession, userProfile);
     setArrangementInfo(info);
     setShowArrangementInfo(true); // Show on first load
 
@@ -158,7 +171,7 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
     }, 10000);
 
     return () => clearTimeout(timer);
-  }, [profession, userProfile]);
+  }, [effectiveProfession, userProfile]);
 
   // Auto-save functionality - saves to localStorage AND Firestore
   useEffect(() => {
@@ -341,7 +354,7 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
     }
 
     // Add profession-specific tips
-    const tips = profession.tips[section];
+    const tips = effectiveProfession.tips?.[section];
     if (tips && value) {
       newSuggestions.push({
         type: 'tip',
@@ -555,15 +568,6 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
     );
   }
 
-  // Show error if no profession (when editing, profession comes from CV data)
-  if (!profession && !loadingCV) {
-    return (
-      <div className="loading-screen">
-        <div className="loading-spinner"></div>
-      </div>
-    );
-  }
-
   const renderPersonalInfoSection = () => (
     <div className="form-section">
       <h3>{t('personalInfo')}</h3>
@@ -644,7 +648,7 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
           value={cvData.summary}
           onChange={(e) => handleFieldChange('summary', null, e.target.value)}
           onFocus={() => generateAdvancedSuggestions('summary', 'summary', cvData.summary)}
-          placeholder={`${t('example')}: ${isRTL ? `${profession.name} متخصص مع ${userProfile.yearsInField}+ سنوات من الخبرة...` : `Dedicated ${profession.name} with ${userProfile.yearsInField}+ years of experience...`}`}
+          placeholder={`${t('example')}: ${isRTL ? `${effectiveProfession.name} متخصص مع ${userProfile?.yearsInField || '5'}+ سنوات من الخبرة...` : `Dedicated ${effectiveProfession.name} with ${userProfile?.yearsInField || '5'}+ years of experience...`}`}
           rows="6"
           dir={isRTL ? 'rtl' : 'ltr'}
         />
@@ -837,7 +841,7 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
         onChange={(updatedSkills) => {
           setCvData({ ...cvData, skills: updatedSkills });
         }}
-        suggestions={profession.suggestedSkills || []}
+        suggestions={effectiveProfession.suggestedSkills || []}
       />
     </div>
   );
@@ -1007,7 +1011,7 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
     <div className={`cv-builder ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="builder-header-enhanced">
         <div className="header-left">
-          <h2>{profession.icon} {profession.name} {t('resume')}</h2>
+          <h2>{effectiveProfession.icon || '📄'} {effectiveProfession.name} {t('resume')}</h2>
           <div className="completion-bar">
             <div className="completion-fill" style={{ width: `${completionPercentage}%` }}></div>
           </div>

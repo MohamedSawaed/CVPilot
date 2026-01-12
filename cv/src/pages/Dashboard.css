@@ -367,10 +367,21 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Responsive */
+/* Responsive - Tablet */
 @media (max-width: 768px) {
   .dashboard-header {
-    padding: 20px;
+    padding: 16px 20px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-left {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .header-right {
+    justify-content: center;
   }
 
   .dashboard-content {
@@ -383,17 +394,504 @@
 
   .cv-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .create-new-btn {
     max-width: 100%;
   }
 
+  .cv-card {
+    padding: 20px;
+  }
+
+  .upgrade-hint {
+    left: 16px;
+    right: 16px;
+    transform: none;
+    justify-content: center;
+    bottom: 16px;
+    font-size: 13px;
+    padding: 12px 16px;
+  }
+}
+
+/* ========== PREMIUM MOBILE DASHBOARD ========== */
+@media (max-width: 480px) {
+  .dashboard {
+    min-height: 100dvh;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  }
+
+  /* ===== HEADER - STICKY & COMPACT ===== */
+  .dashboard-header {
+    padding: 14px 16px;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(102, 126, 234, 0.08);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03);
+  }
+
+  .header-left {
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  .header-left h1 {
+    font-size: 1.35rem;
+    letter-spacing: -0.5px;
+    margin-bottom: 2px;
+  }
+
+  .header-left p {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  .header-right {
+    gap: 8px;
+    justify-content: center;
+  }
+
+  /* ===== MEMBERSHIP BADGE - PILL STYLE ===== */
+  .membership-badge {
+    padding: 6px 12px;
+    font-size: 0.7rem;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .membership-badge.premium {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.25);
+  }
+
+  .membership-badge.free {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+  }
+
   .membership-badge span {
-    display: none;
+    display: inline;
+    font-weight: 600;
+  }
+
+  .membership-badge svg {
+    font-size: 12px;
+  }
+
+  /* ===== LOGOUT BUTTON - ICON ONLY ===== */
+  .dashboard .logout-btn {
+    padding: 10px;
+    font-size: 0;
+    border-radius: 12px;
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    border: none;
+    transition: all 0.2s ease;
+  }
+
+  .dashboard .logout-btn:active {
+    transform: scale(0.95);
+  }
+
+  .dashboard .logout-btn svg {
+    font-size: 1rem;
+    color: #64748b;
   }
 
   .dashboard .logout-btn span {
     display: none;
+  }
+
+  /* ===== CONTENT AREA ===== */
+  .dashboard-content {
+    padding: 16px 14px 100px;
+  }
+
+  /* ===== CREATE NEW BUTTON - FLOATING STYLE ===== */
+  .create-new-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: calc(100% - 32px);
+    width: auto;
+    padding: 14px 28px;
+    font-size: 0.95rem;
+    border-radius: 50px;
+    margin-bottom: 0;
+    z-index: 40;
+    box-shadow: 0 6px 30px rgba(102, 126, 234, 0.4);
+    animation: floatUp 0.5s ease;
+  }
+
+  @keyframes floatUp {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  .create-new-btn:active {
+    transform: translateX(-50%) scale(0.97);
+  }
+
+  .create-new-btn svg {
+    font-size: 1rem;
+  }
+
+  /* ===== EMPTY STATE - CENTERED CARD ===== */
+  .empty-state {
+    padding: 60px 24px;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    margin-top: 20px;
+  }
+
+  .empty-icon {
+    font-size: 56px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  .empty-state h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+
+  .empty-state p {
+    font-size: 0.9rem;
+    color: #64748b;
+    line-height: 1.5;
+  }
+
+  /* ===== CV GRID ===== */
+  .cv-grid {
+    gap: 14px;
+    margin-bottom: 80px;
+  }
+
+  /* ===== CV CARD - MODERN GLASS STYLE ===== */
+  .cv-card {
+    padding: 16px;
+    border-radius: 18px;
+    background: white;
+    border: 1px solid rgba(102, 126, 234, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s ease;
+  }
+
+  .cv-card:active {
+    transform: scale(0.99);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  }
+
+  .cv-card:hover {
+    transform: none;
+    border-color: rgba(102, 126, 234, 0.2);
+  }
+
+  .cv-card-header {
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .cv-icon {
+    font-size: 2rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8ecff 100%);
+    border-radius: 14px;
+    flex-shrink: 0;
+  }
+
+  .cv-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cv-info h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    margin-bottom: 3px;
+  }
+
+  .cv-profession {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-weight: 500;
+  }
+
+  .cv-card-meta {
+    padding: 10px 0;
+    margin-bottom: 14px;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .cv-date {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ===== ACTION BUTTONS - ICON + MINIMAL TEXT ===== */
+  .cv-card-actions {
+    gap: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .action-btn {
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    border-radius: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .action-btn:active {
+    transform: scale(0.96);
+  }
+
+  .action-btn.edit {
+    flex: 2;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.25);
+  }
+
+  .action-btn.edit span {
+    display: inline;
+  }
+
+  .action-btn.edit svg {
+    font-size: 0.9rem;
+  }
+
+  .action-btn.duplicate {
+    flex: 1;
+    background: #f1f5f9;
+    color: #475569;
+  }
+
+  .action-btn.duplicate:active {
+    background: #e2e8f0;
+  }
+
+  .action-btn.delete {
+    flex: 1;
+    background: #fef2f2;
+    color: #dc2626;
+  }
+
+  .action-btn.delete:active {
+    background: #fee2e2;
+  }
+
+  /* ===== DELETE MODAL - BOTTOM SHEET ===== */
+  .modal-overlay {
+    align-items: flex-end;
+  }
+
+  .delete-modal {
+    padding: 24px 20px 32px;
+    border-radius: 24px 24px 0 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .delete-modal h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .delete-modal p {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .cancel-btn {
+    width: 100%;
+    padding: 14px 24px;
+    border-radius: 14px;
+    font-weight: 600;
+    background: #f1f5f9;
+    border: none;
+  }
+
+  .confirm-btn {
+    width: 100%;
+    padding: 14px 24px;
+    border-radius: 14px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25);
+  }
+
+  /* ===== UPGRADE HINT - FLOATING PILL ===== */
+  .upgrade-hint {
+    bottom: 80px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: auto;
+    max-width: calc(100% - 32px);
+    padding: 10px 18px;
+    font-size: 0.75rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+    animation: floatUp 0.5s ease 0.2s both;
+  }
+}
+
+/* ========== EXTRA SMALL SCREENS ========== */
+@media (max-width: 360px) {
+  .dashboard-header {
+    padding: 12px 14px;
+  }
+
+  .header-left h1 {
+    font-size: 1.2rem;
+  }
+
+  .header-left p {
+    font-size: 0.75rem;
+  }
+
+  .membership-badge {
+    padding: 5px 10px;
+    font-size: 0.65rem;
+  }
+
+  .dashboard .logout-btn {
+    min-width: 36px;
+    height: 36px;
+    padding: 8px;
+  }
+
+  .dashboard-content {
+    padding: 14px 12px 90px;
+  }
+
+  .create-new-btn {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+  }
+
+  .cv-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .cv-icon {
+    font-size: 1.6rem;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .cv-info h3 {
+    font-size: 0.95rem;
+  }
+
+  .cv-profession {
+    font-size: 0.7rem;
+  }
+
+  .action-btn {
+    padding: 9px 12px;
+    font-size: 0.75rem;
+    border-radius: 10px;
+  }
+
+  .action-btn.edit {
+    padding: 10px 14px;
+  }
+
+  .empty-state {
+    padding: 50px 20px;
+  }
+
+  .empty-state h2 {
+    font-size: 1.1rem;
+  }
+
+  .delete-modal {
+    padding: 20px 16px 28px;
+  }
+}
+
+/* ========== ULTRA SMALL SCREENS ========== */
+@media (max-width: 320px) {
+  .header-left h1 {
+    font-size: 1.1rem;
+  }
+
+  .membership-badge span {
+    display: none;
+  }
+
+  .cv-card-actions {
+    flex-wrap: wrap;
+  }
+
+  .action-btn.edit {
+    flex: 1 1 100%;
+    order: -1;
+    margin-bottom: 6px;
+  }
+
+  .action-btn.duplicate,
+  .action-btn.delete {
+    flex: 1;
+  }
+
+  .create-new-btn {
+    padding: 12px 20px;
+    font-size: 0.85rem;
   }
 }

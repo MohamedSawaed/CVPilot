@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { getUserCVs, deleteCV, duplicateCV, getUserPaymentStatus } from '../services/cvService';
+import { getUserCVs, deleteCV, duplicateCV, getUserPaymentStatus, subscribeToUserCVs } from '../services/cvService';
 import {
   FaPlus,
   FaEdit,
@@ -95,41 +95,68 @@ const Dashboard = () => {
       return;
     }
 
-    // Load CVs and payment status in parallel for faster loading
-    const loadData = async () => {
-      try {
-        const [cvsResult, paymentResult] = await Promise.all([
-          getUserCVs(user.uid),
-          getUserPaymentStatus(user.uid)
-        ]);
+    let unsubscribe = null;
+    let isMounted = true;
 
-        if (!cvsResult.error) {
-          setCvs(cvsResult.cvs);
-        }
-        setHasPaid(paymentResult.hasPaid || false);
-      } catch (error) {
-        console.error('Error loading dashboard data:', error);
+    // INSTANT: Show cached data immediately (< 50ms)
+    const showCachedData = async () => {
+      const [cvsResult, paymentResult] = await Promise.all([
+        getUserCVs(user.uid), // Returns cached data instantly if available
+        getUserPaymentStatus(user.uid)
+      ]);
+
+      if (!isMounted) return;
+
+      if (!cvsResult.error) {
+        setCvs(cvsResult.cvs);
       }
-      setLoading(false);
+      setHasPaid(paymentResult.hasPaid || false);
+
+      // If data came from cache, stop loading immediately
+      if (cvsResult.fromCache) {
+        setLoading(false);
+      }
     };
 
-    loadData();
+    // Show cached data first (instant)
+    showCachedData();
+
+    // BACKGROUND: Subscribe to real-time updates (gets fresh data)
+    unsubscribe = subscribeToUserCVs(user.uid, (updatedCvs) => {
+      if (!isMounted) return;
+      setCvs(updatedCvs);
+      setLoading(false); // Stop loading once we have real data
+    });
+
+    // Fallback: Stop loading after 2 seconds max
+    const timeout = setTimeout(() => {
+      if (isMounted) setLoading(false);
+    }, 2000);
+
+    // Cleanup
+    return () => {
+      isMounted = false;
+      clearTimeout(timeout);
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [user]);
 
-  const loadCVs = async () => {
+  const loadCVs = useCallback(async () => {
     if (!user) return;
-    const { cvs: userCVs, error } = await getUserCVs(user.uid);
+    const { cvs: userCVs, error } = await getUserCVs(user.uid, true); // Force refresh
     if (!error) {
       setCvs(userCVs);
     }
-  };
+  }, [user]);
 
   const handleCreateNew = () => {
-    navigate('/create');
+    navigate('/builder');
   };
 
   const handleEdit = (cvId) => {
-    navigate(`/edit/${cvId}`);
+    navigate(`/builder/${cvId}`);
   };
 
   const handleDelete = async (cvId) => {
