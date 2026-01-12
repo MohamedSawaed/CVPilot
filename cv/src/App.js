@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
-import { LanguageProvider } from './context/LanguageContext';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import LanguageSelector from './components/LanguageSelector';
 import Dashboard from './pages/Dashboard';
@@ -11,6 +11,37 @@ import CVBuilderPro from './pages/CVBuilderPro';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import './App.css';
+
+// Elegant Language Selection Modal
+const LanguageSelectionModal = ({ onSelect }) => {
+  const languages = [
+    { code: 'en', name: 'English' },
+    { code: 'ar', name: 'العربية' },
+    { code: 'he', name: 'עברית' }
+  ];
+
+  return (
+    <div className="language-modal-overlay">
+      <div className="language-modal">
+        <div className="language-modal-header">
+          <h1>Welcome</h1>
+          <p>Select your preferred language</p>
+        </div>
+        <div className="language-modal-options">
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              className="language-modal-btn"
+              onClick={() => onSelect(lang.code)}
+            >
+              {lang.name}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -104,8 +135,26 @@ function EditCV() {
 }
 
 function AppContent() {
+  const { language, setLanguage } = useLanguage();
+  const [showLanguageModal, setShowLanguageModal] = useState(false);
+
+  useEffect(() => {
+    // Check if user has already selected a language
+    const savedLanguage = localStorage.getItem('cv-language');
+    if (!savedLanguage) {
+      setShowLanguageModal(true);
+    }
+  }, []);
+
+  const handleLanguageSelect = (langCode) => {
+    setLanguage(langCode);
+    localStorage.setItem('cv-language', langCode);
+    setShowLanguageModal(false);
+  };
+
   return (
     <>
+      {showLanguageModal && <LanguageSelectionModal onSelect={handleLanguageSelect} />}
       <LanguageSelector />
       <div className="App">
         <Routes>
