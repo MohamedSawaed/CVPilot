@@ -29,6 +29,14 @@ import {
   onSnapshot,
   enableIndexedDbPersistence
 } from 'firebase/firestore';
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+  listAll
+} from 'firebase/storage';
 
 // Firebase configuration
 // IMPORTANT: Replace these placeholder values with your actual Firebase config
@@ -49,6 +57,9 @@ export const auth = getAuth(app);
 
 // Initialize Firestore
 export const db = getFirestore(app);
+
+// Initialize Firebase Storage
+export const storage = getStorage(app);
 
 // Enable offline persistence for faster loading
 enableIndexedDbPersistence(db).catch((err) => {
@@ -139,6 +150,12 @@ export {
   where,
   orderBy,
   serverTimestamp,
-  onSnapshot
+  onSnapshot,
+  // Storage exports
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+  listAll
 };
 export default app;

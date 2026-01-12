@@ -566,8 +566,8 @@ const CVBuilderPro = () => {
       await setUserPaid(user.uid);
       setHasPaid(true);
       setShowPaymentModal(false);
-      // Now download the PDF
-      await generatePDFFromServer(cvData, templateStyle, sections.map(s => s.id), language);
+      // Now download the PDF and save to Firebase Storage
+      await generatePDFFromServer(cvData, templateStyle, sections.map(s => s.id), language, user.uid, currentCvId);
     } catch (error) {
       console.error('Payment error:', error);
     }
@@ -582,7 +582,8 @@ const CVBuilderPro = () => {
     }
 
     try {
-      await generatePDFFromServer(cvData, templateStyle, sections.map(s => s.id), language);
+      // Generate PDF and save to Firebase Storage
+      await generatePDFFromServer(cvData, templateStyle, sections.map(s => s.id), language, user.uid, currentCvId);
     } catch (error) {
       console.error('PDF generation error:', error);
     }

@@ -1,6 +1,7 @@
 // CV Management Service - Firestore CRUD operations with caching & real-time
 import {
   db,
+  storage,
   collection,
   doc,
   addDoc,
@@ -11,11 +12,16 @@ import {
   query,
   where,
   serverTimestamp,
-  onSnapshot
+  onSnapshot,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject
 } from '../config/firebase';
 
 const CV_COLLECTION = 'cvs';
 const USERS_COLLECTION = 'users';
+const PDF_FOLDER = 'pdfs';
 
 // ==================== Persistent Cache (localStorage + Memory) ====================
 const STORAGE_KEY = 'cv_app_cache';
@@ -456,5 +462,92 @@ export const duplicateCV = async (userId, cvId) => {
   } catch (error) {
     console.error('Error duplicating CV:', error);
     return { id: null, error: error.message };
+  }
+};
+
+// ==================== PDF Storage Operations ====================
+
+// Upload PDF to Firebase Storage
+export const uploadPDF = async (userId, cvId, pdfBlob, fileName) => {
+  try {
+    if (!userId || !cvId || !pdfBlob) {
+      console.error('uploadPDF: userId, cvId, and pdfBlob are required');
+      return { url: null, error: 'Missing required parameters' };
+    }
+
+    // Create a reference to the PDF file
+    // Path: pdfs/{userId}/{cvId}/{fileName}
+    const pdfRef = ref(storage, `${PDF_FOLDER}/${userId}/${cvId}/${fileName}`);
+
+    // Upload the PDF blob
+    const snapshot = await uploadBytes(pdfRef, pdfBlob, {
+      contentType: 'application/pdf'
+    });
+
+    // Get the download URL
+    const downloadURL = await getDownloadURL(snapshot.ref);
+
+    // Update the CV document with the PDF URL
+    const cvRef = doc(db, CV_COLLECTION, cvId);
+    await updateDoc(cvRef, {
+      lastPdfUrl: downloadURL,
+      lastPdfName: fileName,
+      lastPdfGeneratedAt: serverTimestamp()
+    });
+
+    console.log('PDF uploaded successfully:', downloadURL);
+    return { url: downloadURL, error: null };
+  } catch (error) {
+    console.error('Error uploading PDF:', error);
+    return { url: null, error: error.message };
+  }
+};
+
+// Get PDF download URL for a CV
+export const getPDFUrl = async (cvId) => {
+  try {
+    if (!cvId) {
+      return { url: null, error: 'CV ID is required' };
+    }
+
+    const { cv, error } = await getCV(cvId);
+    if (error || !cv) {
+      return { url: null, error: error || 'CV not found' };
+    }
+
+    return {
+      url: cv.lastPdfUrl || null,
+      fileName: cv.lastPdfName || null,
+      generatedAt: cv.lastPdfGeneratedAt || null,
+      error: null
+    };
+  } catch (error) {
+    console.error('Error getting PDF URL:', error);
+    return { url: null, error: error.message };
+  }
+};
+
+// Delete PDF from Firebase Storage
+export const deletePDF = async (userId, cvId, fileName) => {
+  try {
+    if (!userId || !cvId || !fileName) {
+      return { error: 'Missing required parameters' };
+    }
+
+    const pdfRef = ref(storage, `${PDF_FOLDER}/${userId}/${cvId}/${fileName}`);
+    await deleteObject(pdfRef);
+
+    // Remove PDF reference from CV document
+    const cvRef = doc(db, CV_COLLECTION, cvId);
+    await updateDoc(cvRef, {
+      lastPdfUrl: null,
+      lastPdfName: null,
+      lastPdfGeneratedAt: null
+    });
+
+    return { error: null };
+  } catch (error) {
+    console.error('Error deleting PDF:', error);
+    return { error: error.message };
   }
 };

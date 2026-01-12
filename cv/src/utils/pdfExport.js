@@ -2,11 +2,14 @@
 // 1. Local Puppeteer server (best quality, requires running server)
 // 2. Browser print dialog (works everywhere, user must "Save as PDF")
 
+import { uploadPDF } from '../services/cvService';
+
 const PDF_SERVER_URL = 'http://localhost:3001';
 const SERVER_TIMEOUT = 30000; // 30 second timeout for PDF generation
 
 // Main PDF generation function - calls Puppeteer server for direct PDF download
-export const generatePDFFromServer = async (cvData, templateStyle = 'modern', sections = [], language = null) => {
+// Optional: pass userId and cvId to save PDF to Firebase Storage
+export const generatePDFFromServer = async (cvData, templateStyle = 'modern', sections = [], language = null, userId = null, cvId = null) => {
   // Validate required parameters
   if (!cvData) {
     console.error('generatePDFFromServer: cvData is required');
@@ -75,18 +78,33 @@ export const generatePDFFromServer = async (cvData, templateStyle = 'modern', se
 
       // Get the PDF blob
       const pdfBlob = await response.blob();
+      const fileName = `${cvData.personalInfo?.fullName || 'CV'}_${templateStyle}.pdf`;
 
       // Create download link
       const downloadUrl = URL.createObjectURL(pdfBlob);
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.download = `${cvData.personalInfo?.fullName || 'CV'}_${templateStyle}.pdf`;
+      link.download = fileName;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
       // Clean up
       URL.revokeObjectURL(downloadUrl);
+
+      // Upload to Firebase Storage if userId and cvId are provided
+      if (userId && cvId) {
+        try {
+          const { url, error } = await uploadPDF(userId, cvId, pdfBlob, fileName);
+          if (error) {
+            console.warn('PDF generated but failed to upload to storage:', error);
+          } else {
+            console.log('PDF saved to Firebase Storage:', url);
+          }
+        } catch (uploadError) {
+          console.warn('PDF upload error:', uploadError);
+        }
+      }
 
       // Remove loading overlay
       if (loadingOverlay.parentNode) {
