@@ -68,7 +68,7 @@ const Login = () => {
 
     setIsLoading(false);
     if (success) {
-      navigate('/');
+      navigate('/dashboard');
     }
   };
 
@@ -80,7 +80,7 @@ const Login = () => {
 
     setIsLoading(false);
     if (success) {
-      navigate('/');
+      navigate('/dashboard');
     }
   };
 

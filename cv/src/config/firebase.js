@@ -49,6 +49,15 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID || "YOUR_APP_ID"
 };
 
+// Debug: Log Firebase config (safe values only) to verify env vars are loaded
+console.log('Firebase Config Check:', {
+  hasApiKey: !!firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY",
+  authDomain: firebaseConfig.authDomain,
+  projectId: firebaseConfig.projectId,
+  storageBucket: firebaseConfig.storageBucket,
+  hasAppId: !!firebaseConfig.appId && firebaseConfig.appId !== "YOUR_APP_ID"
+});
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 

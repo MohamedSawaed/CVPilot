@@ -94,7 +94,7 @@ const Register = () => {
 
     setIsLoading(false);
     if (success) {
-      navigate('/');
+      navigate('/dashboard');
     }
   };
 
@@ -107,7 +107,7 @@ const Register = () => {
 
     setIsLoading(false);
     if (success) {
-      navigate('/');
+      navigate('/dashboard');
     }
   };
 

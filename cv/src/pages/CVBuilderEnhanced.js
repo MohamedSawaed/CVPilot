@@ -73,7 +73,7 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
   };
 
   const handleGoHome = () => {
-    navigate('/');
+    navigate('/dashboard');
   };
 
   // Helper function to get translated section title
@@ -234,7 +234,7 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
           setCurrentCvId(cv.id);
         } else {
           // CV not found, redirect to dashboard
-          navigate('/');
+          navigate('/dashboard');
         }
         setLoadingCV(false);
       } else if (profession) {
@@ -554,7 +554,7 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
       if (onStartOver) {
         onStartOver();
       } else {
-        navigate('/');
+        navigate('/dashboard');
       }
     }
   };

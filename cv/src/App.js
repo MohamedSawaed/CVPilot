@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'rea
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import LanguageSelector from './components/LanguageSelector';
+import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import TemplateSelection from './pages/TemplateSelection';
 import Questionnaire from './pages/Questionnaire';
@@ -75,7 +76,7 @@ const PublicRoute = ({ children }) => {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   return children;
@@ -158,6 +159,9 @@ function AppContent() {
       <LanguageSelector />
       <div className="App">
         <Routes>
+          {/* Landing Page - Public home */}
+          <Route path="/" element={<LandingPage />} />
+
           {/* Public Routes */}
           <Route
             path="/login"
@@ -177,9 +181,9 @@ function AppContent() {
           />
 
           {/* Protected Routes */}
-          {/* Dashboard - Main page showing all CVs */}
+          {/* Dashboard - User's CVs */}
           <Route
-            path="/"
+            path="/dashboard"
             element={
               <ProtectedRoute>
                 <Dashboard />
