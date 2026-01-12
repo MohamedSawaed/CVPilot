@@ -43,6 +43,8 @@ const CVBuilderPro = () => {
   const saveTimerRef = useRef(null);
   const [saveStatus, setSaveStatus] = useState('saved');
   const [currentCvId, setCurrentCvId] = useState(cvId || null);
+  const isSavingRef = useRef(false); // Prevent duplicate saves
+  const isInitializedRef = useRef(false); // Track if data has been modified
 
   // Mobile preview modal
   const [showMobilePreview, setShowMobilePreview] = useState(false);
@@ -343,36 +345,84 @@ const CVBuilderPro = () => {
   };
 
   // Auto-save functionality
-  const autoSave = useCallback(async () => {
+  const autoSave = useCallback(async (dataToSave, cvIdToUse) => {
     if (!user) return;
 
+    // Prevent duplicate saves
+    if (isSavingRef.current) {
+      console.log('Save already in progress, skipping...');
+      return;
+    }
+
+    isSavingRef.current = true;
     setSaveStatus('saving');
 
     try {
-      if (currentCvId) {
-        await updateCV(currentCvId, cvData);
+      if (cvIdToUse) {
+        // Update existing CV
+        const { error } = await updateCV(cvIdToUse, dataToSave);
+        if (error) {
+          console.error('Update error:', error);
+          setSaveStatus('error');
+        } else {
+          setSaveStatus('saved');
+        }
       } else {
-        const { id, error } = await createCV(user.uid, cvData, null);
+        // Create new CV only if there's meaningful data
+        const hasData = dataToSave.personalInfo?.fullName ||
+                       dataToSave.personalInfo?.email ||
+                       dataToSave.summary ||
+                       dataToSave.experience?.length > 0 ||
+                       dataToSave.education?.length > 0 ||
+                       dataToSave.skills?.length > 0;
+
+        if (!hasData) {
+          console.log('No meaningful data to save yet');
+          setSaveStatus('saved');
+          isSavingRef.current = false;
+          return;
+        }
+
+        const { id, error } = await createCV(user.uid, dataToSave, null);
         if (!error && id) {
           setCurrentCvId(id);
+          setSaveStatus('saved');
+        } else {
+          console.error('Create error:', error);
+          setSaveStatus('error');
         }
       }
-      setSaveStatus('saved');
     } catch (error) {
       console.error('Auto-save error:', error);
       setSaveStatus('error');
+    } finally {
+      isSavingRef.current = false;
     }
-  }, [user, currentCvId, cvData]);
+  }, [user]);
 
   // Debounced auto-save on data change
   useEffect(() => {
+    // Skip auto-save on initial mount - wait for user to make changes
+    if (!isInitializedRef.current) {
+      // If editing an existing CV, mark as initialized after loading
+      if (cvId) {
+        isInitializedRef.current = true;
+      }
+      return;
+    }
+
     if (saveTimerRef.current) {
       clearTimeout(saveTimerRef.current);
     }
 
     setSaveStatus('saving');
+
+    // Capture current values for the save
+    const dataSnapshot = JSON.parse(JSON.stringify(cvData));
+    const idSnapshot = currentCvId;
+
     saveTimerRef.current = setTimeout(() => {
-      autoSave();
+      autoSave(dataSnapshot, idSnapshot);
     }, 2000);
 
     return () => {
@@ -380,10 +430,18 @@ const CVBuilderPro = () => {
         clearTimeout(saveTimerRef.current);
       }
     };
-  }, [cvData, autoSave]);
+  }, [cvData, currentCvId, cvId, autoSave]);
+
+  // Mark as initialized when user starts editing
+  const markInitialized = useCallback(() => {
+    if (!isInitializedRef.current) {
+      isInitializedRef.current = true;
+    }
+  }, []);
 
   // Update personal info
   const updatePersonalInfo = (field, value) => {
+    markInitialized();
     setCvData(prev => ({
       ...prev,
       personalInfo: { ...prev.personalInfo, [field]: value }
@@ -392,11 +450,13 @@ const CVBuilderPro = () => {
 
   // Update summary
   const updateSummary = (value) => {
+    markInitialized();
     setCvData(prev => ({ ...prev, summary: value }));
   };
 
   // Add entry to array sections
   const addEntry = (section, entry) => {
+    markInitialized();
     setCvData(prev => ({
       ...prev,
       [section]: [...prev[section], { ...entry, id: Date.now() }]
@@ -405,6 +465,7 @@ const CVBuilderPro = () => {
 
   // Update entry in array sections
   const updateEntry = (section, id, field, value) => {
+    markInitialized();
     setCvData(prev => ({
       ...prev,
       [section]: prev[section].map(item =>
@@ -415,6 +476,7 @@ const CVBuilderPro = () => {
 
   // Delete entry from array sections
   const deleteEntry = (section, id) => {
+    markInitialized();
     setCvData(prev => ({
       ...prev,
       [section]: prev[section].filter(item => item.id !== id)
@@ -425,6 +487,7 @@ const CVBuilderPro = () => {
   const [newSkill, setNewSkill] = useState('');
   const addSkill = () => {
     if (newSkill.trim()) {
+      markInitialized();
       setCvData(prev => ({
         ...prev,
         skills: [...prev.skills, newSkill.trim()]
@@ -435,6 +498,7 @@ const CVBuilderPro = () => {
 
   // Remove skill
   const removeSkill = (index) => {
+    markInitialized();
     setCvData(prev => ({
       ...prev,
       skills: prev.skills.filter((_, i) => i !== index)
