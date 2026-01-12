@@ -94,16 +94,19 @@ export const generatePDFFromServer = async (cvData, templateStyle = 'modern', se
 
       // Upload to Firebase Storage if userId and cvId are provided
       if (userId && cvId) {
+        console.log('Attempting to upload PDF to Firebase Storage...', { userId, cvId, fileName });
         try {
           const { url, error } = await uploadPDF(userId, cvId, pdfBlob, fileName);
           if (error) {
-            console.warn('PDF generated but failed to upload to storage:', error);
+            console.error('PDF generated but failed to upload to storage:', error);
           } else {
             console.log('PDF saved to Firebase Storage:', url);
           }
         } catch (uploadError) {
-          console.warn('PDF upload error:', uploadError);
+          console.error('PDF upload error:', uploadError);
         }
+      } else {
+        console.log('Skipping PDF upload - missing userId or cvId:', { userId, cvId });
       }
 
       // Remove loading overlay
