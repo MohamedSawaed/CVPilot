@@ -478,13 +478,80 @@ const LandingPage = () => {
   };
 
   const templatePreviews = [
-    { name: 'Elegant', color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', style: 'elegant' },
-    { name: 'Executive', color: 'linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%)', style: 'executive' },
-    { name: 'Minimal', color: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)', style: 'minimal', dark: true },
-    { name: 'Tech', color: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', style: 'tech' },
-    { name: 'Luxe', color: 'linear-gradient(135deg, #1a1a1a 0%, #333333 100%)', style: 'luxe' },
-    { name: 'Azure', color: 'linear-gradient(135deg, #0077b6 0%, #00b4d8 100%)', style: 'azure' }
+    {
+      name: 'Elegant',
+      nameAr: 'أنيق',
+      nameHe: 'אלגנטי',
+      color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      accentColor: '#667eea',
+      style: 'elegant',
+      popular: true
+    },
+    {
+      name: 'Executive',
+      nameAr: 'تنفيذي',
+      nameHe: 'מנהלים',
+      color: 'linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%)',
+      accentColor: '#d4af37',
+      style: 'executive'
+    },
+    {
+      name: 'Minimal',
+      nameAr: 'بسيط',
+      nameHe: 'מינימלי',
+      color: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
+      accentColor: '#333333',
+      style: 'minimal',
+      dark: true
+    },
+    {
+      name: 'Tech',
+      nameAr: 'تقني',
+      nameHe: 'טכנולוגי',
+      color: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+      accentColor: '#22d3ee',
+      style: 'tech',
+      popular: true
+    },
+    {
+      name: 'Luxe',
+      nameAr: 'فاخر',
+      nameHe: 'יוקרתי',
+      color: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+      accentColor: '#d4af37',
+      style: 'luxe'
+    },
+    {
+      name: 'Azure',
+      nameAr: 'أزرق سماوي',
+      nameHe: 'תכלת',
+      color: 'linear-gradient(135deg, #0077b6 0%, #00b4d8 100%)',
+      accentColor: '#00b4d8',
+      style: 'azure'
+    },
+    {
+      name: 'Creative',
+      nameAr: 'إبداعي',
+      nameHe: 'יצירתי',
+      color: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)',
+      accentColor: '#ec4899',
+      style: 'creative'
+    },
+    {
+      name: 'Professional',
+      nameAr: 'احترافي',
+      nameHe: 'מקצועי',
+      color: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+      accentColor: '#10b981',
+      style: 'professional'
+    }
   ];
+
+  const getTemplateName = (template) => {
+    if (language === 'ar') return template.nameAr;
+    if (language === 'he') return template.nameHe;
+    return template.name;
+  };
 
   return (
     <div className={`landing-page ${isRTL ? 'rtl' : 'ltr'}`}>
@@ -721,6 +788,10 @@ const LandingPage = () => {
 
       {/* Templates Section */}
       <section id="templates" className="templates-section">
+        <div className="templates-bg-elements">
+          <div className="templates-bg-circle templates-bg-circle-1"></div>
+          <div className="templates-bg-circle templates-bg-circle-2"></div>
+        </div>
         <div className="templates-container">
           <div className="section-header">
             <h2>{t.templates.title} <span className="highlight">{t.templates.titleHighlight}</span></h2>
@@ -729,18 +800,83 @@ const LandingPage = () => {
 
           <div className="templates-showcase">
             {templatePreviews.map((template, index) => (
-              <div key={index} className={`template-card ${template.dark ? 'dark-text' : ''}`}>
-                <div className="template-preview" style={{ background: template.color }}>
-                  <div className="template-content">
-                    <div className="template-header-bar"></div>
-                    <div className="template-lines">
-                      <div className="t-line t-line-long"></div>
-                      <div className="t-line t-line-medium"></div>
-                      <div className="t-line t-line-short"></div>
+              <div
+                key={index}
+                className={`template-card ${template.dark ? 'dark-text' : ''} ${template.popular ? 'popular' : ''}`}
+                style={{ '--delay': `${index * 0.1}s`, '--accent': template.accentColor }}
+              >
+                {template.popular && (
+                  <div className="template-popular-badge">
+                    <FiStar /> {language === 'ar' ? 'شائع' : language === 'he' ? 'פופולרי' : 'Popular'}
+                  </div>
+                )}
+                <div className="template-preview-wrapper">
+                  <div className="template-preview" style={{ background: template.color }}>
+                    {/* Realistic CV Layout */}
+                    <div className="template-cv">
+                      {/* Header Section */}
+                      <div className="tcv-header" style={{ borderColor: template.accentColor }}>
+                        <div className="tcv-avatar" style={{ background: template.accentColor }}></div>
+                        <div className="tcv-info">
+                          <div className="tcv-name"></div>
+                          <div className="tcv-title"></div>
+                          <div className="tcv-contact">
+                            <span></span>
+                            <span></span>
+                          </div>
+                        </div>
+                      </div>
+                      {/* Content Sections */}
+                      <div className="tcv-body">
+                        <div className="tcv-section">
+                          <div className="tcv-section-title" style={{ background: template.accentColor }}></div>
+                          <div className="tcv-lines">
+                            <div className="tcv-line tcv-line-full"></div>
+                            <div className="tcv-line tcv-line-80"></div>
+                            <div className="tcv-line tcv-line-60"></div>
+                          </div>
+                        </div>
+                        <div className="tcv-section">
+                          <div className="tcv-section-title" style={{ background: template.accentColor }}></div>
+                          <div className="tcv-experience">
+                            <div className="tcv-exp-item">
+                              <div className="tcv-exp-dot" style={{ background: template.accentColor }}></div>
+                              <div className="tcv-exp-content">
+                                <div className="tcv-line tcv-line-70"></div>
+                                <div className="tcv-line tcv-line-50"></div>
+                              </div>
+                            </div>
+                            <div className="tcv-exp-item">
+                              <div className="tcv-exp-dot" style={{ background: template.accentColor }}></div>
+                              <div className="tcv-exp-content">
+                                <div className="tcv-line tcv-line-60"></div>
+                                <div className="tcv-line tcv-line-40"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tcv-section">
+                          <div className="tcv-section-title" style={{ background: template.accentColor }}></div>
+                          <div className="tcv-skills">
+                            <div className="tcv-skill" style={{ background: template.accentColor }}></div>
+                            <div className="tcv-skill" style={{ background: template.accentColor }}></div>
+                            <div className="tcv-skill" style={{ background: template.accentColor }}></div>
+                            <div className="tcv-skill" style={{ background: template.accentColor }}></div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  <div className="template-hover-overlay">
+                    <button className="template-use-btn" onClick={() => navigate('/register')}>
+                      {language === 'ar' ? 'استخدم القالب' : language === 'he' ? 'השתמש בתבנית' : 'Use Template'}
+                    </button>
+                  </div>
                 </div>
-                <div className="template-name">{template.name}</div>
+                <div className="template-info">
+                  <div className="template-name">{getTemplateName(template)}</div>
+                  <div className="template-style">{template.style}</div>
+                </div>
               </div>
             ))}
           </div>

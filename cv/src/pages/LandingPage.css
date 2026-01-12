@@ -770,92 +770,374 @@
 
 .templates-section {
   padding: 120px 40px;
-  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+  background: linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.templates-section .section-header h2 {
+  color: white;
+}
+
+.templates-section .section-header p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.templates-section .section-header .highlight {
+  background: linear-gradient(135deg, #667eea 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Background Elements */
+.templates-bg-elements {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.templates-bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.3;
+}
+
+.templates-bg-circle-1 {
+  width: 600px;
+  height: 600px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  top: -200px;
+  left: -200px;
+  animation: floatBg 15s ease-in-out infinite;
+}
+
+.templates-bg-circle-2 {
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, #ec4899, #8b5cf6);
+  bottom: -150px;
+  right: -150px;
+  animation: floatBg 20s ease-in-out infinite reverse;
+}
+
+@keyframes floatBg {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(50px, 30px) scale(1.1); }
 }
 
 .templates-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .templates-showcase {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 25px;
-  margin-bottom: 50px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  margin-bottom: 60px;
 }
 
+/* Template Card */
 .template-card {
-  cursor: pointer;
-  transition: transform 0.3s ease;
+  position: relative;
+  animation: fadeInUp 0.6s ease backwards;
+  animation-delay: var(--delay);
 }
 
-.template-card:hover {
-  transform: translateY(-10px);
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Popular Badge */
+.template-popular-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #1a1a2e;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 10;
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.template-popular-badge svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+
+/* Template Preview Wrapper */
+.template-preview-wrapper {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.template-card:hover .template-preview-wrapper {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 0 40px rgba(var(--accent-rgb), 0.3);
 }
 
 .template-preview {
   aspect-ratio: 3/4;
-  border-radius: 16px;
-  padding: 20px;
+  padding: 12px;
   position: relative;
-  overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.template-content {
-  background: rgba(255, 255, 255, 0.95);
+/* Realistic CV Template Layout */
+.template-cv {
+  background: white;
   border-radius: 8px;
   height: 100%;
-  padding: 15px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.template-header-bar {
-  height: 30px;
-  background: linear-gradient(90deg, #e2e8f0 60%, transparent 60%);
-  border-radius: 4px;
-  margin-bottom: 15px;
+.dark-text .template-cv {
+  background: rgba(255, 255, 255, 0.95);
 }
 
-.template-lines {
+/* CV Header */
+.tcv-header {
+  display: flex;
+  gap: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid;
+  border-color: inherit;
+}
+
+.tcv-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.tcv-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tcv-name {
+  height: 10px;
+  width: 70%;
+  background: #1a1a2e;
+  border-radius: 3px;
+}
+
+.tcv-title {
+  height: 6px;
+  width: 50%;
+  background: #94a3b8;
+  border-radius: 2px;
+}
+
+.tcv-contact {
+  display: flex;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.tcv-contact span {
+  height: 4px;
+  width: 30px;
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+/* CV Body */
+.tcv-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tcv-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tcv-section-title {
+  height: 6px;
+  width: 40%;
+  border-radius: 3px;
+  opacity: 0.8;
+}
+
+.tcv-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tcv-line {
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+}
+
+.tcv-line-full { width: 100%; }
+.tcv-line-80 { width: 80%; }
+.tcv-line-70 { width: 70%; }
+.tcv-line-60 { width: 60%; }
+.tcv-line-50 { width: 50%; }
+.tcv-line-40 { width: 40%; }
+
+/* Experience Section */
+.tcv-experience {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.t-line {
-  height: 8px;
-  background: #e2e8f0;
-  border-radius: 4px;
+.tcv-exp-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
 }
 
-.t-line-long { width: 100%; }
-.t-line-medium { width: 70%; }
-.t-line-short { width: 40%; }
+.tcv-exp-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+  opacity: 0.8;
+}
+
+.tcv-exp-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Skills Section */
+.tcv-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tcv-skill {
+  height: 12px;
+  width: 35px;
+  border-radius: 6px;
+  opacity: 0.7;
+}
+
+.tcv-skill:nth-child(2) { width: 45px; }
+.tcv-skill:nth-child(3) { width: 30px; }
+.tcv-skill:nth-child(4) { width: 40px; }
+
+/* Hover Overlay */
+.template-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.template-card:hover .template-hover-overlay {
+  opacity: 1;
+}
+
+.template-use-btn {
+  background: white;
+  color: #1a1a2e;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.template-card:hover .template-use-btn {
+  transform: translateY(0);
+}
+
+.template-use-btn:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* Template Info */
+.template-info {
+  text-align: center;
+  padding: 16px 8px 8px;
+}
 
 .template-name {
-  text-align: center;
-  font-weight: 600;
-  color: #1a1a2e;
-  margin-top: 15px;
-  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 4px;
 }
 
-.dark-text .template-content {
-  background: rgba(255, 255, 255, 0.1);
+.template-style {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: capitalize;
 }
 
+/* Templates CTA Button */
 .templates-cta {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   margin: 0 auto;
-  background: none;
-  border: 2px solid #667eea;
-  color: #667eea;
-  padding: 16px 40px;
-  border-radius: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  padding: 18px 48px;
+  border-radius: 14px;
   font-weight: 600;
   font-size: 16px;
   cursor: pointer;
@@ -1445,34 +1727,122 @@
     gap: 16px;
   }
 
-  .template-preview {
-    border-radius: 12px;
-    padding: 12px;
+  .template-preview-wrapper {
+    border-radius: 14px;
   }
 
-  .template-content {
+  .template-card:hover .template-preview-wrapper {
+    transform: translateY(-8px) scale(1.01);
+  }
+
+  .template-preview {
+    border-radius: 12px;
     padding: 10px;
+    aspect-ratio: 3/4;
+  }
+
+  .template-cv {
+    padding: 12px;
     border-radius: 6px;
   }
 
-  .template-header-bar {
-    height: 20px;
+  .tcv-header {
+    gap: 8px;
+    padding-bottom: 10px;
     margin-bottom: 10px;
   }
 
-  .t-line {
-    height: 6px;
+  .tcv-avatar {
+    width: 30px;
+    height: 30px;
+  }
+
+  .tcv-name {
+    height: 8px;
+  }
+
+  .tcv-title {
+    height: 5px;
+  }
+
+  .tcv-contact span {
+    height: 3px;
+    width: 22px;
+  }
+
+  .tcv-section-title {
+    height: 5px;
+  }
+
+  .tcv-line {
+    height: 3px;
+  }
+
+  .tcv-exp-dot {
+    width: 4px;
+    height: 4px;
+  }
+
+  .tcv-skill {
+    height: 10px;
+    width: 28px;
+  }
+
+  .tcv-skill:nth-child(2) { width: 35px; }
+  .tcv-skill:nth-child(3) { width: 22px; }
+  .tcv-skill:nth-child(4) { width: 30px; }
+
+  .template-popular-badge {
+    top: -8px;
+    padding: 4px 10px;
+    font-size: 9px;
+  }
+
+  .template-popular-badge svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .template-hover-overlay {
+    padding: 14px;
+  }
+
+  .template-use-btn {
+    padding: 10px 18px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+
+  .template-info {
+    padding: 12px 6px 6px;
   }
 
   .template-name {
-    font-size: 12px;
-    margin-top: 10px;
+    font-size: 13px;
+  }
+
+  .template-style {
+    font-size: 10px;
   }
 
   .templates-cta {
     width: 100%;
     padding: 14px 24px;
     font-size: 15px;
+  }
+
+  .templates-bg-circle-1 {
+    width: 350px;
+    height: 350px;
+    top: -100px;
+    left: -100px;
+  }
+
+  .templates-bg-circle-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -100px;
+    right: -100px;
   }
 
   /* Testimonials Mobile */
@@ -1672,8 +2042,60 @@
     padding: 8px;
   }
 
+  .template-cv {
+    padding: 10px;
+  }
+
+  .tcv-avatar {
+    width: 26px;
+    height: 26px;
+  }
+
+  .tcv-name {
+    height: 7px;
+  }
+
+  .tcv-title {
+    height: 4px;
+  }
+
+  .tcv-section-title {
+    height: 4px;
+  }
+
+  .tcv-line {
+    height: 3px;
+  }
+
+  .tcv-skill {
+    height: 8px;
+    width: 24px;
+  }
+
+  .tcv-skill:nth-child(2) { width: 30px; }
+  .tcv-skill:nth-child(3) { width: 18px; }
+  .tcv-skill:nth-child(4) { width: 26px; }
+
+  .template-popular-badge {
+    padding: 3px 8px;
+    font-size: 8px;
+  }
+
+  .template-hover-overlay {
+    padding: 10px;
+  }
+
+  .template-use-btn {
+    padding: 8px 14px;
+    font-size: 10px;
+  }
+
   .template-name {
     font-size: 11px;
+  }
+
+  .template-style {
+    font-size: 9px;
   }
 
   .cta-section h2 {
