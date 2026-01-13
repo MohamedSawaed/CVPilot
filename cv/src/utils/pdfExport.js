@@ -183,14 +183,21 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
   const info = cvData.personalInfo || {};
   const colors = getTemplateColors(templateStyle);
 
+  // Determine header styles based on template
+  const headerBorderStyle = colors.headerBorder ? `border-bottom: ${colors.headerBorder};` : '';
+  const headerLeftBorder = templateStyle === 'minimal' ? `border-left: ${colors.headerBorder};` : '';
+  const nameColor = colors.nameColor || colors.headerText;
+  const textAlign = ['classic', 'minimal'].includes(templateStyle) ? 'text-align: left;' : (isRTL ? 'text-align: right;' : 'text-align: center;');
+  const fontFamily = colors.fontFamily || 'inherit';
+
   let html = `
     <div style="padding: 40px; color: #1a1a1a; line-height: 1.6;">
       <!-- Header -->
-      <div style="background: ${colors.headerBg}; color: ${colors.headerText}; padding: 30px; margin: -40px -40px 30px -40px; ${isRTL ? 'text-align: right;' : ''}">
-        <h1 style="font-size: 28px; font-weight: 700; margin: 0 0 10px 0;">${escapeHtml(info.fullName) || (isRTL ? 'اسمك' : 'Your Name')}</h1>
-        <div style="font-size: 13px; opacity: 0.9;">
-          ${info.email ? `<span style="margin-${isRTL ? 'left' : 'right'}: 20px;">${escapeHtml(info.email)}</span>` : ''}
-          ${info.phone ? `<span style="margin-${isRTL ? 'left' : 'right'}: 20px;">${escapeHtml(info.phone)}</span>` : ''}
+      <div style="background: ${colors.headerBg}; color: ${colors.headerText}; padding: 30px; margin: -40px -40px 30px -40px; ${headerBorderStyle} ${headerLeftBorder} ${textAlign}">
+        <h1 style="font-size: 28px; font-weight: 700; margin: 0 0 10px 0; color: ${nameColor}; font-family: ${fontFamily};">${escapeHtml(info.fullName) || (isRTL ? 'اسمك' : 'Your Name')}</h1>
+        <div style="font-size: 13px; opacity: 0.9; ${['classic', 'minimal'].includes(templateStyle) ? '' : 'display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;'}">
+          ${info.email ? `<span style="margin-${isRTL ? 'left' : 'right'}: ${['classic', 'minimal'].includes(templateStyle) ? '20px' : '0'};">${escapeHtml(info.email)}</span>` : ''}
+          ${info.phone ? `<span style="margin-${isRTL ? 'left' : 'right'}: ${['classic', 'minimal'].includes(templateStyle) ? '20px' : '0'};">${escapeHtml(info.phone)}</span>` : ''}
           ${info.location ? `<span>${escapeHtml(info.location)}</span>` : ''}
         </div>
         ${(info.linkedin || info.website) ? `
@@ -318,22 +325,28 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
   return html;
 };
 
-// Get template colors
+// Get template colors - matches CVBuilderPro.css template styles
 const getTemplateColors = (templateStyle) => {
   const templates = {
-    modern: { headerBg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', headerText: 'white', accent: '#667eea' },
-    elegant: { headerBg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', headerText: 'white', accent: '#667eea' },
-    classic: { headerBg: '#1a1a1a', headerText: 'white', accent: '#1a1a1a' },
-    ats: { headerBg: '#f8f9fa', headerText: '#1a1a1a', accent: '#333333' },
-    creative: { headerBg: 'linear-gradient(180deg, #1a1a2e, #16213e)', headerText: 'white', accent: '#667eea' },
-    bold: { headerBg: '#0d9488', headerText: 'white', accent: '#0d9488' },
-    executive: { headerBg: '#1e3a5f', headerText: '#d4af37', accent: '#1e3a5f' },
-    minimal: { headerBg: '#ffffff', headerText: '#1a1a1a', accent: '#333333' },
-    tech: { headerBg: '#0f172a', headerText: '#22d3ee', accent: '#22d3ee' },
-    luxe: { headerBg: '#1a1a1a', headerText: '#d4af37', accent: '#d4af37' },
-    azure: { headerBg: 'linear-gradient(135deg, #0077b6, #00b4d8)', headerText: 'white', accent: '#0077b6' },
-    noir: { headerBg: '#1a1a1a', headerText: '#c0c0c0', accent: '#c0c0c0' },
-    coral: { headerBg: '#f8b4b4', headerText: '#7c2d12', accent: '#dc2626' }
+    // Popular templates
+    modern: { headerBg: '#1a1a1a', headerText: '#ffffff', accent: '#1a1a1a', skillBg: '#1a1a1a', skillText: '#ffffff' },
+    classic: { headerBg: '#ffffff', headerText: '#000000', accent: '#000000', skillBg: '#f0f0f0', skillText: '#000000', headerBorder: '3px solid #000' },
+    bold: { headerBg: '#000000', headerText: '#ffffff', accent: '#000000', skillBg: '#000000', skillText: '#ffffff' },
+    minimal: { headerBg: '#fafafa', headerText: '#000000', accent: '#000000', skillBg: 'transparent', skillText: '#000000', skillBorder: '2px solid #000', headerBorder: '6px solid #000' },
+
+    // Premium templates
+    elegant: { headerBg: '#2d2d2d', headerText: '#ffffff', accent: '#333333', skillBg: '#f8f8f8', skillText: '#333333', skillBorder: '1px solid #e0e0e0' },
+    creative: { headerBg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', headerText: '#ffffff', accent: '#667eea', skillBg: 'linear-gradient(135deg, #667eea, #764ba2)', skillText: '#ffffff' },
+    executive: { headerBg: '#1e3a5f', headerText: '#ffffff', accent: '#1e3a5f', skillBg: '#1e3a5f', skillText: '#d4af37', nameColor: '#d4af37', accentBorder: '#d4af37' },
+    tech: { headerBg: '#0f172a', headerText: '#22d3ee', accent: '#0f172a', skillBg: '#0f172a', skillText: '#22d3ee', nameColor: '#22d3ee', fontFamily: "'SF Mono', 'Fira Code', monospace" },
+
+    // Professional templates
+    corporate: { headerBg: '#374151', headerText: '#ffffff', accent: '#374151', skillBg: '#374151', skillText: '#ffffff' },
+    startup: { headerBg: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)', headerText: '#ffffff', accent: '#7c3aed', skillBg: 'linear-gradient(135deg, #7c3aed, #a855f7)', skillText: '#ffffff' },
+    academic: { headerBg: '#1e40af', headerText: '#ffffff', accent: '#1e40af', skillBg: '#1e40af', skillText: '#ffffff' },
+
+    // Creative templates
+    designer: { headerBg: 'linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)', headerText: '#ffffff', accent: '#ec4899', skillBg: 'linear-gradient(135deg, #ec4899, #f43f5e)', skillText: '#ffffff' }
   };
   return templates[templateStyle] || templates.modern;
 };
@@ -342,13 +355,18 @@ const getTemplateColors = (templateStyle) => {
 const buildSkillsForPDF = (skills, t, colors, isRTL) => {
   if (!skills) return '';
 
+  // Get skill styling from template colors
+  const skillBg = colors.skillBg || colors.accent;
+  const skillText = colors.skillText || 'white';
+  const skillBorder = colors.skillBorder ? `border: ${colors.skillBorder};` : '';
+
   // Handle array of strings (simple skills)
   if (Array.isArray(skills)) {
     if (skills.length === 0) return '';
     return `
       <div style="display: flex; flex-wrap: wrap; gap: 8px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
         ${skills.map(skill => `
-          <span style="background: ${colors.accent}; color: white; padding: 5px 12px; border-radius: 15px; font-size: 11px;">${escapeHtml(skill)}</span>
+          <span style="background: ${skillBg}; color: ${skillText}; padding: 5px 12px; border-radius: 15px; font-size: 11px; ${skillBorder}">${escapeHtml(skill)}</span>
         `).join('')}
       </div>
     `;
@@ -377,7 +395,7 @@ const buildSkillsForPDF = (skills, t, colors, isRTL) => {
       <div style="margin-bottom: 10px;">
         <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 6px;">${categoryLabels[cat] || cat}</div>
         <div style="display: flex; flex-wrap: wrap; gap: 6px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-          ${catSkills.map(s => `<span style="background: ${colors.accent}; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px;">${escapeHtml(s)}</span>`).join('')}
+          ${catSkills.map(s => `<span style="background: ${skillBg}; color: ${skillText}; padding: 4px 10px; border-radius: 12px; font-size: 11px; ${skillBorder}">${escapeHtml(s)}</span>`).join('')}
         </div>
       </div>
     `).join('');
@@ -394,7 +412,7 @@ const buildSkillsForPDF = (skills, t, colors, isRTL) => {
       <div style="margin-bottom: 10px;">
         <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 6px;">${t.technicalSkills}</div>
         <div style="display: flex; flex-wrap: wrap; gap: 6px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-          ${technicalSkills.map(s => `<span style="background: ${colors.accent}; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px;">${escapeHtml(s)}</span>`).join('')}
+          ${technicalSkills.map(s => `<span style="background: ${skillBg}; color: ${skillText}; padding: 4px 10px; border-radius: 12px; font-size: 11px; ${skillBorder}">${escapeHtml(s)}</span>`).join('')}
         </div>
       </div>
     `;
@@ -404,7 +422,7 @@ const buildSkillsForPDF = (skills, t, colors, isRTL) => {
       <div style="margin-bottom: 10px;">
         <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 6px;">${t.softSkills}</div>
         <div style="display: flex; flex-wrap: wrap; gap: 6px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-          ${softSkills.map(s => `<span style="background: ${colors.accent}; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px;">${escapeHtml(s)}</span>`).join('')}
+          ${softSkills.map(s => `<span style="background: ${skillBg}; color: ${skillText}; padding: 4px 10px; border-radius: 12px; font-size: 11px; ${skillBorder}">${escapeHtml(s)}</span>`).join('')}
         </div>
       </div>
     `;
@@ -414,7 +432,7 @@ const buildSkillsForPDF = (skills, t, colors, isRTL) => {
       <div style="margin-bottom: 10px;">
         <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 6px;">${t.languages}</div>
         <div style="display: flex; flex-wrap: wrap; gap: 6px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-          ${languages.map(s => `<span style="background: ${colors.accent}; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px;">${escapeHtml(s)}</span>`).join('')}
+          ${languages.map(s => `<span style="background: ${skillBg}; color: ${skillText}; padding: 4px 10px; border-radius: 12px; font-size: 11px; ${skillBorder}">${escapeHtml(s)}</span>`).join('')}
         </div>
       </div>
     `;
