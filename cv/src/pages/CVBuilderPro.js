@@ -328,6 +328,35 @@ const CVBuilderPro = () => {
 
   return (
     <div className={`cvb ${isRTL ? 'rtl' : ''}`}>
+      {/* MOBILE HEADER */}
+      <div className="cvb-mobile-header">
+        <button className="cvb-mobile-back" onClick={() => navigate('/dashboard')}>
+          <FaArrowLeft /> Back
+        </button>
+        <div className="cvb-mobile-actions">
+          <button className="cvb-mobile-template-btn" onClick={() => setShowTemplates(true)}>
+            <FaPalette />
+          </button>
+          <button className="cvb-mobile-download-btn" onClick={handleDownload}>
+            <FaDownload /> PDF
+          </button>
+        </div>
+      </div>
+
+      {/* MOBILE BOTTOM NAV */}
+      <nav className="cvb-mobile-nav">
+        {sections.map(sec => (
+          <button
+            key={sec.id}
+            className={`cvb-mobile-nav-item ${activeSection === sec.id ? 'active' : ''}`}
+            onClick={() => setActiveSection(sec.id)}
+          >
+            <sec.icon />
+            <span>{sec.label}</span>
+          </button>
+        ))}
+      </nav>
+
       {/* SIDEBAR */}
       <aside className="cvb-sidebar">
         <div className="cvb-logo" onClick={() => navigate('/dashboard')}>
