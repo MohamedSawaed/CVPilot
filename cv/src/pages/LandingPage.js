@@ -788,103 +788,147 @@ const LandingPage = () => {
 
       {/* Templates Section */}
       <section id="templates" className="templates-section">
-        <div className="templates-bg-elements">
-          <div className="templates-bg-circle templates-bg-circle-1"></div>
-          <div className="templates-bg-circle templates-bg-circle-2"></div>
+        {/* Animated Background */}
+        <div className="templates-bg">
+          <div className="templates-glow templates-glow-1"></div>
+          <div className="templates-glow templates-glow-2"></div>
+          <div className="templates-glow templates-glow-3"></div>
+          <div className="templates-grid-pattern"></div>
         </div>
+
         <div className="templates-container">
-          <div className="section-header">
+          {/* Section Header */}
+          <div className="templates-header">
+            <div className="templates-badge">
+              <FiLayout />
+              <span>{language === 'ar' ? '11+ قالب احترافي' : language === 'he' ? '11+ תבניות מקצועיות' : '11+ Professional Templates'}</span>
+            </div>
             <h2>{t.templates.title} <span className="highlight">{t.templates.titleHighlight}</span></h2>
             <p>{t.templates.subtitle}</p>
           </div>
 
-          <div className="templates-showcase">
+          {/* Templates Grid - Creative Layout */}
+          <div className="templates-creative-grid">
             {templatePreviews.map((template, index) => (
               <div
                 key={index}
-                className={`template-card ${template.dark ? 'dark-text' : ''} ${template.popular ? 'popular' : ''}`}
-                style={{ '--delay': `${index * 0.1}s`, '--accent': template.accentColor }}
+                className={`tpl-card ${template.popular ? 'tpl-featured' : ''}`}
+                style={{ '--delay': `${index * 0.08}s`, '--accent': template.accentColor, '--bg': template.color }}
               >
-                {template.popular && (
-                  <div className="template-popular-badge">
-                    <FiStar /> {language === 'ar' ? 'شائع' : language === 'he' ? 'פופולרי' : 'Popular'}
-                  </div>
-                )}
-                <div className="template-preview-wrapper">
-                  <div className="template-preview" style={{ background: template.color }}>
-                    {/* Realistic CV Layout */}
-                    <div className="template-cv">
-                      {/* Header Section */}
-                      <div className="tcv-header" style={{ borderColor: template.accentColor }}>
-                        <div className="tcv-avatar" style={{ background: template.accentColor }}></div>
-                        <div className="tcv-info">
-                          <div className="tcv-name"></div>
-                          <div className="tcv-title"></div>
-                          <div className="tcv-contact">
-                            <span></span>
-                            <span></span>
-                          </div>
+                {/* Full Card CV Preview */}
+                <div className="tpl-preview">
+                  {/* Popular Ribbon */}
+                  {template.popular && (
+                    <div className="tpl-ribbon">
+                      <FiStar />
+                      <span>{language === 'ar' ? 'الأكثر طلباً' : language === 'he' ? 'פופולרי' : 'Most Popular'}</span>
+                    </div>
+                  )}
+
+                  {/* CV Document - Full Card */}
+                  <div className="tpl-document">
+                    {/* Colored Header Bar */}
+                    <div className="tpl-header-bar" style={{ background: template.accentColor }}>
+                      <div className="tpl-header-content">
+                        <div className="tpl-avatar">
+                          <div className="tpl-avatar-inner"></div>
                         </div>
-                      </div>
-                      {/* Content Sections */}
-                      <div className="tcv-body">
-                        <div className="tcv-section">
-                          <div className="tcv-section-title" style={{ background: template.accentColor }}></div>
-                          <div className="tcv-lines">
-                            <div className="tcv-line tcv-line-full"></div>
-                            <div className="tcv-line tcv-line-80"></div>
-                            <div className="tcv-line tcv-line-60"></div>
-                          </div>
-                        </div>
-                        <div className="tcv-section">
-                          <div className="tcv-section-title" style={{ background: template.accentColor }}></div>
-                          <div className="tcv-experience">
-                            <div className="tcv-exp-item">
-                              <div className="tcv-exp-dot" style={{ background: template.accentColor }}></div>
-                              <div className="tcv-exp-content">
-                                <div className="tcv-line tcv-line-70"></div>
-                                <div className="tcv-line tcv-line-50"></div>
-                              </div>
-                            </div>
-                            <div className="tcv-exp-item">
-                              <div className="tcv-exp-dot" style={{ background: template.accentColor }}></div>
-                              <div className="tcv-exp-content">
-                                <div className="tcv-line tcv-line-60"></div>
-                                <div className="tcv-line tcv-line-40"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tcv-section">
-                          <div className="tcv-section-title" style={{ background: template.accentColor }}></div>
-                          <div className="tcv-skills">
-                            <div className="tcv-skill" style={{ background: template.accentColor }}></div>
-                            <div className="tcv-skill" style={{ background: template.accentColor }}></div>
-                            <div className="tcv-skill" style={{ background: template.accentColor }}></div>
-                            <div className="tcv-skill" style={{ background: template.accentColor }}></div>
+                        <div className="tpl-header-text">
+                          <div className="tpl-name-line"></div>
+                          <div className="tpl-title-line"></div>
+                          <div className="tpl-contact-row">
+                            <span></span><span></span><span></span>
                           </div>
                         </div>
                       </div>
                     </div>
+
+                    {/* CV Body */}
+                    <div className="tpl-body">
+                      {/* Summary Section */}
+                      <div className="tpl-section">
+                        <div className="tpl-section-header">
+                          <div className="tpl-section-icon" style={{ background: template.accentColor }}></div>
+                          <div className="tpl-section-title" style={{ background: template.accentColor }}></div>
+                        </div>
+                        <div className="tpl-text-block">
+                          <div className="tpl-line tpl-line-100"></div>
+                          <div className="tpl-line tpl-line-95"></div>
+                          <div className="tpl-line tpl-line-80"></div>
+                        </div>
+                      </div>
+
+                      {/* Experience Section */}
+                      <div className="tpl-section">
+                        <div className="tpl-section-header">
+                          <div className="tpl-section-icon" style={{ background: template.accentColor }}></div>
+                          <div className="tpl-section-title" style={{ background: template.accentColor }}></div>
+                        </div>
+                        <div className="tpl-experience">
+                          <div className="tpl-exp-item">
+                            <div className="tpl-exp-marker" style={{ borderColor: template.accentColor }}></div>
+                            <div className="tpl-exp-details">
+                              <div className="tpl-line tpl-line-70"></div>
+                              <div className="tpl-line tpl-line-50"></div>
+                              <div className="tpl-line tpl-line-90"></div>
+                            </div>
+                          </div>
+                          <div className="tpl-exp-item">
+                            <div className="tpl-exp-marker" style={{ borderColor: template.accentColor }}></div>
+                            <div className="tpl-exp-details">
+                              <div className="tpl-line tpl-line-60"></div>
+                              <div className="tpl-line tpl-line-45"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Skills Section */}
+                      <div className="tpl-section tpl-section-skills">
+                        <div className="tpl-section-header">
+                          <div className="tpl-section-icon" style={{ background: template.accentColor }}></div>
+                          <div className="tpl-section-title" style={{ background: template.accentColor }}></div>
+                        </div>
+                        <div className="tpl-skills-grid">
+                          <div className="tpl-skill-pill" style={{ background: `${template.accentColor}20`, borderColor: template.accentColor }}></div>
+                          <div className="tpl-skill-pill" style={{ background: `${template.accentColor}20`, borderColor: template.accentColor }}></div>
+                          <div className="tpl-skill-pill" style={{ background: `${template.accentColor}20`, borderColor: template.accentColor }}></div>
+                          <div className="tpl-skill-pill" style={{ background: `${template.accentColor}20`, borderColor: template.accentColor }}></div>
+                          <div className="tpl-skill-pill" style={{ background: `${template.accentColor}20`, borderColor: template.accentColor }}></div>
+                          <div className="tpl-skill-pill" style={{ background: `${template.accentColor}20`, borderColor: template.accentColor }}></div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="template-hover-overlay">
-                    <button className="template-use-btn" onClick={() => navigate('/register')}>
-                      {language === 'ar' ? 'استخدم القالب' : language === 'he' ? 'השתמש בתבנית' : 'Use Template'}
+
+                  {/* Hover Overlay */}
+                  <div className="tpl-overlay">
+                    <button className="tpl-use-btn" onClick={() => navigate('/register')}>
+                      <span>{language === 'ar' ? 'استخدم هذا القالب' : language === 'he' ? 'השתמש בתבנית זו' : 'Use This Template'}</span>
+                      <FiArrowRight />
                     </button>
                   </div>
                 </div>
-                <div className="template-info">
-                  <div className="template-name">{getTemplateName(template)}</div>
-                  <div className="template-style">{template.style}</div>
+
+                {/* Template Name */}
+                <div className="tpl-info">
+                  <h3 className="tpl-name">{getTemplateName(template)}</h3>
+                  <span className="tpl-style">{template.style}</span>
                 </div>
               </div>
             ))}
           </div>
 
-          <button className="templates-cta" onClick={() => navigate('/register')}>
-            {t.templates.viewAll}
-            <FiArrowRight />
-          </button>
+          {/* CTA Button */}
+          <div className="templates-cta-wrapper">
+            <button className="templates-cta" onClick={() => navigate('/register')}>
+              <span>{t.templates.viewAll}</span>
+              <FiArrowRight />
+            </button>
+            <p className="templates-cta-note">
+              {language === 'ar' ? 'ابدأ مجاناً • لا حاجة لبطاقة ائتمان' : language === 'he' ? 'התחל בחינם • ללא כרטיס אשראי' : 'Start for free • No credit card required'}
+            </p>
+          </div>
         </div>
       </section>
 
