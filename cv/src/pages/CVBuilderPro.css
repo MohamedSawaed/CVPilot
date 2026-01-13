@@ -620,23 +620,34 @@
   display: flex;
   flex-direction: column;
   background: #ffffff;
-  border-left: 1px solid var(--gray-200);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Preview Header */
+/* Preview Header - Fixed at top */
 .preview-header {
-  height: 57px;
-  min-height: 57px;
-  padding: 0 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--gray-200);
+  z-index: 100;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .preview-title {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -660,15 +671,15 @@
 }
 
 .preview-action-btn {
-  padding: 8px 14px;
-  font-size: 13px;
+  padding: 6px 12px;
+  font-size: 12px;
   font-weight: 500;
-  border-radius: var(--radius);
+  border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: var(--transition);
+  gap: 5px;
+  transition: all 0.15s ease;
   background: var(--gray-100);
   border: 1px solid var(--gray-200);
   color: var(--gray-700);
@@ -688,44 +699,70 @@
   background: var(--primary-hover);
 }
 
-/* Preview Container */
+/* Preview Container - Full canvas */
 .preview-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-height: 0;
 }
 
-/* Paper Wrapper - scrollable area */
+/* Paper Wrapper - Full canvas, internal scroll */
 .preview-paper-wrapper {
-  flex: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--gray-100);
-  padding: 24px;
+  background: #ffffff;
 }
 
-/* CV Paper */
+/* CV Paper - Full width document */
 .preview-paper {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
   background: #ffffff;
-  max-width: 600px;
-  margin: 0 auto;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  border-radius: 0;
+  box-shadow: none;
+  box-sizing: border-box;
   position: relative;
 }
 
 .preview-paper::before {
   content: '';
+  position: fixed;
+  top: 48px;
+  left: 50%;
+  right: 0;
   display: block;
-  height: 4px;
+  height: 3px;
   background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  z-index: 50;
 }
 
-/* Scale wrapper for CV content */
+.preview-paper::after {
+  display: none;
+}
+
+/* CV Content wrapper */
 .preview-scale-wrapper {
-  padding: 32px;
+  padding: 72px 40px 40px 40px;
+  margin: 0;
+  box-sizing: border-box;
+  min-height: 100%;
 }
 
 /* Hide template selector inline */
