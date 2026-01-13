@@ -615,51 +615,46 @@
 
 /* ========== RIGHT PANEL - PREVIEW ========== */
 .builder-right-panel {
-  flex: 1;
+  width: 50%;
   height: 100vh;
   background: #ffffff;
-  overflow-y: auto;
-  overflow-x: hidden;
-  border-left: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.preview-container,
+.preview-paper-wrapper,
+.preview-paper,
+.preview-scale-wrapper {
+  width: 100%;
+  height: 100%;
 }
 
 .preview-container {
-  width: 100%;
-  min-height: 100%;
+  display: block;
 }
 
 .preview-header {
   display: none;
 }
 
-.preview-title {
-  display: none;
-}
-
-.preview-actions {
-  display: none;
-}
-
-.preview-action-btn {
+.preview-title,
+.preview-actions,
+.preview-action-btn,
+.template-selector {
   display: none;
 }
 
 .preview-paper-wrapper {
-  width: 100%;
-  min-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .preview-paper {
-  width: 100%;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 .preview-scale-wrapper {
-  padding: 0;
-}
-
-.template-selector {
-  display: none;
+  min-height: 100%;
 }
 
 /* ========== CV PREVIEW STYLES ========== */
@@ -667,7 +662,7 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: var(--gray-900);
   line-height: 1.6;
-  padding: 0;
+  min-height: 100vh;
 }
 
 .cv-preview.rtl {
@@ -679,9 +674,7 @@
 .cv-preview.modern .cv-header {
   background: var(--primary);
   color: var(--white);
-  padding: 40px;
-  margin: 0;
-  border-radius: 0;
+  padding: 32px 40px;
 }
 
 .cv-preview.modern .cv-name {
@@ -756,9 +749,7 @@
 .cv-preview.creative .cv-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: var(--white);
-  padding: 40px;
-  margin: 0;
-  border-radius: 0;
+  padding: 32px 40px;
 }
 
 .cv-preview.creative .cv-name {
@@ -781,16 +772,7 @@
 /* Shared CV Styles */
 .cv-section {
   margin-bottom: 24px;
-  padding-left: 40px;
-  padding-right: 40px;
-}
-
-.cv-section:first-of-type {
-  padding-top: 24px;
-}
-
-.cv-section:last-of-type {
-  padding-bottom: 40px;
+  padding: 0 40px;
 }
 
 .cv-entry {
