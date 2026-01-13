@@ -152,7 +152,7 @@ const Dashboard = () => {
   }, [user]);
 
   const handleCreateNew = () => {
-    navigate('/builder');
+    navigate('/builder?new=true');
   };
 
   const handleEdit = (cvId) => {

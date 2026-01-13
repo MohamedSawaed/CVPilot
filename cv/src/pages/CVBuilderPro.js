@@ -1,252 +1,181 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { useCV } from '../contexts/CVContext';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
+import { storage } from '../utils/storage';
+import { generatePDFFromServer } from '../utils/pdfExport';
 import {
   FaArrowLeft, FaUser, FaBriefcase, FaGraduationCap, FaTools,
   FaLanguage, FaCertificate, FaPlus, FaTrash, FaChevronDown,
   FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGlobe,
   FaDownload, FaCheck, FaPalette, FaTimes, FaEye, FaFileAlt
 } from 'react-icons/fa';
-import { generatePDF } from '../utils/pdfGenerator';
 import './CVBuilderPro.css';
 
 const CVBuilderPro = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const { cvData, setCvData, saveCVToFirebase, templates } = useCV();
-  const { language } = useLanguage();
+  const [searchParams] = useSearchParams();
+  const { language, isRTL } = useLanguage();
 
-  const isRTL = language === 'he' || language === 'ar';
+  const emptyCV = {
+    personalInfo: { fullName: '', email: '', phone: '', location: '', linkedin: '', website: '' },
+    summary: '',
+    experience: [],
+    education: [],
+    skills: [],
+    languages: [],
+    certificates: []
+  };
 
-  // State
+  const [cvData, setCvData] = useState(emptyCV);
+
   const [activeSection, setActiveSection] = useState('personal');
   const [saveStatus, setSaveStatus] = useState('saved');
-  const [templateStyle, setTemplateStyle] = useState(cvData.template || 'modern');
-  const [showTemplateModal, setShowTemplateModal] = useState(false);
+  const [templateStyle, setTemplateStyle] = useState('modern');
+  const [showTemplates, setShowTemplates] = useState(false);
   const [showMobilePreview, setShowMobilePreview] = useState(false);
 
-  // Translations
+  useEffect(() => {
+    const isNewResume = searchParams.get('new') === 'true';
+
+    if (isNewResume) {
+      // Clear storage and start fresh
+      storage.clear();
+      setCvData(emptyCV);
+      setTemplateStyle('modern');
+      localStorage.removeItem('cv-template');
+    } else {
+      // Load saved data if exists
+      const savedData = storage.load();
+      if (savedData?.cvData) {
+        setCvData(prev => ({ ...prev, ...savedData.cvData }));
+      }
+      const savedTemplate = localStorage.getItem('cv-template');
+      if (savedTemplate) setTemplateStyle(savedTemplate);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      storage.autoSave(cvData, null, null);
+      localStorage.setItem('cv-template', templateStyle);
+      setSaveStatus('saved');
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [cvData, templateStyle]);
+
   const t = {
     en: {
-      buildingCV: 'Building your CV',
-      untitled: 'Untitled CV',
+      back: 'Back',
       saved: 'Saved',
       saving: 'Saving...',
-      personal: 'Personal Information',
-      personalDesc: 'Your contact details',
-      summary: 'Professional Summary',
-      summaryDesc: 'Brief overview of your profile',
-      experience: 'Work Experience',
-      experienceDesc: 'Your employment history',
+      personal: 'Personal Info',
+      summary: 'Summary',
+      experience: 'Experience',
       education: 'Education',
-      educationDesc: 'Academic background',
       skills: 'Skills',
-      skillsDesc: 'Your expertise',
       languages: 'Languages',
-      languagesDesc: 'Languages you speak',
-      certificates: 'Certifications',
-      certificatesDesc: 'Professional certifications',
+      certificates: 'Certificates',
       fullName: 'Full Name',
-      email: 'Email Address',
-      phone: 'Phone Number',
+      email: 'Email',
+      phone: 'Phone',
       location: 'Location',
-      linkedin: 'LinkedIn URL',
-      website: 'Portfolio/Website',
+      linkedin: 'LinkedIn',
+      website: 'Website',
       jobTitle: 'Job Title',
       company: 'Company',
-      startDate: 'Start Date',
-      endDate: 'End Date',
+      startDate: 'Start',
+      endDate: 'End',
       current: 'Current',
       present: 'Present',
       description: 'Description',
       degree: 'Degree',
-      school: 'School/University',
-      field: 'Field of Study',
+      school: 'School',
+      field: 'Field',
       year: 'Year',
-      skillName: 'Skill',
-      languageName: 'Language',
-      level: 'Level',
-      certName: 'Certification Name',
-      issuer: 'Issuing Organization',
       add: 'Add',
-      delete: 'Delete',
       download: 'Download PDF',
       templates: 'Templates',
-      preview: 'Preview',
-      empty: 'Empty',
-      complete: 'Complete',
-      summaryPlaceholder: 'Write a compelling 2-3 sentence overview of your professional background and career goals...'
+      preview: 'Preview'
     },
     he: {
-      buildingCV: 'בניית קורות החיים',
-      untitled: 'קורות חיים ללא שם',
+      back: 'חזור',
       saved: 'נשמר',
       saving: 'שומר...',
       personal: 'פרטים אישיים',
-      personalDesc: 'פרטי התקשרות',
-      summary: 'תקציר מקצועי',
-      summaryDesc: 'סקירה קצרה של הפרופיל שלך',
-      experience: 'ניסיון תעסוקתי',
-      experienceDesc: 'היסטוריית העסקה',
+      summary: 'תקציר',
+      experience: 'ניסיון',
       education: 'השכלה',
-      educationDesc: 'רקע אקדמי',
       skills: 'כישורים',
-      skillsDesc: 'המומחיות שלך',
       languages: 'שפות',
-      languagesDesc: 'שפות שאתה דובר',
       certificates: 'הסמכות',
-      certificatesDesc: 'הסמכות מקצועיות',
       fullName: 'שם מלא',
-      email: 'כתובת אימייל',
-      phone: 'מספר טלפון',
+      email: 'אימייל',
+      phone: 'טלפון',
       location: 'מיקום',
-      linkedin: 'קישור לינקדאין',
-      website: 'אתר/תיק עבודות',
+      linkedin: 'לינקדאין',
+      website: 'אתר',
       jobTitle: 'תפקיד',
       company: 'חברה',
-      startDate: 'תאריך התחלה',
-      endDate: 'תאריך סיום',
+      startDate: 'התחלה',
+      endDate: 'סיום',
       current: 'נוכחי',
       present: 'עד היום',
       description: 'תיאור',
       degree: 'תואר',
-      school: 'מוסד לימודים',
-      field: 'תחום לימודים',
+      school: 'מוסד',
+      field: 'תחום',
       year: 'שנה',
-      skillName: 'כישור',
-      languageName: 'שפה',
-      level: 'רמה',
-      certName: 'שם ההסמכה',
-      issuer: 'גוף מנפיק',
       add: 'הוסף',
-      delete: 'מחק',
       download: 'הורד PDF',
       templates: 'תבניות',
-      preview: 'תצוגה מקדימה',
-      empty: 'ריק',
-      complete: 'הושלם',
-      summaryPlaceholder: 'כתוב תקציר של 2-3 משפטים על הרקע המקצועי והמטרות שלך...'
+      preview: 'תצוגה'
     },
     ar: {
-      buildingCV: 'إنشاء سيرتك الذاتية',
-      untitled: 'سيرة ذاتية بدون عنوان',
+      back: 'رجوع',
       saved: 'تم الحفظ',
       saving: 'جاري الحفظ...',
-      personal: 'المعلومات الشخصية',
-      personalDesc: 'بيانات الاتصال',
-      summary: 'الملخص المهني',
-      summaryDesc: 'نظرة عامة على ملفك',
-      experience: 'الخبرة العملية',
-      experienceDesc: 'تاريخ التوظيف',
+      personal: 'معلومات شخصية',
+      summary: 'الملخص',
+      experience: 'الخبرة',
       education: 'التعليم',
-      educationDesc: 'الخلفية الأكاديمية',
       skills: 'المهارات',
-      skillsDesc: 'خبراتك',
       languages: 'اللغات',
-      languagesDesc: 'اللغات التي تتحدثها',
       certificates: 'الشهادات',
-      certificatesDesc: 'الشهادات المهنية',
-      fullName: 'الاسم الكامل',
-      email: 'البريد الإلكتروني',
-      phone: 'رقم الهاتف',
+      fullName: 'الاسم',
+      email: 'البريد',
+      phone: 'الهاتف',
       location: 'الموقع',
-      linkedin: 'رابط لينكد إن',
-      website: 'الموقع/المحفظة',
-      jobTitle: 'المسمى الوظيفي',
+      linkedin: 'لينكد إن',
+      website: 'الموقع',
+      jobTitle: 'المسمى',
       company: 'الشركة',
-      startDate: 'تاريخ البدء',
-      endDate: 'تاريخ الانتهاء',
+      startDate: 'البداية',
+      endDate: 'النهاية',
       current: 'حالي',
       present: 'حتى الآن',
       description: 'الوصف',
       degree: 'الدرجة',
-      school: 'المدرسة/الجامعة',
-      field: 'مجال الدراسة',
+      school: 'المؤسسة',
+      field: 'التخصص',
       year: 'السنة',
-      skillName: 'المهارة',
-      languageName: 'اللغة',
-      level: 'المستوى',
-      certName: 'اسم الشهادة',
-      issuer: 'الجهة المانحة',
       add: 'إضافة',
-      delete: 'حذف',
       download: 'تحميل PDF',
       templates: 'القوالب',
-      preview: 'معاينة',
-      empty: 'فارغ',
-      complete: 'مكتمل',
-      summaryPlaceholder: 'اكتب ملخصاً من 2-3 جمل عن خلفيتك المهنية وأهدافك...'
+      preview: 'معاينة'
     }
   }[language] || {
-    buildingCV: 'Building your CV',
-    untitled: 'Untitled CV',
-    saved: 'Saved',
-    saving: 'Saving...',
-    personal: 'Personal Information',
-    personalDesc: 'Your contact details',
-    summary: 'Professional Summary',
-    summaryDesc: 'Brief overview of your profile',
-    experience: 'Work Experience',
-    experienceDesc: 'Your employment history',
-    education: 'Education',
-    educationDesc: 'Academic background',
-    skills: 'Skills',
-    skillsDesc: 'Your expertise',
-    languages: 'Languages',
-    languagesDesc: 'Languages you speak',
-    certificates: 'Certifications',
-    certificatesDesc: 'Professional certifications',
-    fullName: 'Full Name',
-    email: 'Email Address',
-    phone: 'Phone Number',
-    location: 'Location',
-    linkedin: 'LinkedIn URL',
-    website: 'Portfolio/Website',
-    jobTitle: 'Job Title',
-    company: 'Company',
-    startDate: 'Start Date',
-    endDate: 'End Date',
-    current: 'Current',
-    present: 'Present',
-    description: 'Description',
-    degree: 'Degree',
-    school: 'School/University',
-    field: 'Field of Study',
-    year: 'Year',
-    skillName: 'Skill',
-    languageName: 'Language',
-    level: 'Level',
-    certName: 'Certification Name',
-    issuer: 'Issuing Organization',
-    add: 'Add',
-    delete: 'Delete',
-    download: 'Download PDF',
-    templates: 'Templates',
-    preview: 'Preview',
-    empty: 'Empty',
-    complete: 'Complete',
-    summaryPlaceholder: 'Write a compelling 2-3 sentence overview of your professional background and career goals...'
+    back: 'Back', saved: 'Saved', saving: 'Saving...', personal: 'Personal Info',
+    summary: 'Summary', experience: 'Experience', education: 'Education',
+    skills: 'Skills', languages: 'Languages', certificates: 'Certificates',
+    fullName: 'Full Name', email: 'Email', phone: 'Phone', location: 'Location',
+    linkedin: 'LinkedIn', website: 'Website', jobTitle: 'Job Title', company: 'Company',
+    startDate: 'Start', endDate: 'End', current: 'Current', present: 'Present',
+    description: 'Description', degree: 'Degree', school: 'School', field: 'Field',
+    year: 'Year', add: 'Add', download: 'Download PDF', templates: 'Templates', preview: 'Preview'
   };
 
-  // Auto-save
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (user && saveStatus === 'saving') {
-        saveCVToFirebase();
-        setSaveStatus('saved');
-      }
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, [cvData, user, saveStatus, saveCVToFirebase]);
-
-  // Update handlers
   const updatePersonal = (field, value) => {
-    setCvData(prev => ({
-      ...prev,
-      personalInfo: { ...prev.personalInfo, [field]: value }
-    }));
+    setCvData(prev => ({ ...prev, personalInfo: { ...prev.personalInfo, [field]: value } }));
     setSaveStatus('saving');
   };
 
@@ -255,82 +184,46 @@ const CVBuilderPro = () => {
     setSaveStatus('saving');
   };
 
-  const updateExperience = (id, field, value) => {
-    setCvData(prev => ({
-      ...prev,
-      experience: prev.experience.map(exp =>
-        exp.id === id ? { ...exp, [field]: value } : exp
-      )
-    }));
-    setSaveStatus('saving');
-  };
-
   const addExperience = () => {
     setCvData(prev => ({
       ...prev,
-      experience: [...prev.experience, {
-        id: Date.now(),
-        title: '',
-        company: '',
-        startDate: '',
-        endDate: '',
-        current: false,
-        description: ''
-      }]
+      experience: [...prev.experience, { id: Date.now(), title: '', company: '', startDate: '', endDate: '', current: false, description: '' }]
     }));
+  };
+
+  const updateExperience = (id, field, value) => {
+    setCvData(prev => ({
+      ...prev,
+      experience: prev.experience.map(exp => exp.id === id ? { ...exp, [field]: value } : exp)
+    }));
+    setSaveStatus('saving');
   };
 
   const deleteExperience = (id) => {
-    setCvData(prev => ({
-      ...prev,
-      experience: prev.experience.filter(exp => exp.id !== id)
-    }));
-    setSaveStatus('saving');
-  };
-
-  const updateEducation = (id, field, value) => {
-    setCvData(prev => ({
-      ...prev,
-      education: prev.education.map(edu =>
-        edu.id === id ? { ...edu, [field]: value } : edu
-      )
-    }));
-    setSaveStatus('saving');
+    setCvData(prev => ({ ...prev, experience: prev.experience.filter(exp => exp.id !== id) }));
   };
 
   const addEducation = () => {
     setCvData(prev => ({
       ...prev,
-      education: [...prev.education, {
-        id: Date.now(),
-        degree: '',
-        school: '',
-        field: '',
-        year: ''
-      }]
+      education: [...prev.education, { id: Date.now(), degree: '', school: '', field: '', year: '' }]
     }));
   };
 
-  const deleteEducation = (id) => {
+  const updateEducation = (id, field, value) => {
     setCvData(prev => ({
       ...prev,
-      education: prev.education.filter(edu => edu.id !== id)
+      education: prev.education.map(edu => edu.id === id ? { ...edu, [field]: value } : edu)
     }));
     setSaveStatus('saving');
+  };
+
+  const deleteEducation = (id) => {
+    setCvData(prev => ({ ...prev, education: prev.education.filter(edu => edu.id !== id) }));
   };
 
   const updateSkills = (value) => {
     setCvData(prev => ({ ...prev, skills: value.split(',').map(s => s.trim()).filter(s => s) }));
-    setSaveStatus('saving');
-  };
-
-  const updateLanguages = (id, field, value) => {
-    setCvData(prev => ({
-      ...prev,
-      languages: prev.languages.map(lang =>
-        lang.id === id ? { ...lang, [field]: value } : lang
-      )
-    }));
     setSaveStatus('saving');
   };
 
@@ -341,22 +234,16 @@ const CVBuilderPro = () => {
     }));
   };
 
-  const deleteLanguage = (id) => {
+  const updateLanguageItem = (id, field, value) => {
     setCvData(prev => ({
       ...prev,
-      languages: prev.languages.filter(lang => lang.id !== id)
+      languages: prev.languages.map(lang => lang.id === id ? { ...lang, [field]: value } : lang)
     }));
     setSaveStatus('saving');
   };
 
-  const updateCertificates = (id, field, value) => {
-    setCvData(prev => ({
-      ...prev,
-      certificates: prev.certificates.map(cert =>
-        cert.id === id ? { ...cert, [field]: value } : cert
-      )
-    }));
-    setSaveStatus('saving');
+  const deleteLanguage = (id) => {
+    setCvData(prev => ({ ...prev, languages: prev.languages.filter(lang => lang.id !== id) }));
   };
 
   const addCertificate = () => {
@@ -366,603 +253,518 @@ const CVBuilderPro = () => {
     }));
   };
 
-  const deleteCertificate = (id) => {
+  const updateCertificate = (id, field, value) => {
     setCvData(prev => ({
       ...prev,
-      certificates: prev.certificates.filter(cert => cert.id !== id)
+      certificates: prev.certificates.map(cert => cert.id === id ? { ...cert, [field]: value } : cert)
     }));
     setSaveStatus('saving');
   };
 
-  const selectTemplate = (template) => {
-    setTemplateStyle(template);
-    setCvData(prev => ({ ...prev, template }));
-    setShowTemplateModal(false);
-    setSaveStatus('saving');
+  const deleteCertificate = (id) => {
+    setCvData(prev => ({ ...prev, certificates: prev.certificates.filter(cert => cert.id !== id) }));
   };
 
   const handleDownload = async () => {
-    await generatePDF(cvData, templateStyle);
+    // Map cvData to the format expected by PDF generator
+    const pdfData = {
+      personalInfo: cvData.personalInfo,
+      summary: cvData.summary,
+      experience: cvData.experience?.map(exp => ({
+        ...exp,
+        jobTitle: exp.title,
+        startDate: exp.startDate,
+        endDate: exp.endDate,
+        company: exp.company,
+        description: exp.description,
+        current: exp.current
+      })),
+      education: cvData.education?.map(edu => ({
+        ...edu,
+        degree: edu.degree,
+        institution: edu.school,
+        graduationDate: edu.year,
+        honors: edu.field
+      })),
+      skills: cvData.skills,
+      languages: cvData.languages,
+      certifications: cvData.certificates?.map(cert => ({
+        certification: cert.name,
+        issuer: cert.issuer,
+        date: cert.year
+      }))
+    };
+
+    // Include all sections that have data
+    const sectionsToInclude = ['summary', 'experience', 'education', 'skills', 'certifications'];
+
+    await generatePDFFromServer(pdfData, templateStyle, sectionsToInclude, language);
   };
 
-  // Check section completion
-  const isSectionComplete = (section) => {
-    switch(section) {
-      case 'personal':
-        return cvData.personalInfo?.fullName && cvData.personalInfo?.email;
-      case 'summary':
-        return cvData.summary && cvData.summary.length > 20;
-      case 'experience':
-        return cvData.experience?.length > 0 && cvData.experience[0]?.title;
-      case 'education':
-        return cvData.education?.length > 0 && cvData.education[0]?.degree;
-      case 'skills':
-        return cvData.skills?.length > 0;
-      case 'languages':
-        return cvData.languages?.length > 0;
-      case 'certificates':
-        return cvData.certificates?.length > 0;
-      default:
-        return false;
-    }
-  };
-
-  // Sections config
   const sections = [
-    { id: 'personal', icon: FaUser, title: t.personal, desc: t.personalDesc },
-    { id: 'summary', icon: FaFileAlt, title: t.summary, desc: t.summaryDesc },
-    { id: 'experience', icon: FaBriefcase, title: t.experience, desc: t.experienceDesc },
-    { id: 'education', icon: FaGraduationCap, title: t.education, desc: t.educationDesc },
-    { id: 'skills', icon: FaTools, title: t.skills, desc: t.skillsDesc },
-    { id: 'languages', icon: FaLanguage, title: t.languages, desc: t.languagesDesc },
-    { id: 'certificates', icon: FaCertificate, title: t.certificates, desc: t.certificatesDesc }
+    { id: 'personal', icon: FaUser, label: t.personal },
+    { id: 'summary', icon: FaFileAlt, label: t.summary },
+    { id: 'experience', icon: FaBriefcase, label: t.experience },
+    { id: 'education', icon: FaGraduationCap, label: t.education },
+    { id: 'skills', icon: FaTools, label: t.skills },
+    { id: 'languages', icon: FaLanguage, label: t.languages },
+    { id: 'certificates', icon: FaCertificate, label: t.certificates }
   ];
 
-  // Template options
-  const templateOptions = [
-    { id: 'modern', name: 'Modern', color: '#5b4eff' },
-    { id: 'classic', name: 'Classic', color: '#1a1a1a' },
-    { id: 'creative', name: 'Creative', color: '#667eea' },
-    { id: 'professional', name: 'Professional', color: '#0a3d62' },
-    { id: 'minimal', name: 'Minimal', color: '#0d9488' },
-    { id: 'executive', name: 'Executive', color: '#1a365d' }
+  const templates = [
+    { id: 'modern', name: 'Modern', desc: 'Clean & Professional', category: 'popular', color: '#1a1a1a' },
+    { id: 'classic', name: 'Classic', desc: 'Traditional Style', category: 'popular', color: '#fff' },
+    { id: 'bold', name: 'Bold', desc: 'Make a Statement', category: 'popular', color: '#000' },
+    { id: 'elegant', name: 'Elegant', desc: 'Sophisticated Look', category: 'premium', color: '#2d2d2d' },
+    { id: 'minimal', name: 'Minimal', desc: 'Less is More', category: 'popular', color: '#fafafa' },
+    { id: 'creative', name: 'Creative', desc: 'Stand Out', category: 'premium', color: '#667eea' },
+    { id: 'executive', name: 'Executive', desc: 'Senior Level', category: 'premium', color: '#1e3a5f' },
+    { id: 'tech', name: 'Tech', desc: 'For Developers', category: 'premium', color: '#0f172a' },
+    { id: 'corporate', name: 'Corporate', desc: 'Business Ready', category: 'professional', color: '#374151' },
+    { id: 'startup', name: 'Startup', desc: 'Modern & Fresh', category: 'professional', color: '#7c3aed' },
+    { id: 'academic', name: 'Academic', desc: 'For Researchers', category: 'professional', color: '#1e40af' },
+    { id: 'designer', name: 'Designer', desc: 'Creative Fields', category: 'creative', color: '#ec4899' }
   ];
 
   return (
-    <div className={`cv-builder ${isRTL ? 'rtl' : ''}`}>
-      {/* LEFT - Form Panel */}
-      <div className="form-panel">
-        {/* Header */}
-        <header className="form-header">
-          <button className="back-btn" onClick={() => navigate('/dashboard')}>
-            <FaArrowLeft />
-          </button>
-          <div className="header-info">
-            <h1>{t.buildingCV}</h1>
-            <span>{cvData.personalInfo?.fullName || t.untitled}</span>
-          </div>
-          <div className="header-status">
-            <span className={`save-status ${saveStatus}`}>
-              {saveStatus === 'saved' ? <><FaCheck /> {t.saved}</> : t.saving}
-            </span>
-          </div>
-        </header>
+    <div className={`cvb ${isRTL ? 'rtl' : ''}`}>
+      {/* SIDEBAR */}
+      <aside className="cvb-sidebar">
+        <div className="cvb-logo" onClick={() => navigate('/dashboard')}>
+          <FaArrowLeft />
+          <span>CV Builder</span>
+        </div>
 
-        {/* Form Content */}
-        <div className="form-content">
-          {sections.map(section => (
-            <div key={section.id} className="form-section">
-              <button
-                className={`section-toggle ${activeSection === section.id ? 'active' : ''}`}
-                onClick={() => setActiveSection(activeSection === section.id ? '' : section.id)}
-              >
-                <div className="section-info">
-                  <section.icon className="section-icon" />
-                  <div>
-                    <h3>{section.title}</h3>
-                    <p>{section.desc}</p>
-                  </div>
-                </div>
-                <div className="section-status">
-                  <span className={isSectionComplete(section.id) ? 'complete' : 'empty'}>
-                    {isSectionComplete(section.id) ? t.complete : t.empty}
-                  </span>
-                  <FaChevronDown className={`chevron ${activeSection === section.id ? 'open' : ''}`} />
-                </div>
-              </button>
-
-              {activeSection === section.id && (
-                <div className="section-content">
-                  {/* Personal Information */}
-                  {section.id === 'personal' && (
-                    <div className="form-grid">
-                      <div className="form-field">
-                        <label>{t.fullName} <span className="required">*</span></label>
-                        <input
-                          type="text"
-                          value={cvData.personalInfo?.fullName || ''}
-                          onChange={(e) => updatePersonal('fullName', e.target.value)}
-                          placeholder="John Doe"
-                        />
-                      </div>
-                      <div className="form-field">
-                        <label>{t.email} <span className="required">*</span></label>
-                        <input
-                          type="email"
-                          value={cvData.personalInfo?.email || ''}
-                          onChange={(e) => updatePersonal('email', e.target.value)}
-                          placeholder="john@example.com"
-                        />
-                      </div>
-                      <div className="form-field">
-                        <label>{t.phone}</label>
-                        <input
-                          type="tel"
-                          value={cvData.personalInfo?.phone || ''}
-                          onChange={(e) => updatePersonal('phone', e.target.value)}
-                          placeholder="+1 (555) 123-4567"
-                        />
-                      </div>
-                      <div className="form-field">
-                        <label>{t.location}</label>
-                        <input
-                          type="text"
-                          value={cvData.personalInfo?.location || ''}
-                          onChange={(e) => updatePersonal('location', e.target.value)}
-                          placeholder="New York, NY"
-                        />
-                      </div>
-                      <div className="form-field">
-                        <label>{t.linkedin}</label>
-                        <input
-                          type="url"
-                          value={cvData.personalInfo?.linkedin || ''}
-                          onChange={(e) => updatePersonal('linkedin', e.target.value)}
-                          placeholder="linkedin.com/in/johndoe"
-                        />
-                      </div>
-                      <div className="form-field">
-                        <label>{t.website}</label>
-                        <input
-                          type="url"
-                          value={cvData.personalInfo?.website || ''}
-                          onChange={(e) => updatePersonal('website', e.target.value)}
-                          placeholder="johndoe.com"
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Summary */}
-                  {section.id === 'summary' && (
-                    <div className="form-field full">
-                      <textarea
-                        value={cvData.summary || ''}
-                        onChange={(e) => updateSummary(e.target.value)}
-                        placeholder={t.summaryPlaceholder}
-                        rows={4}
-                      />
-                    </div>
-                  )}
-
-                  {/* Experience */}
-                  {section.id === 'experience' && (
-                    <>
-                      {cvData.experience?.map((exp, index) => (
-                        <div key={exp.id} className="entry-card">
-                          <div className="entry-header">
-                            <span className="entry-number">#{index + 1}</span>
-                            <button className="delete-btn" onClick={() => deleteExperience(exp.id)}>
-                              <FaTrash />
-                            </button>
-                          </div>
-                          <div className="form-grid">
-                            <div className="form-field">
-                              <label>{t.jobTitle}</label>
-                              <input
-                                type="text"
-                                value={exp.title || ''}
-                                onChange={(e) => updateExperience(exp.id, 'title', e.target.value)}
-                              />
-                            </div>
-                            <div className="form-field">
-                              <label>{t.company}</label>
-                              <input
-                                type="text"
-                                value={exp.company || ''}
-                                onChange={(e) => updateExperience(exp.id, 'company', e.target.value)}
-                              />
-                            </div>
-                            <div className="form-field">
-                              <label>{t.startDate}</label>
-                              <input
-                                type="text"
-                                value={exp.startDate || ''}
-                                onChange={(e) => updateExperience(exp.id, 'startDate', e.target.value)}
-                                placeholder="Jan 2020"
-                              />
-                            </div>
-                            <div className="form-field">
-                              <label>{t.endDate}</label>
-                              <input
-                                type="text"
-                                value={exp.endDate || ''}
-                                onChange={(e) => updateExperience(exp.id, 'endDate', e.target.value)}
-                                placeholder="Present"
-                                disabled={exp.current}
-                              />
-                            </div>
-                            <div className="form-field full">
-                              <label className="checkbox">
-                                <input
-                                  type="checkbox"
-                                  checked={exp.current || false}
-                                  onChange={(e) => updateExperience(exp.id, 'current', e.target.checked)}
-                                />
-                                {t.current}
-                              </label>
-                            </div>
-                            <div className="form-field full">
-                              <label>{t.description}</label>
-                              <textarea
-                                value={exp.description || ''}
-                                onChange={(e) => updateExperience(exp.id, 'description', e.target.value)}
-                                rows={3}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                      <button className="add-btn" onClick={addExperience}>
-                        <FaPlus /> {t.add} {t.experience}
-                      </button>
-                    </>
-                  )}
-
-                  {/* Education */}
-                  {section.id === 'education' && (
-                    <>
-                      {cvData.education?.map((edu, index) => (
-                        <div key={edu.id} className="entry-card">
-                          <div className="entry-header">
-                            <span className="entry-number">#{index + 1}</span>
-                            <button className="delete-btn" onClick={() => deleteEducation(edu.id)}>
-                              <FaTrash />
-                            </button>
-                          </div>
-                          <div className="form-grid">
-                            <div className="form-field">
-                              <label>{t.degree}</label>
-                              <input
-                                type="text"
-                                value={edu.degree || ''}
-                                onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)}
-                              />
-                            </div>
-                            <div className="form-field">
-                              <label>{t.school}</label>
-                              <input
-                                type="text"
-                                value={edu.school || ''}
-                                onChange={(e) => updateEducation(edu.id, 'school', e.target.value)}
-                              />
-                            </div>
-                            <div className="form-field">
-                              <label>{t.field}</label>
-                              <input
-                                type="text"
-                                value={edu.field || ''}
-                                onChange={(e) => updateEducation(edu.id, 'field', e.target.value)}
-                              />
-                            </div>
-                            <div className="form-field">
-                              <label>{t.year}</label>
-                              <input
-                                type="text"
-                                value={edu.year || ''}
-                                onChange={(e) => updateEducation(edu.id, 'year', e.target.value)}
-                                placeholder="2020"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                      <button className="add-btn" onClick={addEducation}>
-                        <FaPlus /> {t.add} {t.education}
-                      </button>
-                    </>
-                  )}
-
-                  {/* Skills */}
-                  {section.id === 'skills' && (
-                    <div className="form-field full">
-                      <label>{t.skillsDesc}</label>
-                      <textarea
-                        value={cvData.skills?.join(', ') || ''}
-                        onChange={(e) => updateSkills(e.target.value)}
-                        placeholder="JavaScript, React, Node.js, Python..."
-                        rows={3}
-                      />
-                      <p className="hint">Separate skills with commas</p>
-                    </div>
-                  )}
-
-                  {/* Languages */}
-                  {section.id === 'languages' && (
-                    <>
-                      {cvData.languages?.map((lang, index) => (
-                        <div key={lang.id} className="entry-row">
-                          <input
-                            type="text"
-                            value={lang.name || ''}
-                            onChange={(e) => updateLanguages(lang.id, 'name', e.target.value)}
-                            placeholder={t.languageName}
-                          />
-                          <select
-                            value={lang.level || ''}
-                            onChange={(e) => updateLanguages(lang.id, 'level', e.target.value)}
-                          >
-                            <option value="">{t.level}</option>
-                            <option value="Native">Native</option>
-                            <option value="Fluent">Fluent</option>
-                            <option value="Advanced">Advanced</option>
-                            <option value="Intermediate">Intermediate</option>
-                            <option value="Basic">Basic</option>
-                          </select>
-                          <button className="delete-btn small" onClick={() => deleteLanguage(lang.id)}>
-                            <FaTrash />
-                          </button>
-                        </div>
-                      ))}
-                      <button className="add-btn" onClick={addLanguage}>
-                        <FaPlus /> {t.add} {t.languageName}
-                      </button>
-                    </>
-                  )}
-
-                  {/* Certificates */}
-                  {section.id === 'certificates' && (
-                    <>
-                      {cvData.certificates?.map((cert, index) => (
-                        <div key={cert.id} className="entry-card">
-                          <div className="entry-header">
-                            <span className="entry-number">#{index + 1}</span>
-                            <button className="delete-btn" onClick={() => deleteCertificate(cert.id)}>
-                              <FaTrash />
-                            </button>
-                          </div>
-                          <div className="form-grid">
-                            <div className="form-field">
-                              <label>{t.certName}</label>
-                              <input
-                                type="text"
-                                value={cert.name || ''}
-                                onChange={(e) => updateCertificates(cert.id, 'name', e.target.value)}
-                              />
-                            </div>
-                            <div className="form-field">
-                              <label>{t.issuer}</label>
-                              <input
-                                type="text"
-                                value={cert.issuer || ''}
-                                onChange={(e) => updateCertificates(cert.id, 'issuer', e.target.value)}
-                              />
-                            </div>
-                            <div className="form-field">
-                              <label>{t.year}</label>
-                              <input
-                                type="text"
-                                value={cert.year || ''}
-                                onChange={(e) => updateCertificates(cert.id, 'year', e.target.value)}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                      <button className="add-btn" onClick={addCertificate}>
-                        <FaPlus /> {t.add} {t.certificates}
-                      </button>
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
+        <nav className="cvb-nav">
+          {sections.map(sec => (
+            <button
+              key={sec.id}
+              className={`cvb-nav-item ${activeSection === sec.id ? 'active' : ''}`}
+              onClick={() => setActiveSection(sec.id)}
+            >
+              <sec.icon />
+              <span>{sec.label}</span>
+            </button>
           ))}
-        </div>
-      </div>
+        </nav>
 
-      {/* RIGHT - Preview Panel */}
-      <div className="preview-panel">
-        <div className={`cv-preview ${templateStyle}`}>
-          {/* CV Header */}
-          <div className="cv-header">
-            <h1 className="cv-name">{cvData.personalInfo?.fullName || 'Your Name'}</h1>
-            <div className="cv-contact">
-              {cvData.personalInfo?.email && (
-                <span><FaEnvelope /> {cvData.personalInfo.email}</span>
-              )}
-              {cvData.personalInfo?.phone && (
-                <span><FaPhone /> {cvData.personalInfo.phone}</span>
-              )}
-              {cvData.personalInfo?.location && (
-                <span><FaMapMarkerAlt /> {cvData.personalInfo.location}</span>
-              )}
-              {cvData.personalInfo?.linkedin && (
-                <span><FaLinkedin /> {cvData.personalInfo.linkedin}</span>
-              )}
-              {cvData.personalInfo?.website && (
-                <span><FaGlobe /> {cvData.personalInfo.website}</span>
-              )}
-            </div>
+        <div className="cvb-sidebar-footer">
+          <div className={`cvb-save-status ${saveStatus}`}>
+            <FaCheck />
+            <span>{saveStatus === 'saved' ? t.saved : t.saving}</span>
           </div>
+        </div>
+      </aside>
 
-          {/* Summary */}
-          {cvData.summary && (
-            <div className="cv-section">
-              <h2 className="cv-section-title">Professional Summary</h2>
-              <p className="cv-summary">{cvData.summary}</p>
-            </div>
-          )}
-
-          {/* Experience */}
-          {cvData.experience?.length > 0 && cvData.experience[0]?.title && (
-            <div className="cv-section">
-              <h2 className="cv-section-title">Experience</h2>
-              {cvData.experience.map(exp => (
-                <div key={exp.id} className="cv-entry">
-                  <div className="cv-entry-header">
-                    <div>
-                      <h3 className="cv-entry-title">{exp.title}</h3>
-                      <p className="cv-entry-subtitle">{exp.company}</p>
-                    </div>
-                    <span className="cv-entry-date">
-                      {exp.startDate} - {exp.current ? t.present : exp.endDate}
-                    </span>
-                  </div>
-                  {exp.description && <p className="cv-entry-desc">{exp.description}</p>}
+      {/* FORM PANEL */}
+      <main className="cvb-form">
+        <div className="cvb-form-inner">
+          {activeSection === 'personal' && (
+            <div className="cvb-section">
+              <h2>{t.personal}</h2>
+              <div className="cvb-grid">
+                <div className="cvb-field">
+                  <label>{t.fullName}</label>
+                  <input value={cvData.personalInfo?.fullName || ''} onChange={e => updatePersonal('fullName', e.target.value)} />
                 </div>
-              ))}
-            </div>
-          )}
-
-          {/* Education */}
-          {cvData.education?.length > 0 && cvData.education[0]?.degree && (
-            <div className="cv-section">
-              <h2 className="cv-section-title">Education</h2>
-              {cvData.education.map(edu => (
-                <div key={edu.id} className="cv-entry">
-                  <div className="cv-entry-header">
-                    <div>
-                      <h3 className="cv-entry-title">{edu.degree}</h3>
-                      <p className="cv-entry-subtitle">{edu.school}</p>
-                    </div>
-                    <span className="cv-entry-date">{edu.year}</span>
-                  </div>
-                  {edu.field && <p className="cv-entry-desc">{edu.field}</p>}
+                <div className="cvb-field">
+                  <label>{t.email}</label>
+                  <input type="email" value={cvData.personalInfo?.email || ''} onChange={e => updatePersonal('email', e.target.value)} />
                 </div>
-              ))}
-            </div>
-          )}
-
-          {/* Skills */}
-          {cvData.skills?.length > 0 && (
-            <div className="cv-section">
-              <h2 className="cv-section-title">Skills</h2>
-              <div className="cv-skills">
-                {cvData.skills.map((skill, i) => (
-                  <span key={i} className="cv-skill">{skill}</span>
-                ))}
+                <div className="cvb-field">
+                  <label>{t.phone}</label>
+                  <input value={cvData.personalInfo?.phone || ''} onChange={e => updatePersonal('phone', e.target.value)} />
+                </div>
+                <div className="cvb-field">
+                  <label>{t.location}</label>
+                  <input value={cvData.personalInfo?.location || ''} onChange={e => updatePersonal('location', e.target.value)} />
+                </div>
+                <div className="cvb-field">
+                  <label>{t.linkedin}</label>
+                  <input value={cvData.personalInfo?.linkedin || ''} onChange={e => updatePersonal('linkedin', e.target.value)} />
+                </div>
+                <div className="cvb-field">
+                  <label>{t.website}</label>
+                  <input value={cvData.personalInfo?.website || ''} onChange={e => updatePersonal('website', e.target.value)} />
+                </div>
               </div>
             </div>
           )}
 
-          {/* Languages */}
-          {cvData.languages?.length > 0 && cvData.languages[0]?.name && (
-            <div className="cv-section">
-              <h2 className="cv-section-title">Languages</h2>
-              <div className="cv-languages">
-                {cvData.languages.map(lang => (
-                  <span key={lang.id} className="cv-language">
-                    <strong>{lang.name}</strong> - {lang.level}
-                  </span>
-                ))}
-              </div>
+          {activeSection === 'summary' && (
+            <div className="cvb-section">
+              <h2>{t.summary}</h2>
+              <textarea
+                className="cvb-textarea"
+                value={cvData.summary || ''}
+                onChange={e => updateSummary(e.target.value)}
+                placeholder="Write a brief professional summary..."
+                rows={6}
+              />
             </div>
           )}
 
-          {/* Certificates */}
-          {cvData.certificates?.length > 0 && cvData.certificates[0]?.name && (
-            <div className="cv-section">
-              <h2 className="cv-section-title">Certifications</h2>
-              {cvData.certificates.map(cert => (
-                <div key={cert.id} className="cv-entry">
-                  <div className="cv-entry-header">
-                    <div>
-                      <h3 className="cv-entry-title">{cert.name}</h3>
-                      <p className="cv-entry-subtitle">{cert.issuer}</p>
+          {activeSection === 'experience' && (
+            <div className="cvb-section">
+              <h2>{t.experience}</h2>
+              {cvData.experience?.map((exp, idx) => (
+                <div key={exp.id} className="cvb-card">
+                  <div className="cvb-card-header">
+                    <span className="cvb-card-num">{idx + 1}</span>
+                    <button className="cvb-delete" onClick={() => deleteExperience(exp.id)}><FaTrash /></button>
+                  </div>
+                  <div className="cvb-grid">
+                    <div className="cvb-field">
+                      <label>{t.jobTitle}</label>
+                      <input value={exp.title || ''} onChange={e => updateExperience(exp.id, 'title', e.target.value)} />
                     </div>
-                    <span className="cv-entry-date">{cert.year}</span>
+                    <div className="cvb-field">
+                      <label>{t.company}</label>
+                      <input value={exp.company || ''} onChange={e => updateExperience(exp.id, 'company', e.target.value)} />
+                    </div>
+                    <div className="cvb-field">
+                      <label>{t.startDate}</label>
+                      <input value={exp.startDate || ''} onChange={e => updateExperience(exp.id, 'startDate', e.target.value)} placeholder="Jan 2020" />
+                    </div>
+                    <div className="cvb-field">
+                      <label>{t.endDate}</label>
+                      <input value={exp.endDate || ''} onChange={e => updateExperience(exp.id, 'endDate', e.target.value)} placeholder="Present" disabled={exp.current} />
+                    </div>
+                    <div className="cvb-field full">
+                      <label className="cvb-checkbox">
+                        <input type="checkbox" checked={exp.current || false} onChange={e => updateExperience(exp.id, 'current', e.target.checked)} />
+                        <span>{t.current}</span>
+                      </label>
+                    </div>
+                    <div className="cvb-field full">
+                      <label>{t.description}</label>
+                      <textarea value={exp.description || ''} onChange={e => updateExperience(exp.id, 'description', e.target.value)} rows={3} />
+                    </div>
                   </div>
                 </div>
               ))}
+              <button className="cvb-add" onClick={addExperience}><FaPlus /> {t.add}</button>
+            </div>
+          )}
+
+          {activeSection === 'education' && (
+            <div className="cvb-section">
+              <h2>{t.education}</h2>
+              {cvData.education?.map((edu, idx) => (
+                <div key={edu.id} className="cvb-card">
+                  <div className="cvb-card-header">
+                    <span className="cvb-card-num">{idx + 1}</span>
+                    <button className="cvb-delete" onClick={() => deleteEducation(edu.id)}><FaTrash /></button>
+                  </div>
+                  <div className="cvb-grid">
+                    <div className="cvb-field">
+                      <label>{t.degree}</label>
+                      <input value={edu.degree || ''} onChange={e => updateEducation(edu.id, 'degree', e.target.value)} />
+                    </div>
+                    <div className="cvb-field">
+                      <label>{t.school}</label>
+                      <input value={edu.school || ''} onChange={e => updateEducation(edu.id, 'school', e.target.value)} />
+                    </div>
+                    <div className="cvb-field">
+                      <label>{t.field}</label>
+                      <input value={edu.field || ''} onChange={e => updateEducation(edu.id, 'field', e.target.value)} />
+                    </div>
+                    <div className="cvb-field">
+                      <label>{t.year}</label>
+                      <input value={edu.year || ''} onChange={e => updateEducation(edu.id, 'year', e.target.value)} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <button className="cvb-add" onClick={addEducation}><FaPlus /> {t.add}</button>
+            </div>
+          )}
+
+          {activeSection === 'skills' && (
+            <div className="cvb-section">
+              <h2>{t.skills}</h2>
+              <textarea
+                className="cvb-textarea"
+                value={Array.isArray(cvData.skills) ? cvData.skills.join(', ') : (cvData.skills || '')}
+                onChange={e => updateSkills(e.target.value)}
+                placeholder="JavaScript, React, Node.js, Python..."
+                rows={4}
+              />
+              <p className="cvb-hint">Separate skills with commas</p>
+            </div>
+          )}
+
+          {activeSection === 'languages' && (
+            <div className="cvb-section">
+              <h2>{t.languages}</h2>
+              {cvData.languages?.map((lang, idx) => (
+                <div key={lang.id} className="cvb-row">
+                  <input value={lang.name || ''} onChange={e => updateLanguageItem(lang.id, 'name', e.target.value)} placeholder="Language" />
+                  <select value={lang.level || ''} onChange={e => updateLanguageItem(lang.id, 'level', e.target.value)}>
+                    <option value="">Level</option>
+                    <option value="Native">Native</option>
+                    <option value="Fluent">Fluent</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Basic">Basic</option>
+                  </select>
+                  <button className="cvb-delete-sm" onClick={() => deleteLanguage(lang.id)}><FaTrash /></button>
+                </div>
+              ))}
+              <button className="cvb-add" onClick={addLanguage}><FaPlus /> {t.add}</button>
+            </div>
+          )}
+
+          {activeSection === 'certificates' && (
+            <div className="cvb-section">
+              <h2>{t.certificates}</h2>
+              {cvData.certificates?.map((cert, idx) => (
+                <div key={cert.id} className="cvb-card">
+                  <div className="cvb-card-header">
+                    <span className="cvb-card-num">{idx + 1}</span>
+                    <button className="cvb-delete" onClick={() => deleteCertificate(cert.id)}><FaTrash /></button>
+                  </div>
+                  <div className="cvb-grid">
+                    <div className="cvb-field">
+                      <label>Name</label>
+                      <input value={cert.name || ''} onChange={e => updateCertificate(cert.id, 'name', e.target.value)} />
+                    </div>
+                    <div className="cvb-field">
+                      <label>Issuer</label>
+                      <input value={cert.issuer || ''} onChange={e => updateCertificate(cert.id, 'issuer', e.target.value)} />
+                    </div>
+                    <div className="cvb-field">
+                      <label>{t.year}</label>
+                      <input value={cert.year || ''} onChange={e => updateCertificate(cert.id, 'year', e.target.value)} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <button className="cvb-add" onClick={addCertificate}><FaPlus /> {t.add}</button>
             </div>
           )}
         </div>
-      </div>
+      </main>
 
-      {/* Floating Actions */}
-      <div className="floating-actions">
-        <button className="template-btn" onClick={() => setShowTemplateModal(true)}>
-          <FaPalette /> {t.templates}
-        </button>
-        <button className="download-btn" onClick={handleDownload}>
-          <FaDownload /> {t.download}
-        </button>
-      </div>
+      {/* PREVIEW PANEL */}
+      <section className="cvb-preview-panel">
+        <div className="cvb-preview-toolbar">
+          <button className={`cvb-template-btn ${showTemplates ? 'active' : ''}`} onClick={() => setShowTemplates(!showTemplates)}>
+            <FaPalette /> {t.templates}
+          </button>
+          <button className="cvb-download-btn" onClick={handleDownload}>
+            <FaDownload /> {t.download}
+          </button>
+        </div>
 
-      {/* Mobile Preview Button */}
-      <button className="mobile-preview-btn" onClick={() => setShowMobilePreview(true)}>
-        <FaEye /> {t.preview}
-      </button>
-
-      {/* Template Modal */}
-      {showTemplateModal && (
-        <div className="modal-overlay" onClick={() => setShowTemplateModal(false)}>
-          <div className="modal" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2>{t.templates}</h2>
-              <button onClick={() => setShowTemplateModal(false)}><FaTimes /></button>
+        {showTemplates && (
+          <div className="cvb-template-catalog">
+            <div className="cvb-catalog-header">
+              <h2>Choose Your Template</h2>
+              <p>Select a professional template that fits your style</p>
+              <button className="cvb-catalog-close" onClick={() => setShowTemplates(false)}><FaTimes /></button>
             </div>
-            <div className="modal-body">
-              <div className="template-grid">
-                {templateOptions.map(temp => (
+
+            <div className="cvb-catalog-section">
+              <h3><span className="cvb-badge popular">Popular</span> Most Used Templates</h3>
+              <div className="cvb-catalog-grid">
+                {templates.filter(t => t.category === 'popular').map(temp => (
                   <button
                     key={temp.id}
-                    className={`template-option ${templateStyle === temp.id ? 'active' : ''}`}
-                    onClick={() => selectTemplate(temp.id)}
+                    className={`cvb-catalog-item ${templateStyle === temp.id ? 'active' : ''}`}
+                    onClick={() => { setTemplateStyle(temp.id); setShowTemplates(false); }}
                   >
-                    <div className="template-preview" style={{ background: temp.color }}></div>
-                    <span>{temp.name}</span>
+                    <div className={`cvb-catalog-preview ${temp.id}`}>
+                      <div className="cvb-preview-header" style={{ background: temp.color === '#fff' ? '#000' : temp.color }}></div>
+                      <div className="cvb-preview-lines">
+                        <div className="line"></div>
+                        <div className="line short"></div>
+                        <div className="line"></div>
+                      </div>
+                    </div>
+                    <div className="cvb-catalog-info">
+                      <span className="cvb-catalog-name">{temp.name}</span>
+                      <span className="cvb-catalog-desc">{temp.desc}</span>
+                    </div>
+                    {templateStyle === temp.id && <div className="cvb-catalog-check"><FaCheck /></div>}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="cvb-catalog-section">
+              <h3><span className="cvb-badge premium">Premium</span> Professional Templates</h3>
+              <div className="cvb-catalog-grid">
+                {templates.filter(t => t.category === 'premium').map(temp => (
+                  <button
+                    key={temp.id}
+                    className={`cvb-catalog-item ${templateStyle === temp.id ? 'active' : ''}`}
+                    onClick={() => { setTemplateStyle(temp.id); setShowTemplates(false); }}
+                  >
+                    <div className={`cvb-catalog-preview ${temp.id}`}>
+                      <div className="cvb-preview-header" style={{ background: temp.color }}></div>
+                      <div className="cvb-preview-lines">
+                        <div className="line"></div>
+                        <div className="line short"></div>
+                        <div className="line"></div>
+                      </div>
+                    </div>
+                    <div className="cvb-catalog-info">
+                      <span className="cvb-catalog-name">{temp.name}</span>
+                      <span className="cvb-catalog-desc">{temp.desc}</span>
+                    </div>
+                    {templateStyle === temp.id && <div className="cvb-catalog-check"><FaCheck /></div>}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="cvb-catalog-section">
+              <h3><span className="cvb-badge professional">Pro</span> Industry Specific</h3>
+              <div className="cvb-catalog-grid">
+                {templates.filter(t => t.category === 'professional' || t.category === 'creative').map(temp => (
+                  <button
+                    key={temp.id}
+                    className={`cvb-catalog-item ${templateStyle === temp.id ? 'active' : ''}`}
+                    onClick={() => { setTemplateStyle(temp.id); setShowTemplates(false); }}
+                  >
+                    <div className={`cvb-catalog-preview ${temp.id}`}>
+                      <div className="cvb-preview-header" style={{ background: temp.color }}></div>
+                      <div className="cvb-preview-lines">
+                        <div className="line"></div>
+                        <div className="line short"></div>
+                        <div className="line"></div>
+                      </div>
+                    </div>
+                    <div className="cvb-catalog-info">
+                      <span className="cvb-catalog-name">{temp.name}</span>
+                      <span className="cvb-catalog-desc">{temp.desc}</span>
+                    </div>
+                    {templateStyle === temp.id && <div className="cvb-catalog-check"><FaCheck /></div>}
                   </button>
                 ))}
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Mobile Preview Modal */}
-      {showMobilePreview && (
-        <div className="mobile-preview-modal">
-          <button className="close-preview" onClick={() => setShowMobilePreview(false)}>
-            <FaTimes />
-          </button>
-          <div className={`cv-preview ${templateStyle}`}>
-            {/* Same CV content as above */}
-            <div className="cv-header">
+        <div className="cvb-preview-wrapper">
+          <div className={`cv-document ${templateStyle}`}>
+            <header className="cv-header">
               <h1 className="cv-name">{cvData.personalInfo?.fullName || 'Your Name'}</h1>
               <div className="cv-contact">
                 {cvData.personalInfo?.email && <span><FaEnvelope /> {cvData.personalInfo.email}</span>}
                 {cvData.personalInfo?.phone && <span><FaPhone /> {cvData.personalInfo.phone}</span>}
                 {cvData.personalInfo?.location && <span><FaMapMarkerAlt /> {cvData.personalInfo.location}</span>}
+                {cvData.personalInfo?.linkedin && <span><FaLinkedin /> {cvData.personalInfo.linkedin}</span>}
+                {cvData.personalInfo?.website && <span><FaGlobe /> {cvData.personalInfo.website}</span>}
               </div>
-            </div>
+            </header>
+
             {cvData.summary && (
-              <div className="cv-section">
-                <h2 className="cv-section-title">Professional Summary</h2>
-                <p className="cv-summary">{cvData.summary}</p>
-              </div>
+              <section className="cv-section">
+                <h2>Summary</h2>
+                <p>{cvData.summary}</p>
+              </section>
             )}
+
             {cvData.experience?.length > 0 && cvData.experience[0]?.title && (
-              <div className="cv-section">
-                <h2 className="cv-section-title">Experience</h2>
+              <section className="cv-section">
+                <h2>Experience</h2>
                 {cvData.experience.map(exp => (
-                  <div key={exp.id} className="cv-entry">
-                    <h3 className="cv-entry-title">{exp.title}</h3>
-                    <p className="cv-entry-subtitle">{exp.company}</p>
+                  <div key={exp.id} className="cv-item">
+                    <div className="cv-item-header">
+                      <div>
+                        <h3>{exp.title}</h3>
+                        <p className="cv-company">{exp.company}</p>
+                      </div>
+                      <span className="cv-date">{exp.startDate} - {exp.current ? t.present : exp.endDate}</span>
+                    </div>
+                    {exp.description && <p className="cv-desc">{exp.description}</p>}
                   </div>
                 ))}
+              </section>
+            )}
+
+            {cvData.education?.length > 0 && cvData.education[0]?.degree && (
+              <section className="cv-section">
+                <h2>Education</h2>
+                {cvData.education.map(edu => (
+                  <div key={edu.id} className="cv-item">
+                    <div className="cv-item-header">
+                      <div>
+                        <h3>{edu.degree}</h3>
+                        <p className="cv-company">{edu.school}</p>
+                      </div>
+                      <span className="cv-date">{edu.year}</span>
+                    </div>
+                    {edu.field && <p className="cv-desc">{edu.field}</p>}
+                  </div>
+                ))}
+              </section>
+            )}
+
+            {Array.isArray(cvData.skills) && cvData.skills.length > 0 && (
+              <section className="cv-section">
+                <h2>Skills</h2>
+                <div className="cv-skills">
+                  {cvData.skills.map((skill, i) => <span key={i} className="cv-skill">{skill}</span>)}
+                </div>
+              </section>
+            )}
+
+            {cvData.languages?.length > 0 && cvData.languages[0]?.name && (
+              <section className="cv-section">
+                <h2>Languages</h2>
+                <div className="cv-langs">
+                  {cvData.languages.map(lang => (
+                    <span key={lang.id} className="cv-lang">{lang.name} <em>({lang.level})</em></span>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {cvData.certificates?.length > 0 && cvData.certificates[0]?.name && (
+              <section className="cv-section">
+                <h2>Certifications</h2>
+                {cvData.certificates.map(cert => (
+                  <div key={cert.id} className="cv-item">
+                    <div className="cv-item-header">
+                      <div>
+                        <h3>{cert.name}</h3>
+                        <p className="cv-company">{cert.issuer}</p>
+                      </div>
+                      <span className="cv-date">{cert.year}</span>
+                    </div>
+                  </div>
+                ))}
+              </section>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* MOBILE PREVIEW */}
+      <button className="cvb-mobile-preview" onClick={() => setShowMobilePreview(true)}>
+        <FaEye /> {t.preview}
+      </button>
+
+      {showMobilePreview && (
+        <div className="cvb-mobile-modal">
+          <button className="cvb-close-modal" onClick={() => setShowMobilePreview(false)}><FaTimes /></button>
+          <div className={`cv-document ${templateStyle}`}>
+            <header className="cv-header">
+              <h1 className="cv-name">{cvData.personalInfo?.fullName || 'Your Name'}</h1>
+              <div className="cv-contact">
+                {cvData.personalInfo?.email && <span><FaEnvelope /> {cvData.personalInfo.email}</span>}
+                {cvData.personalInfo?.phone && <span><FaPhone /> {cvData.personalInfo.phone}</span>}
               </div>
+            </header>
+            {cvData.summary && (
+              <section className="cv-section">
+                <h2>Summary</h2>
+                <p>{cvData.summary}</p>
+              </section>
             )}
           </div>
         </div>
