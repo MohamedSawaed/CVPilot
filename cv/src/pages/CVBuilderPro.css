@@ -48,7 +48,9 @@
   width: 100vw;
   overflow: hidden;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--gray-100);
+  background: #ffffff;
+  margin: 0;
+  padding: 0;
 }
 
 .cv-builder-pro.rtl {
@@ -59,12 +61,15 @@
 .builder-left-panel {
   width: 50%;
   height: 100vh;
-  background: var(--white);
+  background: #fafbfc;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid var(--gray-200);
+  border-right: 1px solid #e8eaed;
   position: relative;
   flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* Header */
@@ -616,90 +621,59 @@
   accent-color: var(--primary);
 }
 
-/* ========== RIGHT PANEL - LIVE PREVIEW (ZERO MARGIN FULL COVERAGE) ========== */
+/* ========== RIGHT PANEL - LIVE PREVIEW ========== */
 .builder-right-panel {
   width: 50%;
   height: 100vh;
   margin: 0;
   padding: 0;
-  background: var(--white);
+  background: #ffffff;
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
   box-sizing: border-box;
 }
 
-/* Preview Container - Full Canvas */
 .preview-container {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  width: 100%;
-  height: 100%;
   margin: 0;
   padding: 0;
-  display: block;
   overflow: hidden;
-  box-sizing: border-box;
 }
 
-/* Preview Paper Wrapper - Internal Scroll */
 .preview-paper-wrapper {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  width: 100%;
-  height: 100%;
   margin: 0;
   padding: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  box-sizing: border-box;
+  background: #ffffff;
 }
 
-/* Hide scrollbar but keep functionality */
-.preview-paper-wrapper::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
-}
-
-.preview-paper-wrapper {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Preview Paper - Full Coverage */
 .preview-paper {
   width: 100%;
   min-height: 100%;
   margin: 0;
   padding: 0;
-  background: var(--white);
-  box-sizing: border-box;
-  border-radius: 0;
-  box-shadow: none;
+  background: #ffffff;
 }
 
-/* Preview Scale Wrapper */
 .preview-scale-wrapper {
   width: 100%;
   min-height: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  transform-origin: top left;
 }
 
-/* Hidden Elements */
-.preview-header {
-  display: none;
-}
-
+.preview-header,
 .preview-title,
 .preview-actions,
 .preview-action-btn,
