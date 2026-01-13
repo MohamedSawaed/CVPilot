@@ -617,7 +617,7 @@
 .builder-right-panel {
   width: 50%;
   height: 100vh;
-  background: #f8f9fa;
+  background: #f5f5f5;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -627,6 +627,15 @@
 .builder-right-panel::before,
 .builder-right-panel::after {
   display: none;
+}
+
+/* Preview Container - MUST fill all space */
+.builder-right-panel .preview-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Preview Header */
@@ -738,15 +747,16 @@
   z-index: 1;
 }
 
-/* ===== CV PAPER WRAPPER - FULL WIDTH ===== */
+/* ===== CV PAPER WRAPPER ===== */
 .preview-paper-wrapper {
   flex: 1;
   display: flex;
   align-items: stretch;
-  justify-content: stretch;
-  padding: 0;
+  justify-content: center;
+  padding: 20px;
   overflow: hidden;
   position: relative;
+  background: #f5f5f5;
 }
 
 .preview-paper-wrapper::before,
@@ -754,23 +764,25 @@
   display: none;
 }
 
-/* ===== CV PAPER - FILLS ENTIRE SPACE ===== */
+/* ===== CV PAPER ===== */
 .preview-paper {
   background: #ffffff;
-  border-radius: 0;
+  border-radius: 8px;
   width: 100%;
+  max-width: 650px;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
-  z-index: 10;
-
-  /* Subtle inner shadow */
-  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.03);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .preview-paper:hover {
-  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.03);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 /* Gradient top border */
@@ -782,6 +794,7 @@
   right: 0;
   display: block;
   height: 4px;
+  min-height: 4px;
   background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
   z-index: 100;
 }
@@ -792,26 +805,26 @@
 
 /* Custom Scrollbar */
 .preview-paper::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 .preview-paper::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
 
 .preview-paper::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
+  background: #d1d5db;
+  border-radius: 3px;
 }
 
 .preview-paper::-webkit-scrollbar-thumb:hover {
-  background: #a1a1a1;
+  background: #9ca3af;
 }
 
-/* CV Content - proper padding */
+/* CV Content */
 .preview-scale-wrapper {
   padding: 32px;
-  min-height: 100%;
+  padding-top: 28px;
 }
 
 /* ========== CV PREVIEW STYLES ========== */
