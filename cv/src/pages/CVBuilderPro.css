@@ -617,8 +617,9 @@
 .builder-right-panel {
   flex: 1;
   height: 100vh;
-  background: #f8fafc;
+  background: #ffffff;
   overflow: hidden;
+  border-left: 1px solid #e5e7eb;
 }
 
 .preview-container {
@@ -629,97 +630,35 @@
 }
 
 .preview-header {
-  flex-shrink: 0;
-  height: 56px;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
+  display: none;
 }
 
 .preview-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: #64748b;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.preview-title::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background: #22c55e;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  display: none;
 }
 
 .preview-actions {
-  display: flex;
-  gap: 10px;
+  display: none;
 }
 
 .preview-action-btn {
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 500;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s;
-  border: none;
-}
-
-.preview-action-btn.secondary {
-  background: #f1f5f9;
-  color: #475569;
-}
-
-.preview-action-btn.secondary:hover {
-  background: #e2e8f0;
-}
-
-.preview-action-btn.primary {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
-}
-
-.preview-action-btn.primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  display: none;
 }
 
 .preview-paper-wrapper {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 24px;
-  background: #f1f5f9;
+  background: #ffffff;
 }
 
 .preview-paper {
   width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
   background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  min-height: calc(100vh - 150px);
 }
 
 .preview-scale-wrapper {
-  padding: 40px;
+  padding: 32px 40px;
 }
 
 .template-selector {
