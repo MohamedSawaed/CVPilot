@@ -164,16 +164,13 @@
 .builder-right-panel {
   background: white;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.preview-container,
-.preview-paper-wrapper,
-.preview-paper,
-.preview-scale-wrapper {
-  width: 100%;
-  min-height: 100%;
-}
-
+.preview-container { width: 100%; }
+.preview-paper-wrapper { width: 100%; }
+.preview-paper { width: 100%; }
+.preview-scale-wrapper { width: 100%; }
 .preview-header, .preview-title, .preview-actions, .preview-action-btn, .template-selector { display: none; }
 
 /* CV Preview */
@@ -181,6 +178,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #333;
   line-height: 1.5;
+  min-height: 100vh;
 }
 
 .cv-preview.rtl { direction: rtl; text-align: right; }
@@ -188,7 +186,8 @@
 .cv-header {
   background: #5b4eff;
   color: white;
-  padding: 32px;
+  padding: 40px;
+  width: 100%;
 }
 
 .cv-name { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
