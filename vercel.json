@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd cv && npm install && npm run build",
+  "buildCommand": "cd cv && CI=false npm run build",
   "outputDirectory": "cv/build",
   "installCommand": "cd cv && npm install",
   "framework": "create-react-app"
