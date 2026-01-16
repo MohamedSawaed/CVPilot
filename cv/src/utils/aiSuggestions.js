@@ -126,7 +126,7 @@ export const generateExperienceSuggestions = (description, jobTitle, profession)
   // Check for action verbs
   const lines = description.split('\n').filter(l => l.trim());
   const weakStarters = lines.filter(line => {
-    const firstWord = line.trim().replace(/^[•\-\*]\s*/, '').split(' ')[0].toLowerCase();
+    const firstWord = line.trim().replace(/^[•\-*]\s*/, '').split(' ')[0].toLowerCase();
     return ['responsible', 'duties', 'worked', 'helped', 'assisted', 'was', 'did'].includes(firstWord);
   });
 
