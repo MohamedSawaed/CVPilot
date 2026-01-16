@@ -1076,149 +1076,131 @@
   }
 }
 
-/* ============ MOBILE DESIGN - 768px and below ============ */
+/* ========================================================================
+   MOBILE DESIGN - THE ULTIMATE PERFECTION 1000000000000%
+   Every detail crafted with precision for the best mobile experience
+   ======================================================================== */
+
+/* ============ TABLETS & LARGE PHONES - 768px ============ */
 @media (max-width: 768px) {
+
+  /* === BASE LAYOUT === */
   .cvb {
     grid-template-columns: 1fr;
-    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+    background: #000;
     min-height: 100vh;
+    min-height: 100dvh;
   }
 
-  .cvb-sidebar {
+  .cvb-sidebar,
+  .cvb-preview-panel {
     display: none;
   }
 
   .cvb-form {
     padding: 0;
-    padding-bottom: 100px;
-    background: transparent;
+    padding-bottom: 90px;
+    background: #000;
     border: none;
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   .cvb-form-inner {
     padding: 20px;
+    max-width: 100%;
   }
 
-  .cvb-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .cvb-section {
-    background: linear-gradient(145deg, #111 0%, #0a0a0a 100%);
-    border-radius: 20px;
-    padding: 24px;
-    border: 1px solid #1a1a1a;
-  }
-
-  .cvb-section h2 {
-    font-size: 22px;
-    margin-bottom: 20px;
-    color: #fff;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-  }
-
-  /* Mobile Header - Premium Glass Effect */
+  /* === HEADER - Clean & Minimal === */
   .cvb-mobile-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 20px;
-    background: rgba(10, 10, 10, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 12px 16px;
+    background: #000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 100;
   }
 
   .cvb-mobile-back {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     background: none;
     border: none;
     color: #fff;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
-    padding: 10px 14px;
-    border-radius: 12px;
-    transition: all 0.2s ease;
+    padding: 10px 0;
   }
 
-  .cvb-mobile-back:active {
-    background: rgba(255, 255, 255, 0.1);
-    transform: scale(0.95);
+  .cvb-mobile-back svg {
+    font-size: 18px;
+    opacity: 0.7;
   }
 
   .cvb-mobile-actions {
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 8px;
   }
 
   .cvb-mobile-actions button {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     padding: 0;
-    border-radius: 14px;
+    border-radius: 12px;
     border: none;
     font-size: 16px;
-    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: transform 0.15s ease, opacity 0.15s ease;
   }
 
   .cvb-mobile-actions button:active {
-    transform: scale(0.9);
+    transform: scale(0.92);
+    opacity: 0.8;
   }
 
-  .cvb-mobile-preview-btn {
-    background: linear-gradient(145deg, #1a1a1a, #111);
-    color: #fff;
-    border: 1px solid #333 !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  }
-
+  .cvb-mobile-preview-btn,
   .cvb-mobile-template-btn {
-    background: linear-gradient(145deg, #1a1a1a, #111);
+    background: #111;
     color: #fff;
-    border: 1px solid #333 !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid #222 !important;
   }
 
   .cvb-mobile-download-btn {
-    background: linear-gradient(135deg, #fff 0%, #e5e5e5 100%);
+    background: #fff;
     color: #000;
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+    font-weight: 600;
   }
 
-  /* Hide floating preview button */
   .cvb-mobile-preview {
     display: none !important;
   }
 
-  /* Mobile Bottom Navigation - Premium Tab Bar */
+  /* === BOTTOM NAVIGATION - iOS Style === */
   .cvb-mobile-nav {
     display: flex;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(10, 10, 10, 0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 8px 12px;
-    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 8px;
+    padding-bottom: calc(6px + env(safe-area-inset-bottom));
     z-index: 100;
     overflow-x: auto;
-    gap: 6px;
+    overflow-y: hidden;
+    gap: 2px;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
@@ -1228,269 +1210,448 @@
   }
 
   .cvb-mobile-nav-item {
-    flex: 1 0 auto;
+    flex: 1;
+    min-width: 52px;
+    max-width: 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    padding: 10px 12px;
-    min-width: 56px;
+    gap: 3px;
+    padding: 8px 4px;
     background: transparent;
     border: none;
-    border-radius: 14px;
-    color: #555;
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
+    border-radius: 10px;
+    color: #666;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .cvb-mobile-nav-item svg {
-    font-size: 20px;
-    transition: transform 0.2s ease;
+    font-size: 22px;
+    opacity: 0.7;
+  }
+
+  .cvb-mobile-nav-item span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   .cvb-mobile-nav-item.active {
-    background: #fff;
-    color: #000;
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
+    color: #fff;
   }
 
   .cvb-mobile-nav-item.active svg {
-    transform: scale(1.1);
+    opacity: 1;
   }
 
   .cvb-mobile-nav-item:not(.active):active {
-    background: rgba(255, 255, 255, 0.1);
-    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.05);
   }
 
-  /* Form Fields - Modern Style */
+  /* === SECTION CONTAINER === */
+  .cvb-section {
+    background: transparent;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+  }
+
+  .cvb-section h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 28px;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+
+  /* === FORM GRID === */
+  .cvb-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* === FORM FIELDS - Apple Style === */
   .cvb-field {
-    margin-bottom: 16px;
+    margin-bottom: 0;
+    padding: 14px 0;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .cvb-field:last-child {
+    border-bottom: none;
+  }
+
+  .cvb-field.full {
+    grid-column: auto;
   }
 
   .cvb-field label {
-    font-size: 12px;
-    font-weight: 600;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
     display: block;
+    font-size: 13px;
+    font-weight: 400;
+    color: #888;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 8px;
   }
 
   .cvb-field input,
-  .cvb-field textarea,
   .cvb-field select {
     width: 100%;
-    padding: 16px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
     color: #fff;
-    font-size: 16px;
-    transition: all 0.2s ease;
+    font-size: 17px;
+    font-weight: 400;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
   .cvb-field input:focus,
-  .cvb-field textarea:focus,
   .cvb-field select:focus {
     outline: none;
-    border-color: #fff;
-    background: rgba(255, 255, 255, 0.06);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+    box-shadow: none;
   }
 
-  .cvb-field input::placeholder,
+  .cvb-field input::placeholder {
+    color: #444;
+  }
+
+  .cvb-field textarea {
+    width: 100%;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 400;
+    font-family: inherit;
+    line-height: 1.5;
+    resize: none;
+    min-height: auto;
+  }
+
+  .cvb-field textarea:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
   .cvb-field textarea::placeholder {
     color: #444;
   }
 
-  /* Cards - Experience/Education */
+  /* === TEXTAREA (Summary/Skills) === */
+  .cvb-textarea {
+    width: 100%;
+    padding: 16px;
+    background: #111;
+    border: none;
+    border-radius: 16px;
+    color: #fff;
+    font-size: 16px;
+    font-family: inherit;
+    line-height: 1.6;
+    resize: none;
+    min-height: 160px;
+  }
+
+  .cvb-textarea:focus {
+    outline: none;
+    background: #151515;
+  }
+
+  .cvb-textarea::placeholder {
+    color: #444;
+  }
+
+  .cvb-hint {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #555;
+  }
+
+  /* === CHECKBOX === */
+  .cvb-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #fff;
+    padding: 4px 0;
+  }
+
+  .cvb-checkbox input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    padding: 0;
+    accent-color: #fff;
+    border-radius: 6px;
+  }
+
+  /* === CARDS (Experience/Education/Certificates) === */
   .cvb-card {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 18px;
-    padding: 20px;
+    background: #111;
+    border: none;
+    border-radius: 16px;
+    padding: 0;
     margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .cvb-card .cvb-grid {
+    padding: 0 16px;
+  }
+
+  .cvb-card .cvb-field {
+    padding: 16px 0;
   }
 
   .cvb-card-header {
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    margin-bottom: 0;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
   }
 
   .cvb-card-num {
     width: 28px;
     height: 28px;
-    background: linear-gradient(135deg, #333, #222);
+    background: #fff;
+    color: #000;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
-    color: #fff;
   }
 
-  /* Buttons */
-  .cvb-add {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(145deg, #1a1a1a, #111);
-    border: 1px dashed rgba(255, 255, 255, 0.15);
-    border-radius: 14px;
-    color: #888;
-    font-size: 14px;
-    font-weight: 600;
+  .cvb-delete {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 59, 48, 0.1);
+    border: none;
+    border-radius: 10px;
+    color: #ff3b30;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    font-size: 14px;
+    transition: all 0.15s ease;
   }
 
-  .cvb-add:active {
-    background: #222;
-    border-color: #fff;
+  .cvb-delete:active {
+    background: #ff3b30;
     color: #fff;
-    transform: scale(0.98);
+    transform: scale(0.92);
   }
 
-  .cvb-delete,
-  .cvb-delete-sm {
-    background: rgba(239, 68, 68, 0.1);
-    border: none;
-    color: #ef4444;
-    border-radius: 10px;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .cvb-delete:active,
-  .cvb-delete-sm:active {
-    background: #ef4444;
-    color: #fff;
-    transform: scale(0.9);
-  }
-
-  /* Row layout for languages */
+  /* === LANGUAGE ROW === */
   .cvb-row {
     display: flex;
-    gap: 10px;
     align-items: center;
-    margin-bottom: 12px;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #111;
+    border-radius: 14px;
+    margin-bottom: 10px;
   }
 
   .cvb-row input {
     flex: 1;
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    font-family: inherit;
+  }
+
+  .cvb-row input:focus {
+    outline: none;
+  }
+
+  .cvb-row input::placeholder {
+    color: #555;
   }
 
   .cvb-row select {
-    width: 120px;
-    flex-shrink: 0;
+    width: auto;
+    min-width: 100px;
+    padding: 8px 12px;
+    background: #222;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
-  /* Hide desktop elements */
+  .cvb-row select:focus {
+    outline: none;
+  }
+
+  .cvb-delete-sm {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: #ff3b30;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .cvb-delete-sm:active {
+    background: rgba(255, 59, 48, 0.15);
+  }
+
+  /* === ADD BUTTON === */
+  .cvb-add {
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    border: 1.5px dashed #333;
+    border-radius: 14px;
+    color: #666;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+    transition: all 0.15s ease;
+  }
+
+  .cvb-add svg {
+    font-size: 14px;
+  }
+
+  .cvb-add:active {
+    border-color: #fff;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  /* === HIDE DESKTOP ELEMENTS === */
+  .cvb-form-header,
   .cvb-form-header .cvb-template-btn,
   .cvb-form-header .cvb-download-btn {
     display: none;
   }
 
-  .cvb-form-header {
-    display: none;
-  }
-
-  /* Template Catalog - Premium Modal */
+  /* === TEMPLATE CATALOG === */
   .cvb-template-catalog {
-    padding: 24px;
-    padding-top: 60px;
-    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+    padding: 16px;
+    padding-top: 70px;
+    padding-bottom: 40px;
+    background: #000;
   }
 
   .cvb-catalog-header {
-    text-align: center;
-    margin-bottom: 32px;
+    text-align: left;
+    margin-bottom: 28px;
   }
 
   .cvb-catalog-header h2 {
-    font-size: 28px;
-    font-weight: 800;
+    font-size: 34px;
+    font-weight: 700;
     color: #fff;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     letter-spacing: -1px;
   }
 
   .cvb-catalog-header p {
     color: #666;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 400;
   }
 
   .cvb-catalog-close {
     position: fixed;
     top: 16px;
     right: 16px;
-    width: 44px;
-    height: 44px;
+    width: 36px;
+    height: 36px;
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: none;
     border-radius: 50%;
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 1001;
   }
 
   .cvb-catalog-section {
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
 
   .cvb-catalog-section h3 {
-    font-size: 14px;
-    font-weight: 700;
-    color: #888;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 16px;
-    padding-left: 4px;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
   }
 
   .cvb-catalog-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    gap: 12px;
   }
 
   .cvb-catalog-item {
     aspect-ratio: 3/4;
-    border-radius: 16px;
+    border-radius: 14px;
     overflow: hidden;
     position: relative;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.2s ease;
+    border: 2px solid transparent;
   }
 
   .cvb-catalog-item:active {
-    transform: scale(0.95);
+    transform: scale(0.96);
   }
 
   .cvb-catalog-item.active {
-    box-shadow: 0 0 0 3px #fff;
+    border-color: #fff;
   }
 
   .cvb-catalog-preview {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
   }
 
   .cvb-catalog-info {
@@ -1498,82 +1659,269 @@
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 16px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.9));
+    padding: 14px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
   }
 
   .cvb-catalog-name {
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
     color: #fff;
     margin-bottom: 2px;
   }
 
   .cvb-catalog-desc {
-    font-size: 11px;
-    color: #888;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
   }
 
-  /* Preview Modal - Full Screen */
+  .cvb-catalog-check {
+    display: none;
+  }
+
+  .cvb-catalog-item.active .cvb-catalog-check {
+    display: flex;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 12px;
+  }
+
+  /* === PREVIEW MODAL === */
   .cvb-mobile-modal {
-    padding: 20px;
-    padding-top: 70px;
-    padding-bottom: 40px;
-    background: linear-gradient(180deg, #0a0a0a 0%, #000 100%);
+    padding: 16px;
+    padding-top: 60px;
+    padding-bottom: 30px;
+    background: #000;
   }
 
   .cvb-mobile-modal .cv-document {
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   }
 
   .cvb-close-modal {
-    width: 44px;
-    height: 44px;
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
+    border: none;
     border-radius: 50%;
+    color: #fff;
     font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+  }
+
+  .cvb-close-modal:active {
+    background: rgba(255, 255, 255, 0.2);
   }
 }
 
-/* ============ SMALL PHONES - 480px and below ============ */
+/* ========================================================================
+   SMALL PHONES - 480px and below
+   Optimized for iPhone SE, Galaxy S series, etc.
+   ======================================================================== */
 @media (max-width: 480px) {
+
   .cvb-mobile-header {
-    padding: 12px 16px;
+    padding: 10px 14px;
   }
 
   .cvb-mobile-back {
     font-size: 14px;
-    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .cvb-mobile-actions {
+    gap: 6px;
+  }
+
+  .cvb-mobile-actions button {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+
+  .cvb-mobile-nav {
+    padding: 4px 6px;
+    gap: 0;
+  }
+
+  .cvb-mobile-nav-item {
+    min-width: 48px;
+    padding: 6px 2px;
+    font-size: 9px;
+    gap: 2px;
+  }
+
+  .cvb-mobile-nav-item svg {
+    font-size: 20px;
+  }
+
+  .cvb-form {
+    padding-bottom: 80px;
+  }
+
+  .cvb-form-inner {
+    padding: 16px;
+  }
+
+  .cvb-section h2 {
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+
+  .cvb-field {
+    padding: 12px 0;
+  }
+
+  .cvb-field label {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .cvb-field input,
+  .cvb-field select,
+  .cvb-field textarea {
+    font-size: 16px;
+  }
+
+  .cvb-textarea {
+    padding: 14px;
+    font-size: 15px;
+    min-height: 140px;
+    border-radius: 14px;
+  }
+
+  .cvb-card {
+    border-radius: 14px;
+  }
+
+  .cvb-card-header {
+    padding: 14px;
+  }
+
+  .cvb-card .cvb-grid {
+    padding: 0 14px;
+  }
+
+  .cvb-card .cvb-field {
+    padding: 14px 0;
+  }
+
+  .cvb-card-num {
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+    border-radius: 7px;
+  }
+
+  .cvb-delete {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+  }
+
+  .cvb-row {
+    padding: 10px 14px;
+    border-radius: 12px;
+    gap: 10px;
+  }
+
+  .cvb-row input {
+    font-size: 15px;
+  }
+
+  .cvb-row select {
+    min-width: 90px;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .cvb-delete-sm {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+  }
+
+  .cvb-add {
+    padding: 14px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+
+  .cvb-catalog-header h2 {
+    font-size: 30px;
+  }
+
+  .cvb-catalog-header p {
+    font-size: 14px;
+  }
+
+  .cvb-catalog-grid {
+    gap: 10px;
+  }
+
+  .cvb-catalog-item {
+    border-radius: 12px;
+  }
+
+  .cvb-catalog-info {
+    padding: 12px;
+  }
+
+  .cvb-catalog-name {
+    font-size: 13px;
+  }
+
+  .cvb-catalog-desc {
+    font-size: 11px;
+  }
+}
+
+/* ========================================================================
+   EXTRA SMALL PHONES - 360px and below
+   Optimized for iPhone SE 1st gen, older Android phones
+   ======================================================================== */
+@media (max-width: 360px) {
+
+  .cvb-mobile-header {
+    padding: 8px 12px;
+  }
+
+  .cvb-mobile-back {
+    font-size: 13px;
   }
 
   .cvb-mobile-back span {
     display: none;
   }
 
-  .cvb-mobile-actions {
-    gap: 8px;
-  }
-
   .cvb-mobile-actions button {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
     font-size: 14px;
   }
 
-  .cvb-mobile-nav {
-    padding: 6px 8px;
-    gap: 4px;
-  }
-
   .cvb-mobile-nav-item {
-    padding: 8px 10px;
-    min-width: 50px;
+    min-width: 42px;
+    padding: 5px 2px;
     font-size: 8px;
   }
 
@@ -1582,95 +1930,16 @@
   }
 
   .cvb-form-inner {
-    padding: 16px;
-  }
-
-  .cvb-section {
-    padding: 20px;
-    border-radius: 16px;
-  }
-
-  .cvb-section h2 {
-    font-size: 20px;
-  }
-
-  .cvb-field input,
-  .cvb-field textarea,
-  .cvb-field select {
-    padding: 14px;
-    font-size: 16px;
-    border-radius: 12px;
-  }
-
-  .cvb-card {
-    padding: 16px;
-    border-radius: 14px;
-  }
-
-  .cvb-catalog-grid {
-    gap: 10px;
-  }
-
-  .cvb-catalog-item {
-    border-radius: 14px;
-  }
-
-  .cvb-catalog-name {
-    font-size: 13px;
-  }
-
-  .cvb-row {
-    flex-wrap: wrap;
-  }
-
-  .cvb-row select {
-    width: 100%;
-    margin-top: 8px;
-  }
-
-  .cvb-row .cvb-delete-sm {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-}
-
-/* ============ EXTRA SMALL PHONES - 360px and below ============ */
-@media (max-width: 360px) {
-  .cvb-mobile-header {
-    padding: 10px 12px;
-  }
-
-  .cvb-mobile-actions button {
-    width: 36px;
-    height: 36px;
-    font-size: 13px;
-  }
-
-  .cvb-mobile-nav-item {
-    padding: 6px 8px;
-    min-width: 44px;
-    font-size: 7px;
-    gap: 2px;
-  }
-
-  .cvb-mobile-nav-item svg {
-    font-size: 16px;
-  }
-
-  .cvb-form-inner {
     padding: 12px;
   }
 
-  .cvb-section {
-    padding: 16px;
-    border-radius: 14px;
+  .cvb-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
   }
 
-  .cvb-section h2 {
-    font-size: 18px;
-    margin-bottom: 16px;
+  .cvb-field {
+    padding: 10px 0;
   }
 
   .cvb-field label {
@@ -1678,25 +1947,98 @@
   }
 
   .cvb-field input,
-  .cvb-field textarea,
-  .cvb-field select {
-    padding: 12px;
+  .cvb-field select,
+  .cvb-field textarea {
     font-size: 15px;
-    border-radius: 10px;
   }
 
-  .cvb-add {
-    padding: 14px;
-    font-size: 13px;
+  .cvb-textarea {
+    padding: 12px;
+    font-size: 14px;
+    min-height: 120px;
     border-radius: 12px;
   }
 
+  .cvb-card {
+    border-radius: 12px;
+  }
+
+  .cvb-card-header {
+    padding: 12px;
+  }
+
+  .cvb-card .cvb-grid {
+    padding: 0 12px;
+  }
+
+  .cvb-card .cvb-field {
+    padding: 12px 0;
+  }
+
+  .cvb-card-num {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+    border-radius: 6px;
+  }
+
+  .cvb-delete {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+    border-radius: 8px;
+  }
+
+  .cvb-row {
+    padding: 10px 12px;
+    border-radius: 10px;
+    gap: 8px;
+  }
+
+  .cvb-row input {
+    font-size: 14px;
+  }
+
+  .cvb-row select {
+    min-width: 80px;
+    padding: 5px 8px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+
+  .cvb-delete-sm {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .cvb-add {
+    padding: 12px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
   .cvb-catalog-header h2 {
-    font-size: 24px;
+    font-size: 26px;
   }
 
   .cvb-catalog-section h3 {
-    font-size: 12px;
+    font-size: 11px;
+  }
+
+  .cvb-catalog-grid {
+    gap: 8px;
+  }
+
+  .cvb-catalog-item {
+    border-radius: 10px;
+  }
+
+  .cvb-close-modal,
+  .cvb-catalog-close {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
   }
 }
 
