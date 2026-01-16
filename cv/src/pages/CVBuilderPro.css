@@ -1076,9 +1076,12 @@
   }
 }
 
+/* ============ MOBILE DESIGN - 768px and below ============ */
 @media (max-width: 768px) {
   .cvb {
     grid-template-columns: 1fr;
+    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+    min-height: 100vh;
   }
 
   .cvb-sidebar {
@@ -1086,27 +1089,46 @@
   }
 
   .cvb-form {
-    padding: 24px;
-    padding-bottom: 180px;
+    padding: 0;
+    padding-bottom: 100px;
+    background: transparent;
+    border: none;
+  }
+
+  .cvb-form-inner {
+    padding: 20px;
   }
 
   .cvb-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .cvb-section {
+    background: linear-gradient(145deg, #111 0%, #0a0a0a 100%);
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid #1a1a1a;
   }
 
   .cvb-section h2 {
-    font-size: 24px;
-    margin-bottom: 24px;
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: -0.5px;
   }
 
-  /* Mobile Header */
+  /* Mobile Header - Premium Glass Effect */
   .cvb-mobile-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    background: #0a0a0a;
-    border-bottom: 1px solid #1a1a1a;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     position: sticky;
     top: 0;
     z-index: 50;
@@ -1119,70 +1141,86 @@
     background: none;
     border: none;
     color: #fff;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    padding: 8px 12px;
-    border-radius: 8px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
   }
 
-  .cvb-mobile-back:hover {
-    background: #1a1a1a;
+  .cvb-mobile-back:active {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(0.95);
   }
 
   .cvb-mobile-actions {
     display: flex;
-    gap: 8px;
+    gap: 10px;
   }
 
   .cvb-mobile-actions button {
-    padding: 10px 16px;
-    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 14px;
     border: none;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .cvb-mobile-actions button:active {
+    transform: scale(0.9);
   }
 
   .cvb-mobile-preview-btn {
-    background: #1a1a1a;
+    background: linear-gradient(145deg, #1a1a1a, #111);
     color: #fff;
     border: 1px solid #333 !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   }
 
   .cvb-mobile-template-btn {
-    background: #1a1a1a;
+    background: linear-gradient(145deg, #1a1a1a, #111);
     color: #fff;
     border: 1px solid #333 !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   }
 
   .cvb-mobile-download-btn {
-    background: #fff;
+    background: linear-gradient(135deg, #fff 0%, #e5e5e5 100%);
     color: #000;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
   }
 
-  /* Hide floating preview button on small screens - we have it in header */
+  /* Hide floating preview button */
   .cvb-mobile-preview {
     display: none !important;
   }
 
-  /* Mobile Bottom Navigation */
+  /* Mobile Bottom Navigation - Premium Tab Bar */
   .cvb-mobile-nav {
     display: flex;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: #0a0a0a;
-    border-top: 1px solid #1a1a1a;
-    padding: 8px 4px;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 8px 12px;
     padding-bottom: calc(8px + env(safe-area-inset-bottom));
     z-index: 100;
     overflow-x: auto;
-    gap: 4px;
+    gap: 6px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   .cvb-mobile-nav::-webkit-scrollbar {
@@ -1190,64 +1228,475 @@
   }
 
   .cvb-mobile-nav-item {
-    flex: 0 0 auto;
+    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 4px;
-    padding: 10px 14px;
+    padding: 10px 12px;
+    min-width: 56px;
     background: transparent;
     border: none;
-    border-radius: 10px;
-    color: #666;
-    font-size: 10px;
-    font-weight: 500;
+    border-radius: 14px;
+    color: #555;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
     cursor: pointer;
-    transition: all 0.2s;
-    min-width: 60px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .cvb-mobile-nav-item svg {
-    font-size: 18px;
+    font-size: 20px;
+    transition: transform 0.2s ease;
   }
 
   .cvb-mobile-nav-item.active {
     background: #fff;
     color: #000;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
   }
 
-  .cvb-mobile-nav-item:not(.active):hover {
-    background: #1a1a1a;
+  .cvb-mobile-nav-item.active svg {
+    transform: scale(1.1);
+  }
+
+  .cvb-mobile-nav-item:not(.active):active {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(0.95);
+  }
+
+  /* Form Fields - Modern Style */
+  .cvb-field {
+    margin-bottom: 16px;
+  }
+
+  .cvb-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .cvb-field input,
+  .cvb-field textarea,
+  .cvb-field select {
+    width: 100%;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.2s ease;
+  }
+
+  .cvb-field input:focus,
+  .cvb-field textarea:focus,
+  .cvb-field select:focus {
+    outline: none;
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  }
+
+  .cvb-field input::placeholder,
+  .cvb-field textarea::placeholder {
+    color: #444;
+  }
+
+  /* Cards - Experience/Education */
+  .cvb-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .cvb-card-header {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .cvb-card-num {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #333, #222);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
     color: #fff;
   }
 
-  /* Hide desktop buttons on mobile */
+  /* Buttons */
+  .cvb-add {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(145deg, #1a1a1a, #111);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    color: #888;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .cvb-add:active {
+    background: #222;
+    border-color: #fff;
+    color: #fff;
+    transform: scale(0.98);
+  }
+
+  .cvb-delete,
+  .cvb-delete-sm {
+    background: rgba(239, 68, 68, 0.1);
+    border: none;
+    color: #ef4444;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .cvb-delete:active,
+  .cvb-delete-sm:active {
+    background: #ef4444;
+    color: #fff;
+    transform: scale(0.9);
+  }
+
+  /* Row layout for languages */
+  .cvb-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .cvb-row input {
+    flex: 1;
+  }
+
+  .cvb-row select {
+    width: 120px;
+    flex-shrink: 0;
+  }
+
+  /* Hide desktop elements */
   .cvb-form-header .cvb-template-btn,
   .cvb-form-header .cvb-download-btn {
     display: none;
   }
 
   .cvb-form-header {
-    flex-wrap: wrap;
-    gap: 12px;
+    display: none;
   }
 
-  .cvb-form-header h2 {
-    width: 100%;
+  /* Template Catalog - Premium Modal */
+  .cvb-template-catalog {
+    padding: 24px;
+    padding-top: 60px;
+    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
   }
 
-  /* Catalog on mobile */
+  .cvb-catalog-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .cvb-catalog-header h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+  }
+
+  .cvb-catalog-header p {
+    color: #666;
+    font-size: 14px;
+  }
+
+  .cvb-catalog-close {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 18px;
+    z-index: 1001;
+  }
+
+  .cvb-catalog-section {
+    margin-bottom: 32px;
+  }
+
+  .cvb-catalog-section h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    padding-left: 4px;
+  }
+
   .cvb-catalog-grid {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 14px;
+  }
+
+  .cvb-catalog-item {
+    aspect-ratio: 3/4;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .cvb-catalog-item:active {
+    transform: scale(0.95);
+  }
+
+  .cvb-catalog-item.active {
+    box-shadow: 0 0 0 3px #fff;
+  }
+
+  .cvb-catalog-preview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cvb-catalog-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.9));
+  }
+
+  .cvb-catalog-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+
+  .cvb-catalog-desc {
+    font-size: 11px;
+    color: #888;
+  }
+
+  /* Preview Modal - Full Screen */
+  .cvb-mobile-modal {
+    padding: 20px;
+    padding-top: 70px;
+    padding-bottom: 40px;
+    background: linear-gradient(180deg, #0a0a0a 0%, #000 100%);
+  }
+
+  .cvb-mobile-modal .cv-document {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .cvb-close-modal {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 16px;
+  }
+}
+
+/* ============ SMALL PHONES - 480px and below ============ */
+@media (max-width: 480px) {
+  .cvb-mobile-header {
+    padding: 12px 16px;
+  }
+
+  .cvb-mobile-back {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .cvb-mobile-back span {
+    display: none;
+  }
+
+  .cvb-mobile-actions {
+    gap: 8px;
+  }
+
+  .cvb-mobile-actions button {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+
+  .cvb-mobile-nav {
+    padding: 6px 8px;
+    gap: 4px;
+  }
+
+  .cvb-mobile-nav-item {
+    padding: 8px 10px;
+    min-width: 50px;
+    font-size: 8px;
+  }
+
+  .cvb-mobile-nav-item svg {
+    font-size: 18px;
+  }
+
+  .cvb-form-inner {
+    padding: 16px;
+  }
+
+  .cvb-section {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .cvb-section h2 {
+    font-size: 20px;
+  }
+
+  .cvb-field input,
+  .cvb-field textarea,
+  .cvb-field select {
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+
+  .cvb-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .cvb-catalog-grid {
+    gap: 10px;
+  }
+
+  .cvb-catalog-item {
+    border-radius: 14px;
+  }
+
+  .cvb-catalog-name {
+    font-size: 13px;
+  }
+
+  .cvb-row {
+    flex-wrap: wrap;
+  }
+
+  .cvb-row select {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .cvb-row .cvb-delete-sm {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+/* ============ EXTRA SMALL PHONES - 360px and below ============ */
+@media (max-width: 360px) {
+  .cvb-mobile-header {
+    padding: 10px 12px;
+  }
+
+  .cvb-mobile-actions button {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .cvb-mobile-nav-item {
+    padding: 6px 8px;
+    min-width: 44px;
+    font-size: 7px;
+    gap: 2px;
+  }
+
+  .cvb-mobile-nav-item svg {
+    font-size: 16px;
+  }
+
+  .cvb-form-inner {
+    padding: 12px;
+  }
+
+  .cvb-section {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .cvb-section h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .cvb-field label {
+    font-size: 11px;
+  }
+
+  .cvb-field input,
+  .cvb-field textarea,
+  .cvb-field select {
+    padding: 12px;
+    font-size: 15px;
+    border-radius: 10px;
+  }
+
+  .cvb-add {
+    padding: 14px;
+    font-size: 13px;
+    border-radius: 12px;
   }
 
   .cvb-catalog-header h2 {
     font-size: 24px;
   }
 
-  .cvb-template-catalog {
-    padding: 20px;
+  .cvb-catalog-section h3 {
+    font-size: 12px;
   }
 }
 
