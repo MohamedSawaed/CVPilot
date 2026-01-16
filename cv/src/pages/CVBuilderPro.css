@@ -1011,6 +1011,14 @@
   z-index: 1000;
   overflow-y: auto;
   padding: 24px;
+  padding-top: 80px;
+}
+
+.cvb-mobile-modal .cv-document {
+  max-width: 100%;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .cvb-close-modal {
@@ -1139,6 +1147,12 @@
     gap: 6px;
   }
 
+  .cvb-mobile-preview-btn {
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #333 !important;
+  }
+
   .cvb-mobile-template-btn {
     background: #1a1a1a;
     color: #fff;
@@ -1148,6 +1162,11 @@
   .cvb-mobile-download-btn {
     background: #fff;
     color: #000;
+  }
+
+  /* Hide floating preview button on small screens - we have it in header */
+  .cvb-mobile-preview {
+    display: none !important;
   }
 
   /* Mobile Bottom Navigation */

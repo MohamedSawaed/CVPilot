@@ -334,6 +334,9 @@ const CVBuilderPro = () => {
           <FaArrowLeft /> Back
         </button>
         <div className="cvb-mobile-actions">
+          <button className="cvb-mobile-preview-btn" onClick={() => setShowMobilePreview(true)}>
+            <FaEye />
+          </button>
           <button className="cvb-mobile-template-btn" onClick={() => setShowTemplates(true)}>
             <FaPalette />
           </button>
@@ -787,12 +790,93 @@ const CVBuilderPro = () => {
               <div className="cv-contact">
                 {cvData.personalInfo?.email && <span><FaEnvelope /> {cvData.personalInfo.email}</span>}
                 {cvData.personalInfo?.phone && <span><FaPhone /> {cvData.personalInfo.phone}</span>}
+                {cvData.personalInfo?.location && <span><FaMapMarkerAlt /> {cvData.personalInfo.location}</span>}
               </div>
+              {(cvData.personalInfo?.linkedin || cvData.personalInfo?.website) && (
+                <div className="cv-links">
+                  {cvData.personalInfo?.linkedin && <span><FaLinkedin /> {cvData.personalInfo.linkedin}</span>}
+                  {cvData.personalInfo?.website && <span><FaGlobe /> {cvData.personalInfo.website}</span>}
+                </div>
+              )}
             </header>
+
             {cvData.summary && (
               <section className="cv-section">
                 <h2>Summary</h2>
                 <p>{cvData.summary}</p>
+              </section>
+            )}
+
+            {cvData.experience?.length > 0 && cvData.experience[0]?.title && (
+              <section className="cv-section">
+                <h2>Experience</h2>
+                {cvData.experience.map(exp => (
+                  <div key={exp.id} className="cv-item">
+                    <div className="cv-item-header">
+                      <div>
+                        <h3>{exp.title}</h3>
+                        <p className="cv-company">{exp.company}</p>
+                      </div>
+                      <span className="cv-date">{exp.startDate} - {exp.current ? 'Present' : exp.endDate}</span>
+                    </div>
+                    <p className="cv-desc">{exp.description}</p>
+                  </div>
+                ))}
+              </section>
+            )}
+
+            {cvData.education?.length > 0 && cvData.education[0]?.degree && (
+              <section className="cv-section">
+                <h2>Education</h2>
+                {cvData.education.map(edu => (
+                  <div key={edu.id} className="cv-item">
+                    <div className="cv-item-header">
+                      <div>
+                        <h3>{edu.degree}</h3>
+                        <p className="cv-company">{edu.school}</p>
+                      </div>
+                      <span className="cv-date">{edu.year}</span>
+                    </div>
+                    {edu.field && <p className="cv-desc">{edu.field}</p>}
+                  </div>
+                ))}
+              </section>
+            )}
+
+            {cvData.skills?.length > 0 && (
+              <section className="cv-section">
+                <h2>Skills</h2>
+                <div className="cv-skills">
+                  {cvData.skills.map((skill, i) => <span key={i} className="cv-skill">{skill}</span>)}
+                </div>
+              </section>
+            )}
+
+            {cvData.languages?.length > 0 && cvData.languages[0]?.name && (
+              <section className="cv-section">
+                <h2>Languages</h2>
+                <div className="cv-langs">
+                  {cvData.languages.map(lang => (
+                    <span key={lang.id} className="cv-lang">{lang.name} {lang.level && <em>({lang.level})</em>}</span>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {cvData.certificates?.length > 0 && cvData.certificates[0]?.name && (
+              <section className="cv-section">
+                <h2>Certifications</h2>
+                {cvData.certificates.map(cert => (
+                  <div key={cert.id} className="cv-item">
+                    <div className="cv-item-header">
+                      <div>
+                        <h3>{cert.name}</h3>
+                        <p className="cv-company">{cert.issuer}</p>
+                      </div>
+                      <span className="cv-date">{cert.year}</span>
+                    </div>
+                  </div>
+                ))}
               </section>
             )}
           </div>
