@@ -1248,6 +1248,7 @@
   max-width: 100%;
   margin: 0 auto;
   border-radius: var(--radius-md);
+  overflow: visible;
 }
 
 .cvb-close-modal {
@@ -2099,9 +2100,20 @@
 
   .cvb-mobile-modal .cv-document {
     border-radius: var(--radius-lg);
-    overflow: hidden;
+    overflow: visible;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     animation: docReveal 500ms var(--spring-smooth) 100ms both;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Ensure all CV sections are visible */
+  .cvb-mobile-modal .cv-section {
+    display: block;
+  }
+
+  .cvb-mobile-modal .cv-header {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
 
   @keyframes docReveal {
@@ -2143,27 +2155,67 @@
   }
 
   /* CV Document Mobile Adjustments */
-  .cv-header {
+  .cvb-mobile-modal .cv-document {
+    background: #ffffff;
+  }
+
+  .cvb-mobile-modal .cv-header {
     padding: 32px 24px;
   }
 
-  .cv-name {
+  .cvb-mobile-modal .cv-name {
     font-size: 24px;
     margin-bottom: var(--space-md);
   }
 
-  .cv-contact {
+  .cvb-mobile-modal .cv-contact {
     gap: var(--space-sm);
     font-size: 12px;
   }
 
-  .cv-section {
+  .cvb-mobile-modal .cv-section {
     padding: 20px 24px;
+    background: #ffffff;
+    display: block !important;
+    visibility: visible !important;
   }
 
-  .cv-section h2 {
+  .cvb-mobile-modal .cv-section h2 {
     font-size: 11px;
     margin-bottom: var(--space-md);
+    color: #1a1a1a;
+  }
+
+  .cvb-mobile-modal .cv-section p,
+  .cvb-mobile-modal .cv-item {
+    color: #333333;
+  }
+
+  .cvb-mobile-modal .cv-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .cvb-mobile-modal .cv-skill {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 12px;
+    background: #f0f0f0;
+    border-radius: 20px;
+    color: #333;
+  }
+
+  .cvb-mobile-modal .cv-langs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .cvb-mobile-modal .cv-lang {
+    display: inline-block;
+    font-size: 13px;
+    color: #333;
   }
 }
 
@@ -2451,6 +2503,47 @@
     width: 32px;
     height: 32px;
     font-size: 14px;
+  }
+
+  /* CV Preview Mobile - 480px */
+  .cvb-mobile-modal .cv-document {
+    background: #ffffff;
+  }
+
+  .cvb-mobile-modal .cv-header {
+    padding: 24px 20px;
+  }
+
+  .cvb-mobile-modal .cv-name {
+    font-size: 20px;
+  }
+
+  .cvb-mobile-modal .cv-contact {
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .cvb-mobile-modal .cv-section {
+    padding: 16px 20px;
+    background: #ffffff;
+  }
+
+  .cvb-mobile-modal .cv-section h2 {
+    font-size: 10px;
+  }
+
+  .cvb-mobile-modal .cv-item h3 {
+    font-size: 14px;
+  }
+
+  .cvb-mobile-modal .cv-item p,
+  .cvb-mobile-modal .cv-section > p {
+    font-size: 12px;
+  }
+
+  .cvb-mobile-modal .cv-skill {
+    padding: 4px 10px;
+    font-size: 11px;
   }
 }
 
