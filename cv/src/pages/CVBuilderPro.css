@@ -584,6 +584,11 @@
   animation: catalogFadeIn var(--duration-normal) var(--spring-smooth);
 }
 
+/* Mobile Template Catalog — Rendered outside preview panel */
+.cvb-mobile-template-catalog {
+  display: none;
+}
+
 @keyframes catalogFadeIn {
   from {
     opacity: 0;
@@ -1890,7 +1895,15 @@
      Animation: slideUp 400ms
      Grid: 2 columns, 3:4 aspect ratio cards
      ───────────────────────────────────────────────────────────────────────── */
-  .cvb-template-catalog {
+
+  /* Hide desktop catalog (inside preview panel) on mobile */
+  .cvb-preview-panel .cvb-template-catalog {
+    display: none;
+  }
+
+  /* Show mobile catalog (outside preview panel) */
+  .cvb-mobile-template-catalog {
+    display: block;
     position: fixed;
     inset: 0;
     padding: var(--space-md);

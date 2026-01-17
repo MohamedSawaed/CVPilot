@@ -781,6 +781,98 @@ const CVBuilderPro = () => {
         <FaEye /> {t.preview}
       </button>
 
+      {/* MOBILE TEMPLATE CATALOG */}
+      {showTemplates && (
+        <div className="cvb-template-catalog cvb-mobile-template-catalog">
+          <div className="cvb-catalog-header">
+            <h2>Choose Your Template</h2>
+            <p>Select a professional template that fits your style</p>
+            <button className="cvb-catalog-close" onClick={() => setShowTemplates(false)}><FaTimes /></button>
+          </div>
+
+          <div className="cvb-catalog-section">
+            <h3><span className="cvb-badge popular">Popular</span> Most Used Templates</h3>
+            <div className="cvb-catalog-grid">
+              {templates.filter(t => t.category === 'popular').map(temp => (
+                <button
+                  key={temp.id}
+                  className={`cvb-catalog-item ${templateStyle === temp.id ? 'active' : ''}`}
+                  onClick={() => { setTemplateStyle(temp.id); setShowTemplates(false); }}
+                >
+                  <div className={`cvb-catalog-preview ${temp.id}`}>
+                    <div className="cvb-preview-header" style={{ background: temp.color === '#fff' ? '#000' : temp.color }}></div>
+                    <div className="cvb-preview-lines">
+                      <div className="line"></div>
+                      <div className="line short"></div>
+                      <div className="line"></div>
+                    </div>
+                  </div>
+                  <div className="cvb-catalog-info">
+                    <span className="cvb-catalog-name">{temp.name}</span>
+                    <span className="cvb-catalog-desc">{temp.desc}</span>
+                  </div>
+                  {templateStyle === temp.id && <div className="cvb-catalog-check"><FaCheck /></div>}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="cvb-catalog-section">
+            <h3><span className="cvb-badge premium">Premium</span> Professional Templates</h3>
+            <div className="cvb-catalog-grid">
+              {templates.filter(t => t.category === 'premium').map(temp => (
+                <button
+                  key={temp.id}
+                  className={`cvb-catalog-item ${templateStyle === temp.id ? 'active' : ''}`}
+                  onClick={() => { setTemplateStyle(temp.id); setShowTemplates(false); }}
+                >
+                  <div className={`cvb-catalog-preview ${temp.id}`}>
+                    <div className="cvb-preview-header" style={{ background: temp.color }}></div>
+                    <div className="cvb-preview-lines">
+                      <div className="line"></div>
+                      <div className="line short"></div>
+                      <div className="line"></div>
+                    </div>
+                  </div>
+                  <div className="cvb-catalog-info">
+                    <span className="cvb-catalog-name">{temp.name}</span>
+                    <span className="cvb-catalog-desc">{temp.desc}</span>
+                  </div>
+                  {templateStyle === temp.id && <div className="cvb-catalog-check"><FaCheck /></div>}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="cvb-catalog-section">
+            <h3><span className="cvb-badge professional">Pro</span> Industry Specific</h3>
+            <div className="cvb-catalog-grid">
+              {templates.filter(t => t.category === 'professional' || t.category === 'creative').map(temp => (
+                <button
+                  key={temp.id}
+                  className={`cvb-catalog-item ${templateStyle === temp.id ? 'active' : ''}`}
+                  onClick={() => { setTemplateStyle(temp.id); setShowTemplates(false); }}
+                >
+                  <div className={`cvb-catalog-preview ${temp.id}`}>
+                    <div className="cvb-preview-header" style={{ background: temp.color }}></div>
+                    <div className="cvb-preview-lines">
+                      <div className="line"></div>
+                      <div className="line short"></div>
+                      <div className="line"></div>
+                    </div>
+                  </div>
+                  <div className="cvb-catalog-info">
+                    <span className="cvb-catalog-name">{temp.name}</span>
+                    <span className="cvb-catalog-desc">{temp.desc}</span>
+                  </div>
+                  {templateStyle === temp.id && <div className="cvb-catalog-check"><FaCheck /></div>}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {showMobilePreview && (
         <div className="cvb-mobile-modal">
           <button className="cvb-close-modal" onClick={() => setShowMobilePreview(false)}><FaTimes /></button>
