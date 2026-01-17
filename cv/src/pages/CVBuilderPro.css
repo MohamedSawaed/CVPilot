@@ -1,55 +1,89 @@
-/* ========================================
-   CV BUILDER PRO - ICONIC MOBILE DESIGN
+/* ============================================================================
+   CVPILOT MOBILE DESIGN SYSTEM
    Apple HIG × Modern SaaS × Professional Productivity
-   ======================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+   Principal Design: Apple-grade iOS-inspired interface
+   Philosophy: Crafted, not assembled. Calm, not minimal. Premium, not flashy.
+   ============================================================================ */
 
-/* ============ CSS CUSTOM PROPERTIES ============ */
+/* ============================================================================
+   FONT IMPORT
+   ============================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ============================================================================
+   DESIGN TOKENS — STRICT SPECIFICATION
+   No deviation. No approximation. Exact values only.
+   ============================================================================ */
 :root {
-  /* Depth Tiers - Layered Darkness */
+  /* ─────────────────────────────────────────────────────────────────────────
+     DEPTH TIERS — Layered Darkness
+     Creates dimensional hierarchy through subtle surface elevation
+     ───────────────────────────────────────────────────────────────────────── */
   --depth-base: #0a0a0a;
   --depth-elevated: #141414;
   --depth-floating: #1f1f1f;
   --depth-raised: #262626;
 
-  /* Accent Colors */
+  /* ─────────────────────────────────────────────────────────────────────────
+     ACCENT SYSTEM — Cyan Primary
+     Used for interactive elements, active states, focus indicators
+     ───────────────────────────────────────────────────────────────────────── */
   --accent-primary: #22d3ee;
   --accent-primary-soft: rgba(34, 211, 238, 0.15);
   --accent-primary-glow: rgba(34, 211, 238, 0.4);
-  --accent-gradient: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
 
-  /* Text Hierarchy */
+  /* ─────────────────────────────────────────────────────────────────────────
+     TEXT HIERARCHY — Four-tier system
+     Primary for emphasis, descending to muted for least important
+     ───────────────────────────────────────────────────────────────────────── */
   --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
   --text-tertiary: #71717a;
   --text-muted: #52525b;
 
-  /* Surfaces */
+  /* ─────────────────────────────────────────────────────────────────────────
+     BORDER SYSTEM — Opacity-based for depth
+     Subtle for default, increasing for interaction states
+     ───────────────────────────────────────────────────────────────────────── */
   --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-medium: rgba(255, 255, 255, 0.1);
+  --border-medium: rgba(255, 255, 255, 0.10);
   --border-strong: rgba(255, 255, 255, 0.15);
 
-  /* Spring Physics - Micro-animations */
+  /* ─────────────────────────────────────────────────────────────────────────
+     SPRING PHYSICS — Apple-grade easing curves
+     Bounce: playful overshoot for tactile feedback
+     Smooth: elegant deceleration for transitions
+     Snappy: quick response for micro-interactions
+     ───────────────────────────────────────────────────────────────────────── */
   --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --spring-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   --spring-snappy: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Timing */
+  /* ─────────────────────────────────────────────────────────────────────────
+     DURATION SCALE — Timing tokens
+     Instant for immediate feedback, slow for page transitions
+     ───────────────────────────────────────────────────────────────────────── */
   --duration-instant: 100ms;
   --duration-fast: 150ms;
   --duration-normal: 250ms;
   --duration-slow: 400ms;
 
-  /* Spacing Scale */
+  /* ─────────────────────────────────────────────────────────────────────────
+     SPACING SCALE — Consistent rhythm
+     Based on 4px base unit, scaled geometrically
+     ───────────────────────────────────────────────────────────────────────── */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 32px;
 
-  /* Typography Scale */
+  /* ─────────────────────────────────────────────────────────────────────────
+     TYPOGRAPHY SCALE — iOS-inspired sizing
+     MD (17px) is iOS input standard
+     No decorative fonts. No condensed. No letter-spacing gimmicks.
+     ───────────────────────────────────────────────────────────────────────── */
   --font-xs: 11px;
   --font-sm: 13px;
   --font-base: 15px;
@@ -59,7 +93,10 @@
   --font-2xl: 34px;
   --font-3xl: 42px;
 
-  /* Border Radius */
+  /* ─────────────────────────────────────────────────────────────────────────
+     BORDER RADIUS — Shape language
+     Consistent rounding that feels native to iOS
+     ───────────────────────────────────────────────────────────────────────── */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
@@ -67,48 +104,63 @@
   --radius-full: 9999px;
 }
 
-* {
+/* ============================================================================
+   RESET & BASE
+   ============================================================================ */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ============ MAIN LAYOUT ============ */
+/* ============================================================================
+   MAIN LAYOUT — Desktop Three-Column Grid
+   ============================================================================ */
 .cvb {
   display: grid;
   grid-template-columns: 240px 1fr 1fr;
   min-height: 100vh;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-  background: #000;
+  background: var(--depth-base);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 .cvb.rtl {
   direction: rtl;
 }
 
-/* ============ SIDEBAR ============ */
+/* ============================================================================
+   SIDEBAR — Desktop Navigation
+   ============================================================================ */
 .cvb-sidebar {
   background: var(--depth-base);
-  padding: 24px 16px;
+  padding: var(--space-lg) var(--space-md);
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--border-subtle);
+  height: 100vh;
+  position: sticky;
+  top: 0;
 }
 
 .cvb-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: var(--space-md);
+  padding: var(--space-md);
   color: var(--text-primary);
   font-weight: 700;
-  font-size: 16px;
+  font-size: var(--font-md);
   cursor: pointer;
   border-radius: var(--radius-md);
-  transition: all var(--duration-fast) var(--spring-smooth);
-  margin-bottom: 32px;
+  transition: background var(--duration-fast) var(--spring-smooth);
+  margin-bottom: var(--space-xl);
+  text-decoration: none;
 }
 
 .cvb-logo:hover {
@@ -123,21 +175,22 @@
 .cvb-nav {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-xs);
   flex: 1;
 }
 
 .cvb-nav-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
+  gap: var(--space-md);
+  padding: 14px var(--space-md);
   background: transparent;
   border: none;
   border-radius: var(--radius-md);
   color: var(--text-tertiary);
   font-size: 14px;
   font-weight: 500;
+  font-family: inherit;
   cursor: pointer;
   transition: all var(--duration-fast) var(--spring-smooth);
   text-align: left;
@@ -150,27 +203,29 @@
 
 .cvb-nav-item.active {
   background: var(--text-primary);
-  color: #000;
+  color: var(--depth-base);
 }
 
 .cvb-nav-item svg {
   font-size: 16px;
+  flex-shrink: 0;
 }
 
 .cvb-sidebar-footer {
-  padding-top: 24px;
+  padding-top: var(--space-lg);
   border-top: 1px solid var(--border-subtle);
+  margin-top: auto;
 }
 
 .cvb-save-status {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
+  gap: var(--space-sm);
+  padding: var(--space-md);
   border-radius: var(--radius-md);
   background: rgba(74, 222, 128, 0.1);
   color: #4ade80;
-  font-size: 13px;
+  font-size: var(--font-sm);
   font-weight: 500;
 }
 
@@ -178,7 +233,9 @@
   font-size: 12px;
 }
 
-/* ============ FORM PANEL ============ */
+/* ============================================================================
+   FORM PANEL — Content Editor
+   ============================================================================ */
 .cvb-form {
   background: var(--depth-elevated);
   padding: 40px;
@@ -190,9 +247,17 @@
   width: 6px;
 }
 
+.cvb-form::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .cvb-form::-webkit-scrollbar-thumb {
   background: var(--depth-raised);
   border-radius: 3px;
+}
+
+.cvb-form::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }
 
 .cvb-form-inner {
@@ -200,24 +265,28 @@
   margin: 0 auto;
 }
 
+/* Section Title */
 .cvb-section h2 {
   font-size: var(--font-xl);
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 32px;
+  margin-bottom: var(--space-xl);
   letter-spacing: -0.5px;
+  line-height: 1.2;
 }
 
+/* Form Grid */
 .cvb-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
+/* Form Field */
 .cvb-field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 
 .cvb-field.full {
@@ -235,7 +304,7 @@
 .cvb-field input,
 .cvb-field textarea,
 .cvb-field select {
-  padding: 16px 18px;
+  padding: var(--space-md) 18px;
   background: var(--depth-floating);
   border: 2px solid var(--depth-raised);
   border-radius: var(--radius-md);
@@ -264,6 +333,7 @@
   line-height: 1.6;
 }
 
+/* Standalone Textarea (Summary/Skills) */
 .cvb-textarea {
   width: 100%;
   padding: 20px;
@@ -278,13 +348,18 @@
   transition: all var(--duration-fast) var(--spring-smooth);
 }
 
+.cvb-textarea::placeholder {
+  color: var(--text-muted);
+}
+
 .cvb-textarea:focus {
   outline: none;
   border-color: var(--text-primary);
+  background: var(--depth-raised);
 }
 
 .cvb-hint {
-  margin-top: 12px;
+  margin-top: var(--space-md);
   font-size: var(--font-sm);
   color: var(--text-muted);
 }
@@ -297,21 +372,29 @@
   cursor: pointer;
   font-size: 14px;
   color: var(--text-secondary);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .cvb-checkbox input {
   width: 20px;
   height: 20px;
-  accent-color: var(--text-primary);
+  accent-color: var(--accent-primary);
+  cursor: pointer;
 }
 
-/* Cards */
+/* Cards (Experience/Education entries) */
 .cvb-card {
   background: var(--depth-floating);
   border: 1px solid var(--depth-raised);
   border-radius: var(--radius-lg);
-  padding: 24px;
-  margin-bottom: 16px;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+  transition: transform var(--duration-fast) var(--spring-bounce),
+              box-shadow var(--duration-fast) ease;
+}
+
+.cvb-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .cvb-card-header {
@@ -325,13 +408,14 @@
   width: 32px;
   height: 32px;
   background: var(--text-primary);
-  color: #000;
+  color: var(--depth-base);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .cvb-delete {
@@ -354,23 +438,24 @@
   color: #ef4444;
 }
 
-/* Row for languages */
+/* Language Row */
 .cvb-row {
   display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
 }
 
 .cvb-row input,
 .cvb-row select {
   flex: 1;
-  padding: 14px 16px;
+  padding: 14px var(--space-md);
   background: var(--depth-floating);
   border: 2px solid var(--depth-raised);
   border-radius: var(--radius-md);
   color: var(--text-primary);
   font-size: 14px;
   font-family: inherit;
+  transition: all var(--duration-fast) var(--spring-smooth);
 }
 
 .cvb-row input:focus,
@@ -381,11 +466,15 @@
 
 .cvb-delete-sm {
   width: 48px;
+  flex-shrink: 0;
   background: transparent;
   border: 1px solid var(--depth-raised);
   border-radius: var(--radius-md);
   color: var(--text-muted);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all var(--duration-fast) var(--spring-smooth);
 }
 
@@ -395,7 +484,7 @@
   color: #ef4444;
 }
 
-/* Add button */
+/* Add Button */
 .cvb-add {
   width: 100%;
   padding: 18px;
@@ -405,13 +494,14 @@
   color: var(--text-tertiary);
   font-size: 14px;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   transition: all var(--duration-fast) var(--spring-smooth);
-  margin-top: 8px;
+  margin-top: var(--space-sm);
 }
 
 .cvb-add:hover {
@@ -420,28 +510,33 @@
   background: var(--depth-floating);
 }
 
-/* ============ PREVIEW PANEL ============ */
+/* ============================================================================
+   PREVIEW PANEL — Document Preview
+   ============================================================================ */
 .cvb-preview-panel {
   background: var(--depth-base);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
 
 .cvb-preview-toolbar {
   display: flex;
-  gap: 12px;
-  padding: 20px 24px;
+  gap: var(--space-md);
+  padding: 20px var(--space-lg);
   background: var(--depth-base);
   border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
 }
 
 .cvb-template-btn,
 .cvb-download-btn {
-  padding: 14px 24px;
+  padding: 14px var(--space-lg);
   border-radius: var(--radius-md);
   font-size: 14px;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -464,7 +559,7 @@
 .cvb-download-btn {
   background: var(--text-primary);
   border: none;
-  color: #000;
+  color: var(--depth-base);
   margin-left: auto;
 }
 
@@ -473,7 +568,9 @@
   transform: translateY(-2px);
 }
 
-/* ============ PREMIUM TEMPLATE CATALOG ============ */
+/* ============================================================================
+   TEMPLATE CATALOG — Desktop
+   ============================================================================ */
 .cvb-template-catalog {
   position: absolute;
   top: 0;
@@ -483,13 +580,19 @@
   background: var(--depth-base);
   z-index: 100;
   overflow-y: auto;
-  padding: 32px;
-  animation: catalogFadeIn 0.3s var(--spring-smooth);
+  padding: var(--space-xl);
+  animation: catalogFadeIn var(--duration-normal) var(--spring-smooth);
 }
 
 @keyframes catalogFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .cvb-catalog-header {
@@ -502,12 +605,12 @@
   font-size: 32px;
   font-weight: 800;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: var(--space-sm);
   letter-spacing: -0.5px;
 }
 
 .cvb-catalog-header p {
-  font-size: 16px;
+  font-size: var(--font-md);
   color: var(--text-muted);
 }
 
@@ -545,13 +648,13 @@
   margin-bottom: 20px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-md);
 }
 
 .cvb-badge {
-  padding: 6px 12px;
+  padding: 6px var(--space-md);
   border-radius: 6px;
-  font-size: 11px;
+  font-size: var(--font-xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -582,9 +685,9 @@
   background: var(--depth-elevated);
   border: 2px solid var(--depth-raised);
   border-radius: var(--radius-lg);
-  padding: 16px;
+  padding: var(--space-md);
   cursor: pointer;
-  transition: all 0.3s var(--spring-smooth);
+  transition: all var(--duration-normal) var(--spring-smooth);
   position: relative;
   text-align: left;
   overflow: hidden;
@@ -593,19 +696,17 @@
 .cvb-catalog-item::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity var(--duration-normal);
+  pointer-events: none;
 }
 
 .cvb-catalog-item:hover {
   border-color: var(--border-medium);
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .cvb-catalog-item:hover::before {
@@ -613,7 +714,7 @@
 }
 
 .cvb-catalog-item.active {
-  border-color: var(--text-primary);
+  border-color: var(--accent-primary);
   background: var(--depth-floating);
 }
 
@@ -621,7 +722,7 @@
   height: 120px;
   background: var(--depth-floating);
   border-radius: 10px;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-md);
   overflow: hidden;
   position: relative;
 }
@@ -632,14 +733,14 @@
 }
 
 .cvb-preview-lines {
-  padding: 12px;
+  padding: var(--space-md);
 }
 
 .cvb-preview-lines .line {
   height: 8px;
   background: var(--depth-raised);
   border-radius: 4px;
-  margin-bottom: 8px;
+  margin-bottom: var(--space-sm);
 }
 
 .cvb-preview-lines .line.short {
@@ -649,24 +750,24 @@
 .cvb-catalog-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-xs);
 }
 
 .cvb-catalog-name {
-  font-size: 16px;
+  font-size: var(--font-md);
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .cvb-catalog-desc {
-  font-size: 13px;
+  font-size: var(--font-sm);
   color: var(--text-muted);
 }
 
 .cvb-catalog-check {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: var(--space-md);
+  right: var(--space-md);
   width: 28px;
   height: 28px;
   background: var(--text-primary);
@@ -674,21 +775,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #000;
+  color: var(--depth-base);
   font-size: 12px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all var(--duration-fast) var(--spring-bounce);
 }
 
-/* Preview wrapper */
+.cvb-catalog-item.active .cvb-catalog-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Preview Wrapper */
 .cvb-preview-wrapper {
   flex: 1;
   overflow-y: auto;
-  padding: 32px;
+  padding: var(--space-xl);
   display: flex;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .cvb-preview-wrapper::-webkit-scrollbar {
   width: 8px;
+}
+
+.cvb-preview-wrapper::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .cvb-preview-wrapper::-webkit-scrollbar-thumb {
@@ -696,17 +810,19 @@
   border-radius: 4px;
 }
 
-/* ============ CV DOCUMENT STYLES ============ */
+/* ============================================================================
+   CV DOCUMENT — Resume Preview
+   ============================================================================ */
 .cv-document {
   width: 100%;
   max-width: 640px;
-  background: #fff;
+  background: #ffffff;
   border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: 0 30px 100px rgba(0,0,0,0.5);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
+  color: #000000;
 }
 
-/* CV Header */
 .cv-header {
   padding: 48px 40px;
   text-align: center;
@@ -719,15 +835,15 @@
   font-weight: 800;
   margin-bottom: 20px;
   letter-spacing: -1px;
-  color: #ffffff;
+  color: inherit;
 }
 
 .cv-contact {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
-  font-size: 13px;
+  gap: var(--space-md);
+  font-size: var(--font-sm);
   color: #cccccc;
 }
 
@@ -735,15 +851,28 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #cccccc;
 }
 
 .cv-contact svg {
   font-size: 12px;
-  color: #cccccc;
 }
 
-/* CV Sections */
+.cv-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md);
+  font-size: var(--font-sm);
+  color: #cccccc;
+  margin-top: var(--space-sm);
+}
+
+.cv-links span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .cv-section {
   padding: 28px 40px;
 }
@@ -756,15 +885,17 @@
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 2px solid currentColor;
+  color: #1a1a1a;
 }
 
 .cv-section > p {
   font-size: 14px;
   line-height: 1.8;
+  color: #333333;
 }
 
 .cv-item {
-  margin-bottom: 24px;
+  margin-bottom: var(--space-lg);
 }
 
 .cv-item:last-child {
@@ -775,24 +906,25 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 8px;
+  margin-bottom: var(--space-sm);
 }
 
 .cv-item h3 {
-  font-size: 16px;
+  font-size: var(--font-md);
   font-weight: 700;
   margin: 0;
+  color: #000000;
 }
 
 .cv-company {
   font-size: 14px;
   margin: 4px 0 0 0;
-  opacity: 0.7;
+  color: #666666;
 }
 
 .cv-date {
   font-size: 12px;
-  opacity: 0.6;
+  color: #888888;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
@@ -800,22 +932,24 @@
 .cv-desc {
   font-size: 14px;
   line-height: 1.7;
-  opacity: 0.8;
-  margin-top: 8px;
+  color: #444444;
+  margin-top: var(--space-sm);
 }
 
 /* Skills */
 .cv-skills {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 
 .cv-skill {
-  padding: 8px 16px;
-  border-radius: 100px;
-  font-size: 13px;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-full);
+  font-size: var(--font-sm);
   font-weight: 500;
+  background: #1a1a1a;
+  color: #ffffff;
 }
 
 /* Languages */
@@ -827,137 +961,152 @@
 
 .cv-lang {
   font-size: 14px;
+  color: #333333;
 }
 
 .cv-lang em {
-  opacity: 0.6;
+  color: #888888;
   font-style: normal;
 }
 
-/* ============ TEMPLATE STYLES ============ */
+/* ============================================================================
+   TEMPLATE STYLES — 12 Professional Templates
+   Each preserves layout, changes only color/accent
+   ============================================================================ */
 
-/* MODERN */
+/* MODERN — Clean & Professional */
 .cv-document.modern .cv-header {
   background: #1a1a1a;
-  color: #fff;
+  color: #ffffff;
 }
-.cv-document.modern .cv-contact {
-  color: #aaa;
+.cv-document.modern .cv-contact,
+.cv-document.modern .cv-links {
+  color: #aaaaaa;
 }
 .cv-document.modern .cv-section h2 {
   color: #1a1a1a;
+  border-color: #1a1a1a;
 }
 .cv-document.modern .cv-skill {
   background: #1a1a1a;
-  color: #fff;
+  color: #ffffff;
 }
 
-/* CLASSIC */
+/* CLASSIC — Traditional Style */
 .cv-document.classic .cv-header {
-  background: #fff;
-  color: #000;
-  border-bottom: 3px solid #000;
+  background: #ffffff;
+  color: #000000;
+  border-bottom: 3px solid #000000;
   text-align: left;
 }
-.cv-document.classic .cv-contact {
+.cv-document.classic .cv-contact,
+.cv-document.classic .cv-links {
   justify-content: flex-start;
-  color: #666;
+  color: #666666;
 }
 .cv-document.classic .cv-section h2 {
-  color: #000;
+  color: #000000;
+  border-color: #000000;
 }
 .cv-document.classic .cv-skill {
   background: #f0f0f0;
-  color: #000;
+  color: #000000;
 }
 
-/* BOLD */
+/* BOLD — Make a Statement */
 .cv-document.bold .cv-header {
-  background: #000;
-  color: #fff;
+  background: #000000;
+  color: #ffffff;
   padding: 56px 40px;
 }
 .cv-document.bold .cv-name {
   font-size: 40px;
   font-weight: 900;
 }
-.cv-document.bold .cv-contact {
-  color: #888;
+.cv-document.bold .cv-contact,
+.cv-document.bold .cv-links {
+  color: #888888;
 }
 .cv-document.bold .cv-section h2 {
-  color: #000;
+  color: #000000;
+  border-color: #000000;
   font-size: 14px;
 }
 .cv-document.bold .cv-skill {
-  background: #000;
-  color: #fff;
+  background: #000000;
+  color: #ffffff;
 }
 
-/* ELEGANT */
+/* ELEGANT — Sophisticated Look */
 .cv-document.elegant .cv-header {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  color: #fff;
+  color: #ffffff;
 }
-.cv-document.elegant .cv-contact {
-  color: #bbb;
+.cv-document.elegant .cv-contact,
+.cv-document.elegant .cv-links {
+  color: #bbbbbb;
 }
 .cv-document.elegant .cv-section h2 {
-  color: #333;
-  border-color: #ddd;
+  color: #333333;
+  border-color: #dddddd;
 }
 .cv-document.elegant .cv-skill {
   background: #f8f8f8;
-  color: #333;
+  color: #333333;
   border: 1px solid #e0e0e0;
 }
 
-/* MINIMAL */
+/* MINIMAL — Less is More */
 .cv-document.minimal .cv-header {
   background: #fafafa;
-  color: #000;
-  border-left: 6px solid #000;
+  color: #000000;
+  border-left: 6px solid #000000;
   text-align: left;
 }
-.cv-document.minimal .cv-contact {
+.cv-document.minimal .cv-contact,
+.cv-document.minimal .cv-links {
   justify-content: flex-start;
-  color: #777;
+  color: #777777;
 }
 .cv-document.minimal .cv-section h2 {
-  color: #000;
-  border-color: #000;
+  color: #000000;
+  border-color: #000000;
 }
 .cv-document.minimal .cv-skill {
   background: transparent;
-  color: #000;
-  border: 2px solid #000;
+  color: #000000;
+  border: 2px solid #000000;
 }
 
-/* CREATIVE */
+/* CREATIVE — Stand Out */
 .cv-document.creative .cv-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
+  color: #ffffff;
 }
-.cv-document.creative .cv-contact {
-  color: rgba(255,255,255,0.8);
+.cv-document.creative .cv-contact,
+.cv-document.creative .cv-links {
+  color: rgba(255, 255, 255, 0.8);
 }
 .cv-document.creative .cv-section h2 {
   color: #667eea;
+  border-color: #667eea;
 }
 .cv-document.creative .cv-skill {
   background: linear-gradient(135deg, #667eea, #764ba2);
-  color: #fff;
+  color: #ffffff;
 }
 
-/* EXECUTIVE */
+/* EXECUTIVE — Senior Level */
 .cv-document.executive .cv-header {
   background: #1e3a5f;
-  color: #fff;
+  color: #ffffff;
   border-bottom: 4px solid #d4af37;
 }
 .cv-document.executive .cv-name {
   color: #d4af37;
 }
-.cv-document.executive .cv-contact {
+.cv-document.executive .cv-contact,
+.cv-document.executive .cv-links {
   color: #94a3b8;
 }
 .cv-document.executive .cv-section h2 {
@@ -969,16 +1118,17 @@
   color: #d4af37;
 }
 
-/* TECH */
+/* TECH — For Developers */
 .cv-document.tech .cv-header {
   background: #0f172a;
   color: #22d3ee;
 }
 .cv-document.tech .cv-name {
   color: #22d3ee;
-  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
 }
-.cv-document.tech .cv-contact {
+.cv-document.tech .cv-contact,
+.cv-document.tech .cv-links {
   color: #94a3b8;
 }
 .cv-document.tech .cv-section h2 {
@@ -988,15 +1138,16 @@
 .cv-document.tech .cv-skill {
   background: #0f172a;
   color: #22d3ee;
-  font-family: 'SF Mono', monospace;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
 }
 
-/* CORPORATE */
+/* CORPORATE — Business Ready */
 .cv-document.corporate .cv-header {
   background: #374151;
-  color: #fff;
+  color: #ffffff;
 }
-.cv-document.corporate .cv-contact {
+.cv-document.corporate .cv-contact,
+.cv-document.corporate .cv-links {
   color: #d1d5db;
 }
 .cv-document.corporate .cv-section h2 {
@@ -1005,31 +1156,34 @@
 }
 .cv-document.corporate .cv-skill {
   background: #374151;
-  color: #fff;
+  color: #ffffff;
 }
 
-/* STARTUP */
+/* STARTUP — Modern & Fresh */
 .cv-document.startup .cv-header {
   background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-  color: #fff;
+  color: #ffffff;
 }
-.cv-document.startup .cv-contact {
-  color: rgba(255,255,255,0.85);
+.cv-document.startup .cv-contact,
+.cv-document.startup .cv-links {
+  color: rgba(255, 255, 255, 0.85);
 }
 .cv-document.startup .cv-section h2 {
   color: #7c3aed;
+  border-color: #7c3aed;
 }
 .cv-document.startup .cv-skill {
   background: linear-gradient(135deg, #7c3aed, #a855f7);
-  color: #fff;
+  color: #ffffff;
 }
 
-/* ACADEMIC */
+/* ACADEMIC — For Researchers */
 .cv-document.academic .cv-header {
   background: #1e40af;
-  color: #fff;
+  color: #ffffff;
 }
-.cv-document.academic .cv-contact {
+.cv-document.academic .cv-contact,
+.cv-document.academic .cv-links {
   color: #bfdbfe;
 }
 .cv-document.academic .cv-section h2 {
@@ -1038,26 +1192,30 @@
 }
 .cv-document.academic .cv-skill {
   background: #1e40af;
-  color: #fff;
+  color: #ffffff;
 }
 
-/* DESIGNER */
+/* DESIGNER — Creative Fields */
 .cv-document.designer .cv-header {
   background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
-  color: #fff;
+  color: #ffffff;
 }
-.cv-document.designer .cv-contact {
-  color: rgba(255,255,255,0.9);
+.cv-document.designer .cv-contact,
+.cv-document.designer .cv-links {
+  color: rgba(255, 255, 255, 0.9);
 }
 .cv-document.designer .cv-section h2 {
   color: #ec4899;
+  border-color: #ec4899;
 }
 .cv-document.designer .cv-skill {
   background: linear-gradient(135deg, #ec4899, #f43f5e);
-  color: #fff;
+  color: #ffffff;
 }
 
-/* ============ MOBILE ============ */
+/* ============================================================================
+   MOBILE ELEMENTS — Hidden on Desktop
+   ============================================================================ */
 .cvb-mobile-header {
   display: none;
 }
@@ -1070,13 +1228,14 @@
   display: none;
 }
 
+/* Mobile Preview Modal */
 .cvb-mobile-modal {
   position: fixed;
   inset: 0;
   background: var(--depth-base);
   z-index: 1000;
   overflow-y: auto;
-  padding: 24px;
+  padding: var(--space-lg);
   padding-top: 80px;
 }
 
@@ -1084,7 +1243,6 @@
   max-width: 100%;
   margin: 0 auto;
   border-radius: var(--radius-md);
-  overflow: hidden;
 }
 
 .cvb-close-modal {
@@ -1101,11 +1259,23 @@
   align-items: center;
   justify-content: center;
   font-size: 18px;
+  color: var(--depth-base);
   z-index: 1001;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: transform var(--duration-fast) var(--spring-bounce);
 }
 
-/* ============ RESPONSIVE ============ */
+.cvb-close-modal:hover {
+  transform: scale(1.05);
+}
+
+.cvb-close-modal:active {
+  transform: scale(0.95);
+}
+
+/* ============================================================================
+   RESPONSIVE — Tablet (1200px)
+   ============================================================================ */
 @media (max-width: 1400px) {
   .cvb {
     grid-template-columns: 220px 1fr 1fr;
@@ -1124,32 +1294,43 @@
   .cvb-mobile-preview {
     display: flex;
     position: fixed;
-    bottom: 24px;
+    bottom: var(--space-lg);
     left: 50%;
     transform: translateX(-50%);
-    padding: 16px 32px;
+    padding: var(--space-md) var(--space-xl);
     background: var(--text-primary);
-    color: #000;
+    color: var(--depth-base);
     border: none;
-    border-radius: 100px;
-    font-size: 15px;
+    border-radius: var(--radius-full);
+    font-size: var(--font-base);
     font-weight: 600;
+    font-family: inherit;
     cursor: pointer;
     align-items: center;
     gap: 10px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     z-index: 99;
+    transition: transform var(--duration-fast) var(--spring-bounce);
+  }
+
+  .cvb-mobile-preview:hover {
+    transform: translateX(-50%) translateY(-2px);
+  }
+
+  .cvb-mobile-preview:active {
+    transform: translateX(-50%) scale(0.98);
   }
 }
 
-/* ========================================
-   MOBILE DESIGN - ICONIC iOS EXPERIENCE
+/* ============================================================================
+   MOBILE LAYOUT — Primary Focus (< 768px)
    Apple HIG × Micro-Physics × Premium Feel
-   ======================================== */
-
+   ============================================================================ */
 @media (max-width: 768px) {
 
-  /* === BASE LAYOUT - Layered Depth === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     BASE LAYOUT — Single Column with Layered Depth
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb {
     grid-template-columns: 1fr;
     background: var(--depth-base);
@@ -1177,7 +1358,10 @@
     max-width: 100%;
   }
 
-  /* === HEADER - Minimal & Functional === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     STICKY HEADER — Minimal & Functional
+     Background: rgba(10,10,10,0.85) with saturate(180%) blur(20px)
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb-mobile-header {
     display: flex;
     align-items: center;
@@ -1192,6 +1376,7 @@
     z-index: 100;
   }
 
+  /* Back Button — Cyan, 17px, weight 500 */
   .cvb-mobile-back {
     display: flex;
     align-items: center;
@@ -1201,6 +1386,7 @@
     color: var(--accent-primary);
     font-size: var(--font-md);
     font-weight: 500;
+    font-family: inherit;
     cursor: pointer;
     padding: var(--space-sm) 0;
     transition: opacity var(--duration-instant) ease;
@@ -1215,12 +1401,14 @@
     font-size: 16px;
   }
 
+  /* Action Buttons Container */
   .cvb-mobile-actions {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
   }
 
+  /* Action Buttons — 40×40px, radius 12px */
   .cvb-mobile-actions button {
     width: 40px;
     height: 40px;
@@ -1228,6 +1416,7 @@
     border-radius: var(--radius-md);
     border: none;
     font-size: 16px;
+    font-family: inherit;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1237,6 +1426,7 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* Active state: scale(0.92) */
   .cvb-mobile-actions button:active {
     transform: scale(0.92);
   }
@@ -1247,20 +1437,25 @@
     color: var(--text-primary);
   }
 
+  /* Download Button — Accent primary background */
   .cvb-mobile-download-btn {
     background: var(--accent-primary);
-    color: #000;
+    color: var(--depth-base);
     font-weight: 600;
     width: auto !important;
-    padding: 0 16px !important;
+    padding: 0 var(--space-md) !important;
     gap: 6px;
   }
 
+  /* Hide floating preview button on mobile */
   .cvb-mobile-preview {
     display: none !important;
   }
 
-  /* === BOTTOM NAVIGATION - iOS Tab Bar === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     BOTTOM NAVIGATION — iOS Tab Bar Style
+     Fixed bottom, backdrop blur, safe area respect
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb-mobile-nav {
     display: flex;
     position: fixed;
@@ -1271,19 +1466,19 @@
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     border-top: 0.5px solid var(--border-subtle);
-    padding: 8px 4px;
-    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    padding: var(--space-sm) var(--space-xs);
+    padding-bottom: calc(var(--space-sm) + env(safe-area-inset-bottom));
     z-index: 100;
-    gap: 0;
   }
 
+  /* Nav Items — Icons 22px, Labels 10px */
   .cvb-mobile-nav-item {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: var(--space-xs);
     padding: 6px 2px;
     background: transparent;
     border: none;
@@ -1291,6 +1486,7 @@
     color: var(--text-muted);
     font-size: 10px;
     font-weight: 500;
+    font-family: inherit;
     letter-spacing: -0.1px;
     cursor: pointer;
     transition: color var(--duration-fast) ease,
@@ -1301,7 +1497,8 @@
 
   .cvb-mobile-nav-item svg {
     font-size: 22px;
-    transition: transform var(--duration-fast) var(--spring-bounce);
+    transition: transform var(--duration-fast) var(--spring-bounce),
+                filter var(--duration-fast) ease;
   }
 
   .cvb-mobile-nav-item span {
@@ -1311,7 +1508,7 @@
     max-width: 100%;
   }
 
-  /* Active State - Lift & Glow */
+  /* Active State — Cyan color, icon lift with glow */
   .cvb-mobile-nav-item.active {
     color: var(--accent-primary);
   }
@@ -1321,11 +1518,14 @@
     filter: drop-shadow(0 2px 8px var(--accent-primary-glow));
   }
 
+  /* Inactive press feedback */
   .cvb-mobile-nav-item:not(.active):active {
     transform: scale(0.95);
   }
 
-  /* === SECTION CONTAINER === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     SECTION CONTAINER
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb-section {
     background: transparent;
     padding: 0;
@@ -1333,7 +1533,7 @@
     border-radius: 0;
   }
 
-  /* Typography - Optical Sizing */
+  /* Section Title — Optical sizing with tight tracking */
   .cvb-section h2 {
     font-size: var(--font-2xl);
     font-weight: 700;
@@ -1343,19 +1543,25 @@
     line-height: 1.1;
   }
 
-  /* === FORM GRID === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     FORM GRID — Stacked on Mobile
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb-grid {
     display: flex;
     flex-direction: column;
     gap: 0;
   }
 
-  /* === FORM FIELDS - Apple Settings Style === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     FORM FIELDS — Apple Settings Style
+     No boxed inputs. Vertical stack. Dividers between.
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb-field {
     margin-bottom: 0;
-    padding: 16px 0;
+    padding: var(--space-md) 0;
     border-bottom: 0.5px solid var(--border-subtle);
     position: relative;
+    gap: var(--space-sm);
   }
 
   .cvb-field:last-child {
@@ -1366,6 +1572,7 @@
     grid-column: auto;
   }
 
+  /* Labels — 13px, tertiary, no uppercase */
   .cvb-field label {
     display: block;
     font-size: var(--font-sm);
@@ -1373,9 +1580,10 @@
     color: var(--text-tertiary);
     text-transform: none;
     letter-spacing: 0;
-    margin-bottom: 8px;
+    margin-bottom: var(--space-sm);
   }
 
+  /* Inputs — Transparent, borderless, 17px (iOS standard) */
   .cvb-field input,
   .cvb-field select {
     width: 100%;
@@ -1427,7 +1635,9 @@
     color: var(--text-muted);
   }
 
-  /* === TEXTAREA (Summary/Skills) - Elevated Surface === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     STANDALONE TEXTAREA — Elevated Surface
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb-textarea {
     width: 100%;
     padding: var(--space-md);
@@ -1456,20 +1666,22 @@
   }
 
   .cvb-hint {
-    margin-top: 12px;
+    margin-top: var(--space-md);
     font-size: var(--font-sm);
     color: var(--text-muted);
   }
 
-  /* === CHECKBOX === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     CHECKBOX — Touch-optimized
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb-checkbox {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--space-md);
     cursor: pointer;
     font-size: var(--font-base);
     color: var(--text-primary);
-    padding: 4px 0;
+    padding: var(--space-xs) 0;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -1482,7 +1694,11 @@
     border-radius: 6px;
   }
 
-  /* === CARDS - Floating Surfaces with Depth === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     CARDS — Floating Surfaces with Depth
+     Background: elevated, radius 16px, subtle shadow
+     Press feedback: scale(0.985)
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb-card {
     background: var(--depth-elevated);
     border: none;
@@ -1507,6 +1723,7 @@
     padding: var(--space-md) 0;
   }
 
+  /* Card Header */
   .cvb-card-header {
     display: flex;
     justify-content: space-between;
@@ -1517,11 +1734,12 @@
     border-bottom: 0.5px solid var(--border-subtle);
   }
 
+  /* Card Number Badge */
   .cvb-card-num {
     width: 28px;
     height: 28px;
     background: var(--text-primary);
-    color: #000;
+    color: var(--depth-base);
     border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
@@ -1531,6 +1749,7 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* Delete Button */
   .cvb-delete {
     width: 36px;
     height: 36px;
@@ -1553,11 +1772,13 @@
     transform: scale(0.9);
   }
 
-  /* === LANGUAGE ROW === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     LANGUAGE ROW
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb-row {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--space-md);
     padding: 14px var(--space-md);
     background: var(--depth-elevated);
     border-radius: var(--radius-lg);
@@ -1615,6 +1836,7 @@
     justify-content: center;
     font-size: 14px;
     transition: all var(--duration-fast) var(--spring-bounce);
+    -webkit-tap-highlight-color: transparent;
   }
 
   .cvb-delete-sm:active {
@@ -1622,7 +1844,9 @@
     transform: scale(0.9);
   }
 
-  /* === ADD BUTTON === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     ADD BUTTON
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb-add {
     width: 100%;
     padding: var(--space-md);
@@ -1632,11 +1856,12 @@
     color: var(--text-tertiary);
     font-size: var(--font-base);
     font-weight: 500;
+    font-family: inherit;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: var(--space-sm);
     margin-top: var(--space-sm);
     transition: all var(--duration-fast) var(--spring-bounce);
     -webkit-tap-highlight-color: transparent;
@@ -1653,20 +1878,28 @@
     transform: scale(0.98);
   }
 
-  /* === HIDE DESKTOP ELEMENTS === */
+  /* Hide desktop form elements */
   .cvb-form-header,
   .cvb-form-header .cvb-template-btn,
   .cvb-form-header .cvb-download-btn {
     display: none;
   }
 
-  /* === TEMPLATE CATALOG - Curated Gallery === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     TEMPLATE CATALOG — Curated Gallery
+     Animation: slideUp 400ms
+     Grid: 2 columns, 3:4 aspect ratio cards
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb-template-catalog {
+    position: fixed;
+    inset: 0;
     padding: var(--space-md);
     padding-top: 72px;
     padding-bottom: 40px;
     background: var(--depth-base);
-    animation: slideUp 0.4s var(--spring-smooth);
+    z-index: 200;
+    overflow-y: auto;
+    animation: slideUp var(--duration-slow) var(--spring-smooth);
   }
 
   @keyframes slideUp {
@@ -1702,8 +1935,8 @@
 
   .cvb-catalog-close {
     position: fixed;
-    top: 16px;
-    right: 16px;
+    top: var(--space-md);
+    right: var(--space-md);
     width: 36px;
     height: 36px;
     background: var(--depth-floating);
@@ -1717,6 +1950,7 @@
     justify-content: center;
     z-index: 1001;
     transition: all var(--duration-fast) var(--spring-bounce);
+    -webkit-tap-highlight-color: transparent;
   }
 
   .cvb-catalog-close:active {
@@ -1742,17 +1976,19 @@
 
   .cvb-catalog-section h3 .cvb-badge {
     font-size: 9px;
-    padding: 4px 8px;
+    padding: var(--space-xs) var(--space-sm);
   }
 
+  /* Template Grid — 2 columns */
   .cvb-catalog-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-md);
   }
 
+  /* Template Card — 3:4 ratio */
   .cvb-catalog-item {
-    aspect-ratio: 3/4;
+    aspect-ratio: 3 / 4;
     border-radius: var(--radius-lg);
     overflow: hidden;
     position: relative;
@@ -1761,13 +1997,16 @@
                 box-shadow var(--duration-normal) ease;
     border: 2px solid transparent;
     background: var(--depth-elevated);
+    padding: 0;
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* Press: scale(0.96) */
   .cvb-catalog-item:active {
     transform: scale(0.96);
   }
 
+  /* Active: cyan border with glow */
   .cvb-catalog-item.active {
     border-color: var(--accent-primary);
     box-shadow: 0 0 20px var(--accent-primary-soft);
@@ -1786,7 +2025,7 @@
     left: 0;
     right: 0;
     padding: var(--space-md);
-    background: linear-gradient(transparent, rgba(0,0,0,0.9));
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
   }
 
   .cvb-catalog-name {
@@ -1808,26 +2047,30 @@
   .cvb-catalog-item.active .cvb-catalog-check {
     display: flex;
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: var(--space-md);
+    right: var(--space-md);
     width: 26px;
     height: 26px;
     background: var(--accent-primary);
     border-radius: 50%;
     align-items: center;
     justify-content: center;
-    color: #000;
+    color: var(--depth-base);
     font-size: 11px;
     box-shadow: 0 2px 8px var(--accent-primary-glow);
   }
 
-  /* === PREVIEW MODAL === */
+  /* ─────────────────────────────────────────────────────────────────────────
+     PREVIEW MODAL
+     Animation: modalSlideUp 400ms
+     Document: docReveal 500ms with 100ms delay
+     ───────────────────────────────────────────────────────────────────────── */
   .cvb-mobile-modal {
     padding: var(--space-md);
     padding-top: 64px;
     padding-bottom: 40px;
     background: var(--depth-base);
-    animation: modalSlideUp 0.4s var(--spring-smooth);
+    animation: modalSlideUp var(--duration-slow) var(--spring-smooth);
   }
 
   @keyframes modalSlideUp {
@@ -1845,7 +2088,7 @@
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-    animation: docReveal 0.5s var(--spring-smooth) 0.1s both;
+    animation: docReveal 500ms var(--spring-smooth) 100ms both;
   }
 
   @keyframes docReveal {
@@ -1878,17 +2121,43 @@
     transition: all var(--duration-fast) var(--spring-bounce);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    -webkit-tap-highlight-color: transparent;
   }
 
   .cvb-close-modal:active {
     transform: scale(0.9);
     background: var(--depth-raised);
   }
+
+  /* CV Document Mobile Adjustments */
+  .cv-header {
+    padding: 32px 24px;
+  }
+
+  .cv-name {
+    font-size: 24px;
+    margin-bottom: var(--space-md);
+  }
+
+  .cv-contact {
+    gap: var(--space-sm);
+    font-size: 12px;
+  }
+
+  .cv-section {
+    padding: 20px 24px;
+  }
+
+  .cv-section h2 {
+    font-size: 11px;
+    margin-bottom: var(--space-md);
+  }
 }
 
-/* ========================================
-   SMALL PHONES - 480px
-   ======================================== */
+/* ============================================================================
+   SMALL PHONES (< 480px)
+   Reduced spacing and font sizes
+   ============================================================================ */
 @media (max-width: 480px) {
 
   :root {
@@ -1920,11 +2189,12 @@
 
   .cvb-mobile-download-btn {
     padding: 0 14px !important;
-    font-size: 13px;
+    font-size: var(--font-sm);
   }
 
   .cvb-mobile-nav {
     padding: 6px 2px;
+    padding-bottom: calc(6px + env(safe-area-inset-bottom));
   }
 
   .cvb-mobile-nav-item {
@@ -2033,9 +2303,10 @@
   }
 }
 
-/* ========================================
-   EXTRA SMALL PHONES - 360px
-   ======================================== */
+/* ============================================================================
+   EXTRA SMALL PHONES (< 360px)
+   Ultra-compact: icon-only back button, minimal spacing
+   ============================================================================ */
 @media (max-width: 360px) {
 
   :root {
@@ -2049,6 +2320,7 @@
     padding: 10px 12px;
   }
 
+  /* Back button: icon only */
   .cvb-mobile-back span {
     display: none;
   }
@@ -2056,7 +2328,7 @@
   .cvb-mobile-actions button {
     width: 32px;
     height: 32px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-size: 13px;
   }
 
@@ -2100,11 +2372,11 @@
     padding: 12px;
     font-size: 14px;
     min-height: 120px;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
   }
 
   .cvb-card {
-    border-radius: 12px;
+    border-radius: var(--radius-md);
   }
 
   .cvb-card-header {
@@ -2130,7 +2402,7 @@
 
   .cvb-row {
     padding: 10px 12px;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
   }
 
   .cvb-row select {
@@ -2142,7 +2414,7 @@
   .cvb-add {
     padding: 12px;
     font-size: 13px;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
   }
 
   .cvb-catalog-header h2 {
@@ -2158,7 +2430,7 @@
   }
 
   .cvb-catalog-item {
-    border-radius: 12px;
+    border-radius: var(--radius-md);
   }
 
   .cvb-close-modal,
@@ -2169,7 +2441,10 @@
   }
 }
 
-/* ============ RTL SUPPORT ============ */
+/* ============================================================================
+   RTL SUPPORT — Arabic/Hebrew Layout
+   Automatic inversions for right-to-left languages
+   ============================================================================ */
 .cvb.rtl .cvb-sidebar {
   border-right: none;
   border-left: 1px solid var(--border-subtle);
@@ -2184,22 +2459,57 @@
   text-align: right;
 }
 
+.cvb.rtl .cvb-download-btn {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* RTL Template adjustments */
 .cvb.rtl .cv-document.classic .cv-header,
 .cvb.rtl .cv-document.minimal .cv-header {
   text-align: right;
 }
 
 .cvb.rtl .cv-document.classic .cv-contact,
-.cvb.rtl .cv-document.minimal .cv-contact {
+.cvb.rtl .cv-document.classic .cv-links,
+.cvb.rtl .cv-document.minimal .cv-contact,
+.cvb.rtl .cv-document.minimal .cv-links {
   justify-content: flex-end;
 }
 
 .cvb.rtl .cv-document.minimal .cv-header {
   border-left: none;
-  border-right: 6px solid #000;
+  border-right: 6px solid #000000;
 }
 
-/* ============ ACCESSIBILITY ============ */
+/* RTL Mobile adjustments */
+@media (max-width: 768px) {
+  .cvb.rtl .cvb-mobile-back {
+    flex-direction: row-reverse;
+  }
+
+  .cvb.rtl .cvb-catalog-header {
+    text-align: right;
+    padding-right: 0;
+    padding-left: 48px;
+  }
+
+  .cvb.rtl .cvb-catalog-close {
+    right: auto;
+    left: var(--space-md);
+  }
+
+  .cvb.rtl .cvb-close-modal {
+    right: auto;
+    left: 14px;
+  }
+}
+
+/* ============================================================================
+   ACCESSIBILITY — Inclusive by Design
+   ============================================================================ */
+
+/* Reduced Motion — Collapse all animations to instant */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -2207,22 +2517,57 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-/* High contrast mode */
+/* High Contrast Mode — Increase border visibility */
 @media (prefers-contrast: high) {
   :root {
     --border-subtle: rgba(255, 255, 255, 0.2);
     --border-medium: rgba(255, 255, 255, 0.3);
+    --border-strong: rgba(255, 255, 255, 0.4);
     --text-tertiary: #a1a1aa;
     --text-muted: #71717a;
   }
+
+  .cvb-field input:focus,
+  .cvb-field textarea:focus,
+  .cvb-field select:focus,
+  .cvb-textarea:focus {
+    box-shadow: 0 0 0 3px var(--accent-primary);
+  }
+
+  .cvb-mobile-nav-item.active {
+    background: var(--accent-primary-soft);
+  }
 }
 
-/* Dynamic text scaling support */
+/* Dynamic Text Scaling — Fluid typography */
 @supports (font-size: clamp(1rem, 2vw, 2rem)) {
   .cvb-section h2 {
     font-size: clamp(24px, 6vw, 34px);
   }
+
+  .cvb-catalog-header h2 {
+    font-size: clamp(24px, 7vw, 34px);
+  }
 }
+
+/* Focus Visible — Keyboard navigation indicator */
+.cvb-nav-item:focus-visible,
+.cvb-mobile-nav-item:focus-visible,
+.cvb-add:focus-visible,
+.cvb-delete:focus-visible,
+.cvb-catalog-item:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================================================
+   END OF DESIGN SYSTEM
+
+   Simple on the surface.
+   Powerful underneath.
+   Never loud. Never cheap.
+   ============================================================================ */
