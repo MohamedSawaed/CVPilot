@@ -82,6 +82,26 @@ const generatePDFClientSide = async (cvData, templateStyle, sections, language, 
   const info = cvData.personalInfo || {};
   const t = getTranslations(language);
 
+  // Preload Arabic/Hebrew fonts for RTL support
+  if (isRTL) {
+    // Create a font preload element to ensure Cairo font is loaded
+    const fontPreload = document.createElement('div');
+    fontPreload.style.cssText = `
+      position: absolute;
+      left: -9999px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+    `;
+    // Add Arabic text to trigger font loading
+    fontPreload.textContent = 'الملخص المهني الخبرة العملية التعليم المهارات اللغات المشاريع الشهادات الإنجازات';
+    document.body.appendChild(fontPreload);
+
+    // Wait for font to load
+    await document.fonts.ready;
+    await new Promise(resolve => setTimeout(resolve, 500));
+    document.body.removeChild(fontPreload);
+  }
+
   // Create a hidden container for rendering
   const container = document.createElement('div');
   container.id = 'pdf-render-container';
@@ -95,13 +115,14 @@ const generatePDFClientSide = async (cvData, templateStyle, sections, language, 
     direction: ${isRTL ? 'rtl' : 'ltr'};
   `;
 
-  // Build HTML content
-  container.innerHTML = buildPDFHTML(cvData, sections, language, isRTL, templateStyle, t);
+  // Build HTML content with embedded font link for RTL
+  const fontLink = isRTL ? `<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">` : '';
+  container.innerHTML = fontLink + buildPDFHTML(cvData, sections, language, isRTL, templateStyle, t);
   document.body.appendChild(container);
 
   // Wait for fonts to load
   await document.fonts.ready;
-  await new Promise(resolve => setTimeout(resolve, 300));
+  await new Promise(resolve => setTimeout(resolve, isRTL ? 800 : 300));
 
   try {
     // Convert to canvas
@@ -195,11 +216,14 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
   const textAlign = 'text-align: center;';
   const fontFamily = colors.fontFamily || 'inherit';
 
+  // Font family for RTL support
+  const baseFontFamily = isRTL ? "'Cairo', 'Segoe UI', sans-serif" : "'Inter', 'Segoe UI', sans-serif";
+
   let html = `
-    <div style="padding: 40px; color: #1a1a1a; line-height: 1.6;">
+    <div style="padding: 40px; color: #1a1a1a; line-height: 1.6; font-family: ${baseFontFamily}; direction: ${isRTL ? 'rtl' : 'ltr'};">
       <!-- Header -->
       <div style="background: ${colors.headerBg}; color: ${colors.headerText}; padding: 30px; margin: -40px -40px 30px -40px; ${headerBorderStyle} ${headerLeftBorder} ${textAlign}">
-        <h1 style="font-size: 28px; font-weight: 700; margin: 0 0 10px 0; color: ${nameColor}; font-family: ${fontFamily};">${escapeHtml(info.fullName) || (isRTL ? 'اسمك' : 'Your Name')}</h1>
+        <h1 style="font-size: 28px; font-weight: 700; margin: 0 0 10px 0; color: ${nameColor}; font-family: ${baseFontFamily};">${escapeHtml(info.fullName) || (isRTL ? 'اسمك' : 'Your Name')}</h1>
         <div style="font-size: 13px; opacity: 0.9; display: flex; flex-direction: column; align-items: center; gap: 6px;">
           <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
             ${info.email ? `<span>${escapeHtml(info.email)}</span>` : ''}
@@ -220,7 +244,7 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
   if (cvData.summary && sections.includes('summary')) {
     html += `
       <div style="margin-bottom: 25px;">
-        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.summary}</h2>
+        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px; font-family: ${baseFontFamily};">${t.summary}</h2>
         <p style="font-size: 13px; color: #4a5568; margin: 0;">${escapeHtml(cvData.summary)}</p>
       </div>
     `;
@@ -230,7 +254,7 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
   if (Array.isArray(cvData.experience) && cvData.experience.length > 0 && sections.includes('experience')) {
     html += `
       <div style="margin-bottom: 25px;">
-        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.experience}</h2>
+        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px; font-family: ${baseFontFamily};">${t.experience}</h2>
         ${cvData.experience.map(exp => `
           <div style="margin-bottom: 15px; padding-${isRTL ? 'right' : 'left'}: 12px; border-${isRTL ? 'right' : 'left'}: 3px solid ${colors.accent};">
             <div style="display: flex; justify-content: space-between; ${isRTL ? 'direction: rtl;' : ''}">
@@ -249,7 +273,7 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
   if (Array.isArray(cvData.education) && cvData.education.length > 0 && sections.includes('education')) {
     html += `
       <div style="margin-bottom: 25px;">
-        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.education}</h2>
+        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px; font-family: ${baseFontFamily};">${t.education}</h2>
         ${cvData.education.map(edu => `
           <div style="margin-bottom: 12px;">
             <div style="display: flex; justify-content: space-between; ${isRTL ? 'direction: rtl;' : ''}">
@@ -270,7 +294,7 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
     if (skillsHTML) {
       html += `
         <div style="margin-bottom: 25px;">
-          <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.skills}</h2>
+          <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px; font-family: ${baseFontFamily};">${t.skills}</h2>
           ${skillsHTML}
         </div>
       `;
@@ -281,7 +305,7 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
   if (Array.isArray(cvData.projects) && cvData.projects.length > 0 && sections.includes('projects')) {
     html += `
       <div style="margin-bottom: 25px;">
-        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.projects}</h2>
+        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px; font-family: ${baseFontFamily};">${t.projects}</h2>
         ${cvData.projects.map(project => `
           <div style="margin-bottom: 12px;">
             <div style="font-size: 14px; font-weight: 600;">${escapeHtml(project.projectName || project.title)}</div>
@@ -296,7 +320,7 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
   if (Array.isArray(cvData.certifications) && cvData.certifications.length > 0 && sections.includes('certifications')) {
     html += `
       <div style="margin-bottom: 25px;">
-        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.certifications}</h2>
+        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px; font-family: ${baseFontFamily};">${t.certifications}</h2>
         ${cvData.certifications.map(cert => `
           <div style="margin-bottom: 10px;">
             <div style="display: flex; justify-content: space-between; ${isRTL ? 'direction: rtl;' : ''}">
@@ -314,7 +338,7 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
   if (Array.isArray(cvData.achievements) && cvData.achievements.length > 0 && sections.includes('achievements')) {
     html += `
       <div style="margin-bottom: 25px;">
-        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.achievements}</h2>
+        <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px; font-family: ${baseFontFamily};">${t.achievements}</h2>
         ${cvData.achievements.map(achievement => `
           <div style="margin-bottom: 10px;">
             <div style="display: flex; justify-content: space-between; ${isRTL ? 'direction: rtl;' : ''}">
@@ -344,6 +368,7 @@ const buildProTemplatePDF = (cvData, sections, language, isRTL, t) => {
   const mainSections = ['summary', 'experience', 'education', 'projects', 'achievements'];
 
   const flexDirection = isRTL ? 'row-reverse' : 'row';
+  const fontFamily = isRTL ? "'Cairo', sans-serif" : "'Inter', sans-serif";
 
   let html = `
     <div style="color: #1f2937; line-height: 1.5; font-family: ${isRTL ? "'Cairo', sans-serif" : "'Inter', sans-serif"}; direction: ${isRTL ? 'rtl' : 'ltr'};">
@@ -374,7 +399,7 @@ const buildProTemplatePDF = (cvData, sections, language, isRTL, t) => {
 
     html += `
       <div style="margin-bottom: 18px;">
-        <h3 style="font-size: 10px; font-weight: 700; color: #1e3a5f; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0; padding-bottom: 5px; border-bottom: 2px solid #2563eb;">${t[sectionKey] || sectionKey}</h3>
+        <h3 style="font-size: 10px; font-weight: 700; color: #1e3a5f; text-transform: ${isRTL ? 'none' : 'uppercase'}; letter-spacing: ${isRTL ? '0' : '1px'}; margin: 0 0 10px 0; padding-bottom: 5px; border-bottom: 2px solid #2563eb; font-family: ${fontFamily};">${t[sectionKey] || sectionKey}</h3>
     `;
 
     if (sectionKey === 'skills') {
@@ -446,7 +471,7 @@ const buildProTemplatePDF = (cvData, sections, language, isRTL, t) => {
 
     html += `
       <div style="margin-bottom: 20px;">
-        <h2 style="font-size: 12px; font-weight: 700; color: #1e3a5f; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #2563eb; display: flex; align-items: center; gap: 6px;">
+        <h2 style="font-size: 12px; font-weight: 700; color: #1e3a5f; text-transform: ${isRTL ? 'none' : 'uppercase'}; letter-spacing: ${isRTL ? '0' : '1px'}; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #2563eb; display: flex; align-items: center; gap: 6px; font-family: ${fontFamily};">
           <span style="color: #2563eb; font-size: 8px;">●</span>
           ${t[sectionKey] || sectionKey}
         </h2>
