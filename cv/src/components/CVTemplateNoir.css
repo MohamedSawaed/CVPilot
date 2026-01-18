@@ -216,6 +216,8 @@
 .cv-template-noir.rtl .noir-exp-bullets {
   padding-left: 0;
   padding-right: 18px;
+  direction: rtl;
+  list-style-position: inside;
 }
 
 .cv-template-noir.rtl .noir-exp-bullets li {

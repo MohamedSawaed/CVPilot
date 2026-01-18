@@ -230,6 +230,8 @@
 .cv-template-luxe.rtl .luxe-exp-bullets {
   padding-left: 0;
   padding-right: 18px;
+  direction: rtl;
+  list-style-position: inside;
 }
 
 .cv-template-luxe.rtl .luxe-exp-bullets li {

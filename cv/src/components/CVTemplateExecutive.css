@@ -211,6 +211,8 @@
 .cv-template-executive.rtl .exec-exp-bullets {
   padding-left: 0;
   padding-right: 20px;
+  direction: rtl;
+  list-style-position: inside;
 }
 
 .cv-template-executive.rtl .exec-exp-bullets li {

@@ -82,7 +82,7 @@ function CVTemplateATS({ cvData, sections, sectionDefinitions }) {
         ));
 
       case 'skills':
-        // Support both new and old skills format
+        // Support both new and old skills format - render as bullet points
         const skillItems = data?.items || [];
         const hasOldFormat = data?.technicalSkills || data?.softSkills || data?.languages;
 
@@ -104,54 +104,46 @@ function CVTemplateATS({ cvData, sections, sectionDefinitions }) {
             categories[skill.category].push(skill);
           });
 
-          const getProficiencyLevel = (proficiency) => {
-            const levels = {
-              beginner: r(t('beginner')),
-              intermediate: r(t('intermediate')),
-              advanced: r(t('advanced')),
-              expert: r(t('expert')),
-              master: r(t('master'))
-            };
-            return levels[proficiency] || r(t('intermediate'));
-          };
-
           return (
             <div className="ats-skills">
               {Object.entries(categories).map(([category, skills]) => (
                 <div key={category} className="ats-skill-section">
                   <div className="ats-skill-label">{categoryLabels[category] || r(category)}:</div>
-                  <div className="ats-skill-list">
-                    {skills.map((skill, idx) => (
-                      <span key={skill.id}>
-                        {r(skill.name)} ({getProficiencyLevel(skill.proficiency)})
-                        {idx < skills.length - 1 ? ', ' : ''}
-                      </span>
+                  <ul className="ats-skills-bullets">
+                    {skills.map(skill => (
+                      <li key={skill.id}>{r(skill.name)}</li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               ))}
             </div>
           );
         } else if (hasOldFormat) {
-          // Old format fallback
+          // Old format fallback - render as bullet points
           return (
             <div className="ats-skills">
               {data?.technicalSkills?.length > 0 && (
                 <div className="ats-skill-section">
                   <div className="ats-skill-label">{r(t('technicalSkills'))}:</div>
-                  <div className="ats-skill-list">{data.technicalSkills.map(s => r(s)).join(', ')}</div>
+                  <ul className="ats-skills-bullets">
+                    {data.technicalSkills.map((s, i) => <li key={i}>{r(s)}</li>)}
+                  </ul>
                 </div>
               )}
               {data?.softSkills?.length > 0 && (
                 <div className="ats-skill-section">
                   <div className="ats-skill-label">{r(t('professionalSkills'))}:</div>
-                  <div className="ats-skill-list">{data.softSkills.map(s => r(s)).join(', ')}</div>
+                  <ul className="ats-skills-bullets">
+                    {data.softSkills.map((s, i) => <li key={i}>{r(s)}</li>)}
+                  </ul>
                 </div>
               )}
               {data?.languages?.length > 0 && (
                 <div className="ats-skill-section">
                   <div className="ats-skill-label">{r(t('languages'))}:</div>
-                  <div className="ats-skill-list">{data.languages.map(s => r(s)).join(', ')}</div>
+                  <ul className="ats-skills-bullets">
+                    {data.languages.map((s, i) => <li key={i}>{r(s)}</li>)}
+                  </ul>
                 </div>
               )}
             </div>

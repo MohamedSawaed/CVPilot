@@ -90,7 +90,7 @@ function CVTemplateClassic({ cvData, sections, sectionDefinitions }) {
         const hasOldFormat = data?.technicalSkills || data?.softSkills || data?.languages;
 
         if (skillItems.length > 0) {
-          // New format with proficiency levels
+          // New format with proficiency levels - render as bullet points
           const categoryLabels = {
             technical: r(t('technicalSkills')),
             soft: r(t('softSkills')),
@@ -107,53 +107,46 @@ function CVTemplateClassic({ cvData, sections, sectionDefinitions }) {
             categories[skill.category].push(skill);
           });
 
-          const getProficiencyStars = (proficiency) => {
-            const levels = { beginner: 1, intermediate: 2, advanced: 3, expert: 4, master: 5 };
-            return levels[proficiency] || 2;
-          };
-
           return (
             <div className="classic-skills">
               {Object.entries(categories).map(([category, skills]) => (
                 <div key={category} className="classic-skill-group">
                   <strong>{categoryLabels[category] || r(category)}:</strong>
-                  <div className="classic-skill-tags">
+                  <ul className="classic-skills-bullets">
                     {skills.map(skill => (
-                      <span
-                        key={skill.id}
-                        className={`classic-skill-tag proficiency-${skill.proficiency}`}
-                        title={`${r(skill.name)} - ${r(skill.proficiency)}`}
-                      >
-                        {r(skill.name)}
-                        {skill.proficiency !== 'intermediate' && (
-                          <span className="skill-stars">
-                            {' '}{'★'.repeat(getProficiencyStars(skill.proficiency))}
-                          </span>
-                        )}
-                      </span>
+                      <li key={skill.id}>{r(skill.name)}</li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               ))}
             </div>
           );
         } else if (hasOldFormat) {
-          // Old format fallback
+          // Old format fallback - render as bullet points
           return (
             <div className="classic-skills">
               {data?.technicalSkills?.length > 0 && (
-                <div className="classic-skill-row">
-                  <strong>{r(t('technicalSkills'))}:</strong> {data.technicalSkills.map(s => r(s)).join(', ')}
+                <div className="classic-skill-group">
+                  <strong>{r(t('technicalSkills'))}:</strong>
+                  <ul className="classic-skills-bullets">
+                    {data.technicalSkills.map((s, i) => <li key={i}>{r(s)}</li>)}
+                  </ul>
                 </div>
               )}
               {data?.softSkills?.length > 0 && (
-                <div className="classic-skill-row">
-                  <strong>{r(t('professionalSkills'))}:</strong> {data.softSkills.map(s => r(s)).join(', ')}
+                <div className="classic-skill-group">
+                  <strong>{r(t('professionalSkills'))}:</strong>
+                  <ul className="classic-skills-bullets">
+                    {data.softSkills.map((s, i) => <li key={i}>{r(s)}</li>)}
+                  </ul>
                 </div>
               )}
               {data?.languages?.length > 0 && (
-                <div className="classic-skill-row">
-                  <strong>{r(t('languages'))}:</strong> {data.languages.map(s => r(s)).join(', ')}
+                <div className="classic-skill-group">
+                  <strong>{r(t('languages'))}:</strong>
+                  <ul className="classic-skills-bullets">
+                    {data.languages.map((s, i) => <li key={i}>{r(s)}</li>)}
+                  </ul>
                 </div>
               )}
             </div>

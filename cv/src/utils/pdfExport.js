@@ -355,20 +355,30 @@ const getTemplateColors = (templateStyle) => {
 const buildSkillsForPDF = (skills, t, colors, isRTL) => {
   if (!skills) return '';
 
-  // Get skill styling from template colors
-  const skillBg = colors.skillBg || colors.accent;
-  const skillText = colors.skillText || 'white';
-  const skillBorder = colors.skillBorder ? `border: ${colors.skillBorder};` : '';
+  // RTL styling for bullet lists
+  const rtlStyles = isRTL ? 'direction: rtl; list-style-position: inside;' : '';
+  const paddingDir = isRTL ? 'padding-right' : 'padding-left';
+
+  // Helper to render skills as bullet points
+  const renderSkillsBullets = (skillList, category) => {
+    if (!skillList || skillList.length === 0) return '';
+    return `
+      <div style="margin-bottom: 10px;">
+        <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 4px;">${category}</div>
+        <ul style="margin: 0; ${paddingDir}: 18px; list-style-type: disc; ${rtlStyles}">
+          ${skillList.map(s => `<li style="font-size: 11px; color: #4a5568; margin-bottom: 2px; ${isRTL ? 'text-align: right;' : ''}">${escapeHtml(s)}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+  };
 
   // Handle array of strings (simple skills)
   if (Array.isArray(skills)) {
     if (skills.length === 0) return '';
     return `
-      <div style="display: flex; flex-wrap: wrap; gap: 8px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-        ${skills.map(skill => `
-          <span style="background: ${skillBg}; color: ${skillText}; padding: 5px 12px; border-radius: 15px; font-size: 11px; ${skillBorder}">${escapeHtml(skill)}</span>
-        `).join('')}
-      </div>
+      <ul style="margin: 0; ${paddingDir}: 18px; list-style-type: disc; ${rtlStyles}">
+        ${skills.map(skill => `<li style="font-size: 11px; color: #4a5568; margin-bottom: 2px; ${isRTL ? 'text-align: right;' : ''}">${escapeHtml(skill)}</li>`).join('')}
+      </ul>
     `;
   }
 
@@ -391,14 +401,9 @@ const buildSkillsForPDF = (skills, t, colors, isRTL) => {
       frameworks: 'Frameworks'
     };
 
-    return Object.entries(categories).map(([cat, catSkills]) => `
-      <div style="margin-bottom: 10px;">
-        <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 6px;">${categoryLabels[cat] || cat}</div>
-        <div style="display: flex; flex-wrap: wrap; gap: 6px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-          ${catSkills.map(s => `<span style="background: ${skillBg}; color: ${skillText}; padding: 4px 10px; border-radius: 12px; font-size: 11px; ${skillBorder}">${escapeHtml(s)}</span>`).join('')}
-        </div>
-      </div>
-    `).join('');
+    return Object.entries(categories).map(([cat, catSkills]) =>
+      renderSkillsBullets(catSkills, categoryLabels[cat] || cat)
+    ).join('');
   }
 
   // Handle old format with separate arrays
@@ -407,36 +412,10 @@ const buildSkillsForPDF = (skills, t, colors, isRTL) => {
   const softSkills = Array.isArray(skills.softSkills) ? skills.softSkills.filter(Boolean) : [];
   const languages = Array.isArray(skills.languages) ? skills.languages.filter(Boolean) : [];
 
-  if (technicalSkills.length > 0) {
-    html += `
-      <div style="margin-bottom: 10px;">
-        <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 6px;">${t.technicalSkills}</div>
-        <div style="display: flex; flex-wrap: wrap; gap: 6px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-          ${technicalSkills.map(s => `<span style="background: ${skillBg}; color: ${skillText}; padding: 4px 10px; border-radius: 12px; font-size: 11px; ${skillBorder}">${escapeHtml(s)}</span>`).join('')}
-        </div>
-      </div>
-    `;
-  }
-  if (softSkills.length > 0) {
-    html += `
-      <div style="margin-bottom: 10px;">
-        <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 6px;">${t.softSkills}</div>
-        <div style="display: flex; flex-wrap: wrap; gap: 6px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-          ${softSkills.map(s => `<span style="background: ${skillBg}; color: ${skillText}; padding: 4px 10px; border-radius: 12px; font-size: 11px; ${skillBorder}">${escapeHtml(s)}</span>`).join('')}
-        </div>
-      </div>
-    `;
-  }
-  if (languages.length > 0) {
-    html += `
-      <div style="margin-bottom: 10px;">
-        <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 6px;">${t.languages}</div>
-        <div style="display: flex; flex-wrap: wrap; gap: 6px; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-          ${languages.map(s => `<span style="background: ${skillBg}; color: ${skillText}; padding: 4px 10px; border-radius: 12px; font-size: 11px; ${skillBorder}">${escapeHtml(s)}</span>`).join('')}
-        </div>
-      </div>
-    `;
-  }
+  html += renderSkillsBullets(technicalSkills, t.technicalSkills);
+  html += renderSkillsBullets(softSkills, t.softSkills);
+  html += renderSkillsBullets(languages, t.languages);
+
   return html;
 };
 
@@ -980,15 +959,15 @@ const formatDescriptionAsBullets = (text, isRTL = false) => {
 
   if (lines.length === 0) return '';
 
-  // Use appropriate bullet character for RTL
-  const bullet = isRTL ? '•' : '•';
+  // For RTL languages, use direction: rtl to put bullets on the right
   const paddingDir = isRTL ? 'padding-right' : 'padding-left';
+  const rtlStyles = isRTL ? 'direction: rtl; list-style-position: inside;' : '';
 
-  return `<ul style="margin: 5px 0 0 0; ${paddingDir}: 18px; list-style-type: disc;">
+  return `<ul style="margin: 5px 0 0 0; ${paddingDir}: 18px; list-style-type: disc; ${rtlStyles}">
     ${lines.map(line => {
       // Remove leading bullet/dash if already present
       const cleanLine = line.trim().replace(/^[•\-\*]\s*/, '');
-      return `<li style="font-size: 12px; color: #4a5568; margin-bottom: 3px; line-height: 1.4;">${escapeHtml(cleanLine)}</li>`;
+      return `<li style="font-size: 12px; color: #4a5568; margin-bottom: 3px; line-height: 1.4; ${isRTL ? 'text-align: right;' : ''}">${escapeHtml(cleanLine)}</li>`;
     }).join('')}
   </ul>`;
 };

@@ -202,6 +202,8 @@
 .cv-template-tech.rtl .tech-exp-bullets {
   padding-left: 0;
   padding-right: 18px;
+  direction: rtl;
+  list-style-position: inside;
 }
 
 .cv-template-tech.rtl .tech-exp-bullets li {

@@ -197,6 +197,8 @@
 .cv-template-elegant.rtl .elegant-exp-bullets {
   padding-left: 0;
   padding-right: 18px;
+  direction: rtl;
+  list-style-position: inside;
 }
 
 .cv-template-elegant.rtl .elegant-exp-bullets li {

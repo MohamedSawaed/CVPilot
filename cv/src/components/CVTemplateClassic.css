@@ -129,6 +129,20 @@
   margin-bottom: 4px;
 }
 
+/* Skills Bullets */
+.classic-skills-bullets {
+  margin: 4px 0 0 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.classic-skills-bullets li {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #333;
+  margin-bottom: 2px;
+}
+
 /* Education */
 .classic-edu-item {
   margin-bottom: 20px;
@@ -413,6 +427,8 @@
 .cv-template-classic.rtl .classic-exp-bullets {
   padding-left: 0;
   padding-right: 20px;
+  direction: rtl;
+  list-style-position: inside;
 }
 
 .cv-template-classic.rtl .classic-exp-bullets li {
@@ -424,6 +440,17 @@
 }
 
 .cv-template-classic.rtl .classic-skill-group {
+  text-align: right;
+}
+
+.cv-template-classic.rtl .classic-skills-bullets {
+  padding-left: 0;
+  padding-right: 20px;
+  direction: rtl;
+  list-style-position: inside;
+}
+
+.cv-template-classic.rtl .classic-skills-bullets li {
   text-align: right;
 }
 
