@@ -181,6 +181,28 @@
   margin: 0;
 }
 
+.elegant-exp-bullets {
+  margin: 6px 0 0 0;
+  padding-left: 18px;
+  list-style-type: disc;
+}
+
+.elegant-exp-bullets li {
+  font-size: 9.5pt;
+  line-height: 1.6;
+  color: #4a4a4a;
+  margin-bottom: 3px;
+}
+
+.cv-template-elegant.rtl .elegant-exp-bullets {
+  padding-left: 0;
+  padding-right: 18px;
+}
+
+.cv-template-elegant.rtl .elegant-exp-bullets li {
+  text-align: right;
+}
+
 /* ========== EDUCATION ========== */
 .elegant-edu-item {
   margin-bottom: 12pt;

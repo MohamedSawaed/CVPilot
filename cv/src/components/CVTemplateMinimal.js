@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { renderDescriptionAsBullets } from '../utils/templateHelpers';
 import './CVTemplateMinimal.css';
 
 /**
@@ -67,7 +68,7 @@ function CVTemplateMinimal({ cvData, sections, sectionDefinitions }) {
               </span>
             </div>
             <div className="min-exp-company">{r(exp.company)}{exp.location && ` — ${r(exp.location)}`}</div>
-            {exp.description && <p className="min-exp-description">{r(exp.description)}</p>}
+            {renderDescriptionAsBullets(exp.description, 'min-exp-bullets', r)}
           </div>
         ));
 

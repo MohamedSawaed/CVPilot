@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { renderDescriptionAsBullets } from '../utils/templateHelpers';
 import './CVTemplateATS.css';
 
 /**
@@ -62,7 +63,7 @@ function CVTemplateATS({ cvData, sections, sectionDefinitions }) {
             <div className="ats-item-date">
               {r(exp.startDate)} - {exp.current ? r(t('present')) : r(exp.endDate)}
             </div>
-            <div className="ats-item-description">{r(exp.description)}</div>
+            {renderDescriptionAsBullets(exp.description, 'ats-exp-bullets', r)}
           </div>
         ));
 

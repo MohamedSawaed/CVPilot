@@ -116,6 +116,19 @@
   text-align: justify;
 }
 
+.classic-exp-bullets {
+  margin: 6px 0 0 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.classic-exp-bullets li {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 4px;
+}
+
 /* Education */
 .classic-edu-item {
   margin-bottom: 20px;
@@ -394,6 +407,15 @@
 .cv-template-classic.rtl .classic-summary,
 .cv-template-classic.rtl .classic-exp-description,
 .cv-template-classic.rtl .classic-item-description {
+  text-align: right;
+}
+
+.cv-template-classic.rtl .classic-exp-bullets {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.cv-template-classic.rtl .classic-exp-bullets li {
   text-align: right;
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { renderDescriptionAsBullets } from '../utils/templateHelpers';
 import './CVTemplateCoral.css';
 
 /**
@@ -114,7 +115,7 @@ function CVTemplateCoral({ cvData, sections, sectionDefinitions }) {
                 {r(exp.startDate)} — {exp.current ? r(t('present')) : r(exp.endDate)}
               </span>
             </div>
-            {exp.description && <p className="coral-exp-description">{r(exp.description)}</p>}
+            {renderDescriptionAsBullets(exp.description, 'coral-exp-bullets', r)}
           </div>
         ));
 

@@ -214,6 +214,28 @@
   margin: 8px 0 0 0;
 }
 
+.luxe-exp-bullets {
+  margin: 8px 0 0 0;
+  padding-left: 18px;
+  list-style-type: disc;
+}
+
+.luxe-exp-bullets li {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #909090;
+  margin-bottom: 3px;
+}
+
+.cv-template-luxe.rtl .luxe-exp-bullets {
+  padding-left: 0;
+  padding-right: 18px;
+}
+
+.cv-template-luxe.rtl .luxe-exp-bullets li {
+  text-align: right;
+}
+
 /* ========== EDUCATION ========== */
 .luxe-edu-item {
   margin-bottom: 15px;

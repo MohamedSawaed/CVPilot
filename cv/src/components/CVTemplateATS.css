@@ -100,6 +100,19 @@
   text-align: justify;
 }
 
+.ats-exp-bullets {
+  margin: 6px 0 0 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.ats-exp-bullets li {
+  font-size: 10pt;
+  line-height: 1.6;
+  color: #000;
+  margin-bottom: 3px;
+}
+
 /* Skills */
 .ats-skills {
   display: flex;
@@ -236,6 +249,15 @@
 
 .cv-template-ats.rtl .ats-summary,
 .cv-template-ats.rtl .ats-item-description {
+  text-align: right;
+}
+
+.cv-template-ats.rtl .ats-exp-bullets {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.cv-template-ats.rtl .ats-exp-bullets li {
   text-align: right;
 }
 

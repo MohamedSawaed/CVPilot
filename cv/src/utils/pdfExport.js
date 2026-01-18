@@ -231,7 +231,7 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
               <span style="font-size: 12px; color: #718096;">${escapeHtml(exp.startDate)} - ${exp.current ? t.present : escapeHtml(exp.endDate)}</span>
             </div>
             <div style="font-size: 13px; color: ${colors.accent}; margin: 3px 0;">${escapeHtml(exp.company)}</div>
-            <p style="font-size: 12px; color: #4a5568; margin: 5px 0 0 0;">${escapeHtml(exp.description)}</p>
+            ${formatDescriptionAsBullets(exp.description, isRTL)}
           </div>
         `).join('')}
       </div>
@@ -740,7 +740,7 @@ const buildSectionsHTML = (cvData, sections, language, isRTL, templateStyle) => 
               <span class="item-date">${escapeHtml(exp.startDate)} - ${exp.current ? t.present : escapeHtml(exp.endDate)}</span>
             </div>
             <div class="item-subtitle">${escapeHtml(exp.company)}</div>
-            <p class="item-description">${escapeHtml(exp.description)}</p>
+            ${formatDescriptionAsBullets(exp.description, isRTL)}
           </div>
         `).join('')}
       </div>
@@ -968,6 +968,29 @@ const escapeHtml = (text) => {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+};
+
+// Format description as bullet points
+// Splits text by newlines and renders each line as a bullet point
+const formatDescriptionAsBullets = (text, isRTL = false) => {
+  if (!text) return '';
+
+  // Split by newlines and filter empty lines
+  const lines = String(text).split('\n').filter(line => line.trim());
+
+  if (lines.length === 0) return '';
+
+  // Use appropriate bullet character for RTL
+  const bullet = isRTL ? '•' : '•';
+  const paddingDir = isRTL ? 'padding-right' : 'padding-left';
+
+  return `<ul style="margin: 5px 0 0 0; ${paddingDir}: 18px; list-style-type: disc;">
+    ${lines.map(line => {
+      // Remove leading bullet/dash if already present
+      const cleanLine = line.trim().replace(/^[•\-\*]\s*/, '');
+      return `<li style="font-size: 12px; color: #4a5568; margin-bottom: 3px; line-height: 1.4;">${escapeHtml(cleanLine)}</li>`;
+    }).join('')}
+  </ul>`;
 };
 
 // Legacy exports for compatibility

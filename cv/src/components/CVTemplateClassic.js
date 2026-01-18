@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { renderDescriptionAsBullets } from '../utils/templateHelpers';
 import './CVTemplateClassic.css';
 
 /**
@@ -66,7 +67,7 @@ function CVTemplateClassic({ cvData, sections, sectionDefinitions }) {
               </span>
             </div>
             <div className="classic-exp-company">{r(exp.company)}{exp.location && `, ${r(exp.location)}`}</div>
-            <p className="classic-exp-description">{r(exp.description)}</p>
+            {renderDescriptionAsBullets(exp.description, 'classic-exp-bullets', r)}
           </div>
         ));
 

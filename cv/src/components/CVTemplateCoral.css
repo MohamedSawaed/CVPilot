@@ -208,6 +208,28 @@
   margin: 8px 0 0 0;
 }
 
+.coral-exp-bullets {
+  margin: 8px 0 0 0;
+  padding-left: 18px;
+  list-style-type: disc;
+}
+
+.coral-exp-bullets li {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #6a5a5a;
+  margin-bottom: 3px;
+}
+
+.cv-template-coral.rtl .coral-exp-bullets {
+  padding-left: 0;
+  padding-right: 18px;
+}
+
+.cv-template-coral.rtl .coral-exp-bullets li {
+  text-align: right;
+}
+
 /* ========== EDUCATION ========== */
 .coral-edu-item {
   margin-bottom: 15px;

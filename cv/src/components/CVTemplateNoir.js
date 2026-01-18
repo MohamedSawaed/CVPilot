@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { renderDescriptionAsBullets } from '../utils/templateHelpers';
 import './CVTemplateNoir.css';
 
 /**
@@ -69,7 +70,7 @@ function CVTemplateNoir({ cvData, sections, sectionDefinitions }) {
                 {r(exp.startDate)} — {exp.current ? r(t('present')) : r(exp.endDate)}
               </span>
             </div>
-            {exp.description && <p className="noir-exp-description">{r(exp.description)}</p>}
+            {renderDescriptionAsBullets(exp.description, 'noir-exp-bullets', r)}
           </div>
         ));
 

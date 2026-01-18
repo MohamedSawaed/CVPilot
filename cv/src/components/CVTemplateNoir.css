@@ -200,6 +200,28 @@
   margin: 10px 0 0 0;
 }
 
+.noir-exp-bullets {
+  margin: 10px 0 0 0;
+  padding-left: 18px;
+  list-style-type: disc;
+}
+
+.noir-exp-bullets li {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #808080;
+  margin-bottom: 3px;
+}
+
+.cv-template-noir.rtl .noir-exp-bullets {
+  padding-left: 0;
+  padding-right: 18px;
+}
+
+.cv-template-noir.rtl .noir-exp-bullets li {
+  text-align: right;
+}
+
 /* ========== EDUCATION ========== */
 .noir-edu-item {
   margin-bottom: 18px;

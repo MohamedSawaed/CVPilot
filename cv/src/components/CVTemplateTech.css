@@ -186,6 +186,28 @@
   margin: 0;
 }
 
+.tech-exp-bullets {
+  margin: 6px 0 0 0;
+  padding-left: 18px;
+  list-style-type: disc;
+}
+
+.tech-exp-bullets li {
+  font-size: 9.5pt;
+  line-height: 1.5;
+  color: #475569;
+  margin-bottom: 3px;
+}
+
+.cv-template-tech.rtl .tech-exp-bullets {
+  padding-left: 0;
+  padding-right: 18px;
+}
+
+.cv-template-tech.rtl .tech-exp-bullets li {
+  text-align: right;
+}
+
 /* ========== EDUCATION ========== */
 .tech-edu-item {
   margin-bottom: 12pt;
