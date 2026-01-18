@@ -187,7 +187,7 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
   const headerBorderStyle = colors.headerBorder ? `border-bottom: ${colors.headerBorder};` : '';
   const headerLeftBorder = templateStyle === 'minimal' ? `border-left: ${colors.headerBorder};` : '';
   const nameColor = colors.nameColor || colors.headerText;
-  const textAlign = ['classic', 'minimal'].includes(templateStyle) ? 'text-align: left;' : (isRTL ? 'text-align: right;' : 'text-align: center;');
+  const textAlign = 'text-align: center;';
   const fontFamily = colors.fontFamily || 'inherit';
 
   let html = `
@@ -195,17 +195,13 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
       <!-- Header -->
       <div style="background: ${colors.headerBg}; color: ${colors.headerText}; padding: 30px; margin: -40px -40px 30px -40px; ${headerBorderStyle} ${headerLeftBorder} ${textAlign}">
         <h1 style="font-size: 28px; font-weight: 700; margin: 0 0 10px 0; color: ${nameColor}; font-family: ${fontFamily};">${escapeHtml(info.fullName) || (isRTL ? 'اسمك' : 'Your Name')}</h1>
-        <div style="font-size: 13px; opacity: 0.9; ${['classic', 'minimal'].includes(templateStyle) ? '' : 'display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;'}">
-          ${info.email ? `<span style="margin-${isRTL ? 'left' : 'right'}: ${['classic', 'minimal'].includes(templateStyle) ? '20px' : '0'};">${escapeHtml(info.email)}</span>` : ''}
-          ${info.phone ? `<span style="margin-${isRTL ? 'left' : 'right'}: ${['classic', 'minimal'].includes(templateStyle) ? '20px' : '0'};">${escapeHtml(info.phone)}</span>` : ''}
+        <div style="font-size: 13px; opacity: 0.9; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+          ${info.email ? `<span>${escapeHtml(info.email)}</span>` : ''}
+          ${info.phone ? `<span>${escapeHtml(info.phone)}</span>` : ''}
           ${info.location ? `<span>${escapeHtml(info.location)}</span>` : ''}
+          ${info.linkedin ? `<span style="font-size: 12px; opacity: 0.9;">${info.linkedin}</span>` : ''}
+          ${info.website ? `<span style="font-size: 12px; opacity: 0.9;">${info.website}</span>` : ''}
         </div>
-        ${(info.linkedin || info.website) ? `
-          <div style="font-size: 12px; margin-top: 8px; opacity: 0.8;">
-            ${info.linkedin ? `<span style="margin-${isRTL ? 'left' : 'right'}: 20px;">${info.linkedin}</span>` : ''}
-            ${info.website ? `<span>${info.website}</span>` : ''}
-          </div>
-        ` : ''}
       </div>
   `;
 
@@ -532,21 +528,23 @@ const getTemplateStyles = (templateStyle, isRTL) => {
     .header {
       margin-bottom: 20pt;
       padding-bottom: 15pt;
+      text-align: center;
     }
 
     .name {
       font-size: 24pt;
       font-weight: 700;
       margin-bottom: 8pt;
+      text-align: center;
     }
 
     .contact-row {
       display: flex;
-      flex-wrap: wrap;
-      gap: 12pt;
+      flex-direction: column;
+      align-items: center;
+      gap: 4pt;
       font-size: 10pt;
       color: #4a5568;
-      ${isRTL ? 'flex-direction: row-reverse; justify-content: flex-end;' : ''}
     }
 
     .section {
@@ -649,7 +647,6 @@ const getTemplateStyles = (templateStyle, isRTL) => {
         text-transform: uppercase;
         letter-spacing: 1pt;
       }
-      .contact-row { justify-content: center; }
     `,
     creative: `
       .header {
@@ -660,7 +657,7 @@ const getTemplateStyles = (templateStyle, isRTL) => {
         width: calc(100% + 30mm);
         text-align: center;
       }
-      .header .contact-row { color: rgba(255,255,255,0.8); justify-content: center; }
+      .header .contact-row { color: rgba(255,255,255,0.8); }
     `,
     ats: `
       .header {
@@ -699,13 +696,9 @@ const buildSectionsHTML = (cvData, sections, language, isRTL, templateStyle) => 
         ${info.email ? `<span>${escapeHtml(info.email)}</span>` : ''}
         ${info.phone ? `<span>${escapeHtml(info.phone)}</span>` : ''}
         ${info.location ? `<span>${escapeHtml(info.location)}</span>` : ''}
+        ${info.linkedin ? `<span style="font-size: 9pt;">${info.linkedin}</span>` : ''}
+        ${info.website ? `<span style="font-size: 9pt;">${info.website}</span>` : ''}
       </div>
-      ${(info.linkedin || info.website) ? `
-        <div class="contact-row" style="margin-top: 5pt; font-size: 9pt;">
-          ${info.linkedin ? `<span>${info.linkedin}</span>` : ''}
-          ${info.website ? `<span>${info.website}</span>` : ''}
-        </div>
-      ` : ''}
     </div>
   `;
 
