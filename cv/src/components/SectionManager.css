@@ -361,6 +361,202 @@
   }
 }
 
+/* Custom Section Badge */
+.custom-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  background: linear-gradient(135deg, #9f7aea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-item.custom-section {
+  border-color: #9f7aea;
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+}
+
+.section-item.custom-section .section-icon-wrapper {
+  background: linear-gradient(135deg, #9f7aea 0%, #764ba2 100%);
+}
+
+/* Custom Section Form */
+.custom-section-form {
+  padding: 20px;
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  border: 2px solid #9f7aea;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.custom-section-form h5 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #553c9a;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom-section-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #d6bcfa;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: white;
+  transition: all 0.3s ease;
+  margin-bottom: 12px;
+}
+
+.custom-section-input:focus {
+  outline: none;
+  border-color: #9f7aea;
+  box-shadow: 0 0 0 4px rgba(159, 122, 234, 0.15);
+}
+
+.custom-section-input::placeholder {
+  color: #a0aec0;
+}
+
+.repeatable-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #553c9a;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  background: white;
+  border-radius: 8px;
+  border: 2px solid #d6bcfa;
+  transition: all 0.3s ease;
+}
+
+.repeatable-checkbox:hover {
+  border-color: #9f7aea;
+}
+
+.repeatable-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #9f7aea;
+  cursor: pointer;
+}
+
+.custom-form-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.create-custom-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #9f7aea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(159, 122, 234, 0.3);
+}
+
+.create-custom-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(159, 122, 234, 0.4);
+}
+
+.create-custom-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancel-custom-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #f7fafc;
+  color: #718096;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-custom-btn:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+}
+
+/* Create Custom Section Button */
+.create-custom-section-wrapper {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 2px dashed #e2e8f0;
+}
+
+.create-custom-section-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  color: #553c9a;
+  border: 2px dashed #9f7aea;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.create-custom-section-btn:hover {
+  background: linear-gradient(135deg, #9f7aea 0%, #764ba2 100%);
+  color: white;
+  border-style: solid;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(159, 122, 234, 0.3);
+}
+
+/* RTL Support */
+.section-manager.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.section-manager.rtl .section-item {
+  flex-direction: row-reverse;
+}
+
+.section-manager.rtl .section-actions {
+  flex-direction: row-reverse;
+}
+
+.section-manager.rtl .section-title {
+  flex-direction: row-reverse;
+}
+
+.section-manager.rtl .custom-form-actions {
+  flex-direction: row-reverse;
+}
+
 @media (max-width: 480px) {
   .available-sections-grid {
     grid-template-columns: 1fr;
@@ -370,5 +566,15 @@
     width: 32px;
     height: 32px;
     font-size: 0.9rem;
+  }
+
+  .custom-form-actions {
+    flex-direction: column;
+  }
+
+  .create-custom-btn,
+  .cancel-custom-btn {
+    width: 100%;
+    justify-content: center;
   }
 }

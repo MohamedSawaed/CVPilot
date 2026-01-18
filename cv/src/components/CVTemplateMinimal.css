@@ -157,11 +157,18 @@
 
 /* RTL: Job title on right, date on left */
 .cv-template-minimal.rtl .min-item-header {
-  /* flex respects direction:rtl from parent */
+  direction: rtl;
+  /* flex respects direction:rtl - title stays on right, date on left */
 }
 
 .cv-template-minimal.rtl .min-item-date {
   text-align: left;
+  direction: ltr;
+}
+
+.cv-template-minimal.rtl .min-exp-title,
+.cv-template-minimal.rtl .min-edu-degree {
+  text-align: right;
 }
 
 .cv-template-minimal.rtl .min-exp-bullets {

@@ -201,11 +201,18 @@
 
 /* RTL: Job title on right, date on left */
 .cv-template-tech.rtl .tech-item-header {
-  /* flex respects direction:rtl from parent */
+  direction: rtl;
+  /* flex respects direction:rtl - title stays on right, date on left */
 }
 
 .cv-template-tech.rtl .tech-item-date {
   text-align: left;
+  direction: ltr;
+}
+
+.cv-template-tech.rtl .tech-exp-title,
+.cv-template-tech.rtl .tech-edu-degree {
+  text-align: right;
 }
 
 .cv-template-tech.rtl .tech-exp-bullets {

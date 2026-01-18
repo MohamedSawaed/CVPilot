@@ -223,11 +223,18 @@
 
 /* RTL: Job title on right, date on left */
 .cv-template-coral.rtl .coral-item-header {
-  /* flex respects direction:rtl from parent */
+  direction: rtl;
+  /* flex respects direction:rtl - title stays on right, date on left */
 }
 
 .cv-template-coral.rtl .coral-item-date {
   text-align: left;
+  direction: ltr;
+}
+
+.cv-template-coral.rtl .coral-exp-title,
+.cv-template-coral.rtl .coral-edu-degree {
+  text-align: right;
 }
 
 .cv-template-coral.rtl .coral-exp-bullets {

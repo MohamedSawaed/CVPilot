@@ -400,16 +400,18 @@
   text-align: right;
 }
 
-/* RTL: Title on right, Date on left - using direction:rtl on parent handles this automatically */
+/* RTL: Title on right, Date on left - using direction:rtl on flex container */
 .cv-template-classic.rtl .classic-exp-header,
 .cv-template-classic.rtl .classic-edu-header,
 .cv-template-classic.rtl .classic-item-header {
-  /* flex respects direction:rtl from parent, no row-reverse needed */
+  direction: rtl;
+  /* flex respects direction:rtl - title stays on right, date on left */
 }
 
 .cv-template-classic.rtl .classic-exp-date,
 .cv-template-classic.rtl .classic-edu-date {
   text-align: left;
+  direction: ltr;
 }
 
 .cv-template-classic.rtl .classic-exp-title,

@@ -272,11 +272,18 @@
 
 /* RTL: Job title on right, date on left */
 .cv-template-bold.rtl .bold-item-header {
-  /* flex respects direction:rtl from parent */
+  direction: rtl;
+  /* flex respects direction:rtl - title stays on right, date on left */
 }
 
 .cv-template-bold.rtl .bold-item-date {
   text-align: left;
+  direction: ltr;
+}
+
+.cv-template-bold.rtl .bold-exp-title,
+.cv-template-bold.rtl .bold-edu-degree {
+  text-align: right;
 }
 
 .cv-template-bold.rtl .bold-exp-bullets {

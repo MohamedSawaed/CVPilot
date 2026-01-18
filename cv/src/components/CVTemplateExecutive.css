@@ -206,11 +206,18 @@
 
 /* RTL: Job title on right, date on left */
 .cv-template-executive.rtl .exec-item-header {
-  /* flex respects direction:rtl from parent */
+  direction: rtl;
+  /* flex respects direction:rtl - title stays on right, date on left */
 }
 
 .cv-template-executive.rtl .exec-item-date {
   text-align: left;
+  direction: ltr;
+}
+
+.cv-template-executive.rtl .exec-exp-title,
+.cv-template-executive.rtl .exec-edu-degree {
+  text-align: right;
 }
 
 .cv-template-executive.rtl .exec-exp-description {

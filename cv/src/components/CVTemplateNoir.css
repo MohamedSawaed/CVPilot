@@ -215,11 +215,18 @@
 
 /* RTL: Job title on right, date on left */
 .cv-template-noir.rtl .noir-item-header {
-  /* flex respects direction:rtl from parent */
+  direction: rtl;
+  /* flex respects direction:rtl - title stays on right, date on left */
 }
 
 .cv-template-noir.rtl .noir-item-date {
   text-align: left;
+  direction: ltr;
+}
+
+.cv-template-noir.rtl .noir-exp-title,
+.cv-template-noir.rtl .noir-edu-degree {
+  text-align: right;
 }
 
 .cv-template-noir.rtl .noir-exp-bullets {

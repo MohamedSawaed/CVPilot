@@ -37,11 +37,19 @@ function CVTemplateClassic({ cvData, sections, sectionDefinitions }) {
 
   const renderSection = (sectionKey) => {
     const section = sectionDefinitions[sectionKey];
-    if (!section) return null;
+    // For custom sections, check if data exists directly
+    const isCustomSection = sectionKey.startsWith('custom_');
+
+    if (!section && !isCustomSection) return null;
+
+    // For custom sections, get title from data or use section key
+    const sectionTitle = isCustomSection
+      ? (cvData[sectionKey]?.[0]?.sectionTitle || sectionKey.replace(/^custom_\d+_/, '').replace(/_/g, ' '))
+      : t(sectionKey);
 
     return (
       <div key={sectionKey} className="classic-section">
-        <h2 className="classic-section-title">{r(t(sectionKey)).toUpperCase()}</h2>
+        <h2 className="classic-section-title">{r(sectionTitle).toUpperCase()}</h2>
         <div className="classic-section-divider"></div>
         <div className="classic-section-content">
           {renderSectionContent(sectionKey)}

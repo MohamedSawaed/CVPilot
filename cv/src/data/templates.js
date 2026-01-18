@@ -17,7 +17,11 @@ import {
   FaTrophy,
   FaBook,
   FaAward,
-  FaImage
+  FaImage,
+  FaGlobe,
+  FaHeart,
+  FaStar,
+  FaPlus
 } from 'react-icons/fa';
 
 export const professions = [
@@ -207,7 +211,52 @@ export const sectionDefinitions = {
     icon: FaImage,
     repeatable: true,
     fields: ['projectName', 'client', 'year', 'description', 'link']
+  },
+  volunteering: {
+    title: 'Volunteering',
+    icon: FaHeart,
+    repeatable: true,
+    fields: ['role', 'organization', 'startDate', 'endDate', 'current', 'description']
+  },
+  languages: {
+    title: 'Languages',
+    icon: FaGlobe,
+    repeatable: true,
+    fields: ['language', 'proficiency']
+  },
+  interests: {
+    title: 'Interests & Hobbies',
+    icon: FaStar,
+    repeatable: false,
+    fields: ['interests']
+  },
+  references: {
+    title: 'References',
+    icon: FaUser,
+    repeatable: true,
+    fields: ['name', 'title', 'company', 'email', 'phone', 'relationship']
+  },
+  additionalInfo: {
+    title: 'Additional Information',
+    icon: FaFileAlt,
+    repeatable: false,
+    fields: ['content']
   }
+};
+
+// Create a custom section definition
+export const createCustomSection = (sectionName, isRepeatable = true) => {
+  const sectionId = `custom_${Date.now()}_${sectionName.toLowerCase().replace(/\s+/g, '_')}`;
+  return {
+    id: sectionId,
+    title: sectionName,
+    icon: FaPlus,
+    repeatable: isRepeatable,
+    isCustom: true,
+    fields: isRepeatable
+      ? ['title', 'subtitle', 'date', 'description']
+      : ['content']
+  };
 };
 
 // Function to create a custom profession

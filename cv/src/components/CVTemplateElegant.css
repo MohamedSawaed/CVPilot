@@ -196,11 +196,18 @@
 
 /* RTL: Job title on right, date on left */
 .cv-template-elegant.rtl .elegant-item-header {
-  /* flex respects direction:rtl from parent */
+  direction: rtl;
+  /* flex respects direction:rtl - title stays on right, date on left */
 }
 
 .cv-template-elegant.rtl .elegant-item-date {
   text-align: left;
+  direction: ltr;
+}
+
+.cv-template-elegant.rtl .elegant-exp-title,
+.cv-template-elegant.rtl .elegant-edu-degree {
+  text-align: right;
 }
 
 .cv-template-elegant.rtl .elegant-exp-bullets {

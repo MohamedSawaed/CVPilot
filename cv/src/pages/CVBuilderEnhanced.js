@@ -78,6 +78,11 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
 
   // Helper function to get translated section title
   const getSectionTitle = (sectionKey) => {
+    // Check for custom sections first
+    if (customSections[sectionKey]) {
+      return customSections[sectionKey].title;
+    }
+
     const sectionTitleKeys = {
       personalInfo: 'personalInfo',
       summary: 'summary',
@@ -89,7 +94,12 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
       achievements: 'achievements',
       publications: 'publications',
       licenses: 'licenses',
-      portfolio: 'portfolio'
+      portfolio: 'portfolio',
+      volunteering: 'volunteering',
+      languages: 'languages',
+      interests: 'interests',
+      references: 'references',
+      additionalInfo: 'additionalInfo'
     };
     return t(sectionTitleKeys[sectionKey]) || sectionDefinitions[sectionKey]?.title || sectionKey;
   };
@@ -137,6 +147,7 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
   const [downloadingFormat, setDownloadingFormat] = useState(null);
   const [paymentStep, setPaymentStep] = useState('pricing'); // 'pricing', 'payment', 'complete'
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [customSections, setCustomSections] = useState({}); // Store custom section definitions
 
   // Ref to track if CV creation is in progress (prevents duplicate creates)
   const creatingCvRef = React.useRef(false);
@@ -377,6 +388,21 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
     setCvData(prev => ({
       ...prev,
       [section]: prev[section].filter((_, i) => i !== index)
+    }));
+  };
+
+  // Handler for adding custom sections
+  const handleAddCustomSection = (sectionId, sectionDef) => {
+    // Add to custom sections definitions
+    setCustomSections(prev => ({
+      ...prev,
+      [sectionId]: sectionDef
+    }));
+
+    // Initialize data array for the new section in cvData
+    setCvData(prev => ({
+      ...prev,
+      [sectionId]: sectionDef.repeatable ? [] : ''
     }));
   };
 
@@ -953,6 +979,102 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
     </div>
   );
 
+  // Render custom sections dynamically
+  const renderCustomSection = (sectionKey) => {
+    const sectionDef = customSections[sectionKey];
+    if (!sectionDef) return null;
+
+    const sectionData = cvData[sectionKey] || (sectionDef.repeatable ? [] : '');
+    const sectionTitle = sectionDef.title || sectionKey;
+
+    if (sectionDef.repeatable) {
+      // Repeatable section with multiple items
+      return (
+        <div className="form-section">
+          <h3>✨ {sectionTitle}</h3>
+          <span className="custom-section-label">{t('customSection') || 'Custom Section'}</span>
+          {(Array.isArray(sectionData) ? sectionData : []).map((item, index) => (
+            <div key={index} className="repeatable-item">
+              <div className="item-header">
+                <h4>{sectionTitle} {index + 1}</h4>
+                <button
+                  type="button"
+                  className="remove-btn"
+                  onClick={() => removeArrayItem(sectionKey, index)}
+                >
+                  {t('remove')}
+                </button>
+              </div>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label>{t('title')} *</label>
+                  <input
+                    type="text"
+                    value={item.title || ''}
+                    onChange={(e) => handleFieldChange(sectionKey, 'title', e.target.value, index)}
+                    placeholder={isRTL ? 'العنوان' : 'Title'}
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>{t('subtitle')}</label>
+                  <input
+                    type="text"
+                    value={item.subtitle || ''}
+                    onChange={(e) => handleFieldChange(sectionKey, 'subtitle', e.target.value, index)}
+                    placeholder={isRTL ? 'العنوان الفرعي' : 'Subtitle'}
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>{t('date')}</label>
+                  <input
+                    type="text"
+                    value={item.date || ''}
+                    onChange={(e) => handleFieldChange(sectionKey, 'date', e.target.value, index)}
+                    placeholder={isRTL ? 'التاريخ' : 'Date'}
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label>{t('description')}</label>
+                <textarea
+                  value={item.description || ''}
+                  onChange={(e) => handleFieldChange(sectionKey, 'description', e.target.value, index)}
+                  placeholder={isRTL ? 'الوصف...' : 'Description...'}
+                  rows="4"
+                  dir={isRTL ? 'rtl' : 'ltr'}
+                />
+              </div>
+            </div>
+          ))}
+          <button type="button" className="add-btn" onClick={() => addArrayItem(sectionKey)}>
+            + {t('add')} {sectionTitle}
+          </button>
+        </div>
+      );
+    } else {
+      // Non-repeatable section with single content field
+      return (
+        <div className="form-section">
+          <h3>✨ {sectionTitle}</h3>
+          <span className="custom-section-label">{t('customSection') || 'Custom Section'}</span>
+          <div className="form-group">
+            <label>{t('content')}</label>
+            <textarea
+              value={typeof sectionData === 'string' ? sectionData : ''}
+              onChange={(e) => handleFieldChange(sectionKey, null, e.target.value)}
+              placeholder={isRTL ? 'أدخل المحتوى هنا...' : 'Enter content here...'}
+              rows="6"
+              dir={isRTL ? 'rtl' : 'ltr'}
+            />
+          </div>
+        </div>
+      );
+    }
+  };
+
   const renderCurrentSection = () => {
     switch (currentSection) {
       case 'personalInfo':
@@ -978,6 +1100,10 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
       case 'portfolio':
         return renderProjectsSection(); // Similar structure
       default:
+        // Check if it's a custom section
+        if (currentSection.startsWith('custom_') || customSections[currentSection]) {
+          return renderCustomSection(currentSection);
+        }
         return <div className="coming-soon">
           <h3>📝 {sectionDefinitions[currentSection]?.title || currentSection}</h3>
           <p>This section is available and ready to use!</p>
@@ -1131,7 +1257,9 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
                 setCurrentSection(newSections[0]);
               }
             }}
-            allSectionKeys={Object.keys(sectionDefinitions)}
+            allSectionKeys={[...Object.keys(sectionDefinitions), ...Object.keys(customSections)]}
+            customSections={customSections}
+            onAddCustomSection={handleAddCustomSection}
           />
         </div>
       )}
