@@ -73,7 +73,7 @@ function CVTemplateLuxe({ cvData, sections, sectionDefinitions }) {
                 {r(exp.startDate)} — {exp.current ? r(t('present')) : r(exp.endDate)}
               </span>
             </div>
-            {renderDescriptionAsBullets(exp.description, 'luxe-exp-bullets', r)}
+            {renderDescriptionAsBullets(exp.description, 'luxe-exp-bullets', r, isRTL)}
           </div>
         ));
 

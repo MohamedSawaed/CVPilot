@@ -198,7 +198,7 @@ function CVTemplateBold({ cvData, sections, sectionDefinitions }) {
                 {r(exp.startDate)} — {exp.current ? r(t('present')) : r(exp.endDate)}
               </span>
             </div>
-            {renderDescriptionAsBullets(exp.description, 'bold-exp-bullets', r)}
+            {renderDescriptionAsBullets(exp.description, 'bold-exp-bullets', r, isRTL)}
           </div>
         ));
 

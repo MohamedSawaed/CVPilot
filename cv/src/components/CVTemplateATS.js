@@ -63,7 +63,7 @@ function CVTemplateATS({ cvData, sections, sectionDefinitions }) {
             <div className="ats-item-date">
               {r(exp.startDate)} - {exp.current ? r(t('present')) : r(exp.endDate)}
             </div>
-            {renderDescriptionAsBullets(exp.description, 'ats-exp-bullets', r)}
+            {renderDescriptionAsBullets(exp.description, 'ats-exp-bullets', r, isRTL)}
           </div>
         ));
 
@@ -104,46 +104,71 @@ function CVTemplateATS({ cvData, sections, sectionDefinitions }) {
             categories[skill.category].push(skill);
           });
 
+          // Helper to render skills list with RTL support
+          const renderSkillsList = (skills, keyProp = 'id') => {
+            if (isRTL) {
+              return (
+                <div className="ats-skills-bullets-rtl">
+                  {skills.map((skill, i) => (
+                    <div key={skill[keyProp] || i}>• {r(skill.name || skill)}</div>
+                  ))}
+                </div>
+              );
+            }
+            return (
+              <ul className="ats-skills-bullets">
+                {skills.map((skill, i) => (
+                  <li key={skill[keyProp] || i}>{r(skill.name || skill)}</li>
+                ))}
+              </ul>
+            );
+          };
+
           return (
             <div className="ats-skills">
               {Object.entries(categories).map(([category, skills]) => (
                 <div key={category} className="ats-skill-section">
                   <div className="ats-skill-label">{categoryLabels[category] || r(category)}:</div>
-                  <ul className="ats-skills-bullets">
-                    {skills.map(skill => (
-                      <li key={skill.id}>{r(skill.name)}</li>
-                    ))}
-                  </ul>
+                  {renderSkillsList(skills, 'id')}
                 </div>
               ))}
             </div>
           );
         } else if (hasOldFormat) {
           // Old format fallback - render as bullet points
+          const renderOldSkillsList = (skills) => {
+            if (isRTL) {
+              return (
+                <div className="ats-skills-bullets-rtl">
+                  {skills.map((s, i) => <div key={i}>• {r(s)}</div>)}
+                </div>
+              );
+            }
+            return (
+              <ul className="ats-skills-bullets">
+                {skills.map((s, i) => <li key={i}>{r(s)}</li>)}
+              </ul>
+            );
+          };
+
           return (
             <div className="ats-skills">
               {data?.technicalSkills?.length > 0 && (
                 <div className="ats-skill-section">
                   <div className="ats-skill-label">{r(t('technicalSkills'))}:</div>
-                  <ul className="ats-skills-bullets">
-                    {data.technicalSkills.map((s, i) => <li key={i}>{r(s)}</li>)}
-                  </ul>
+                  {renderOldSkillsList(data.technicalSkills)}
                 </div>
               )}
               {data?.softSkills?.length > 0 && (
                 <div className="ats-skill-section">
                   <div className="ats-skill-label">{r(t('professionalSkills'))}:</div>
-                  <ul className="ats-skills-bullets">
-                    {data.softSkills.map((s, i) => <li key={i}>{r(s)}</li>)}
-                  </ul>
+                  {renderOldSkillsList(data.softSkills)}
                 </div>
               )}
               {data?.languages?.length > 0 && (
                 <div className="ats-skill-section">
                   <div className="ats-skill-label">{r(t('languages'))}:</div>
-                  <ul className="ats-skills-bullets">
-                    {data.languages.map((s, i) => <li key={i}>{r(s)}</li>)}
-                  </ul>
+                  {renderOldSkillsList(data.languages)}
                 </div>
               )}
             </div>

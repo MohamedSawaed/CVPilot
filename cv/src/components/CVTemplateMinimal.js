@@ -68,7 +68,7 @@ function CVTemplateMinimal({ cvData, sections, sectionDefinitions }) {
               </span>
             </div>
             <div className="min-exp-company">{r(exp.company)}{exp.location && ` — ${r(exp.location)}`}</div>
-            {renderDescriptionAsBullets(exp.description, 'min-exp-bullets', r)}
+            {renderDescriptionAsBullets(exp.description, 'min-exp-bullets', r, isRTL)}
           </div>
         ));
 

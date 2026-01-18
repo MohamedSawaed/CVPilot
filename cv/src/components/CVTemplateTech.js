@@ -105,7 +105,7 @@ function CVTemplateTech({ cvData, sections, sectionDefinitions }) {
               </span>
             </div>
             <div className="tech-exp-company">{r(exp.company)}{exp.location && ` @ ${r(exp.location)}`}</div>
-            {renderDescriptionAsBullets(exp.description, 'tech-exp-bullets', r)}
+            {renderDescriptionAsBullets(exp.description, 'tech-exp-bullets', r, isRTL)}
           </div>
         ));
 

@@ -288,6 +288,20 @@
   text-align: right;
 }
 
+/* RTL Skills with manual bullets */
+.ats-skills-bullets-rtl {
+  direction: rtl;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.ats-skills-bullets-rtl div {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #333;
+  margin-bottom: 2px;
+}
+
 .cv-template-ats.rtl .ats-skill-section {
   text-align: right;
 }

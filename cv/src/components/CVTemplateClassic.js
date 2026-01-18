@@ -67,7 +67,7 @@ function CVTemplateClassic({ cvData, sections, sectionDefinitions }) {
               </span>
             </div>
             <div className="classic-exp-company">{r(exp.company)}{exp.location && `, ${r(exp.location)}`}</div>
-            {renderDescriptionAsBullets(exp.description, 'classic-exp-bullets', r)}
+            {renderDescriptionAsBullets(exp.description, 'classic-exp-bullets', r, isRTL)}
           </div>
         ));
 
@@ -112,41 +112,58 @@ function CVTemplateClassic({ cvData, sections, sectionDefinitions }) {
               {Object.entries(categories).map(([category, skills]) => (
                 <div key={category} className="classic-skill-group">
                   <strong>{categoryLabels[category] || r(category)}:</strong>
-                  <ul className="classic-skills-bullets">
-                    {skills.map(skill => (
-                      <li key={skill.id}>{r(skill.name)}</li>
-                    ))}
-                  </ul>
+                  {isRTL ? (
+                    <div className="classic-skills-bullets-rtl">
+                      {skills.map(skill => (
+                        <div key={skill.id}>• {r(skill.name)}</div>
+                      ))}
+                    </div>
+                  ) : (
+                    <ul className="classic-skills-bullets">
+                      {skills.map(skill => (
+                        <li key={skill.id}>{r(skill.name)}</li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               ))}
             </div>
           );
         } else if (hasOldFormat) {
           // Old format fallback - render as bullet points
+          const renderSkillsList = (skills) => {
+            if (isRTL) {
+              return (
+                <div className="classic-skills-bullets-rtl">
+                  {skills.map((s, i) => <div key={i}>• {r(s)}</div>)}
+                </div>
+              );
+            }
+            return (
+              <ul className="classic-skills-bullets">
+                {skills.map((s, i) => <li key={i}>{r(s)}</li>)}
+              </ul>
+            );
+          };
+
           return (
             <div className="classic-skills">
               {data?.technicalSkills?.length > 0 && (
                 <div className="classic-skill-group">
                   <strong>{r(t('technicalSkills'))}:</strong>
-                  <ul className="classic-skills-bullets">
-                    {data.technicalSkills.map((s, i) => <li key={i}>{r(s)}</li>)}
-                  </ul>
+                  {renderSkillsList(data.technicalSkills)}
                 </div>
               )}
               {data?.softSkills?.length > 0 && (
                 <div className="classic-skill-group">
                   <strong>{r(t('professionalSkills'))}:</strong>
-                  <ul className="classic-skills-bullets">
-                    {data.softSkills.map((s, i) => <li key={i}>{r(s)}</li>)}
-                  </ul>
+                  {renderSkillsList(data.softSkills)}
                 </div>
               )}
               {data?.languages?.length > 0 && (
                 <div className="classic-skill-group">
                   <strong>{r(t('languages'))}:</strong>
-                  <ul className="classic-skills-bullets">
-                    {data.languages.map((s, i) => <li key={i}>{r(s)}</li>)}
-                  </ul>
+                  {renderSkillsList(data.languages)}
                 </div>
               )}
             </div>

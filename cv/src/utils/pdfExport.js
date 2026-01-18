@@ -355,19 +355,24 @@ const getTemplateColors = (templateStyle) => {
 const buildSkillsForPDF = (skills, t, colors, isRTL) => {
   if (!skills) return '';
 
-  // RTL styling for bullet lists
-  const rtlStyles = isRTL ? 'direction: rtl; list-style-position: inside;' : '';
-  const paddingDir = isRTL ? 'padding-right' : 'padding-left';
-
   // Helper to render skills as bullet points
+  // For RTL: use manual bullet character on the right side
+  // For LTR: use standard ul/li
   const renderSkillsBullets = (skillList, category) => {
     if (!skillList || skillList.length === 0) return '';
+
+    const skillsContent = isRTL
+      ? `<div style="margin: 0; direction: rtl; text-align: right;">
+          ${skillList.map(s => `<div style="font-size: 11px; color: #4a5568; margin-bottom: 2px; padding-right: 5px;">• ${escapeHtml(s)}</div>`).join('')}
+        </div>`
+      : `<ul style="margin: 0; padding-left: 18px; list-style-type: disc;">
+          ${skillList.map(s => `<li style="font-size: 11px; color: #4a5568; margin-bottom: 2px;">${escapeHtml(s)}</li>`).join('')}
+        </ul>`;
+
     return `
       <div style="margin-bottom: 10px;">
-        <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 4px;">${category}</div>
-        <ul style="margin: 0; ${paddingDir}: 18px; list-style-type: disc; ${rtlStyles}">
-          ${skillList.map(s => `<li style="font-size: 11px; color: #4a5568; margin-bottom: 2px; ${isRTL ? 'text-align: right;' : ''}">${escapeHtml(s)}</li>`).join('')}
-        </ul>
+        <div style="font-size: 12px; font-weight: 600; color: #4a5568; margin-bottom: 4px; ${isRTL ? 'text-align: right;' : ''}">${category}</div>
+        ${skillsContent}
       </div>
     `;
   };
@@ -375,9 +380,16 @@ const buildSkillsForPDF = (skills, t, colors, isRTL) => {
   // Handle array of strings (simple skills)
   if (Array.isArray(skills)) {
     if (skills.length === 0) return '';
+
+    if (isRTL) {
+      return `<div style="margin: 0; direction: rtl; text-align: right;">
+        ${skills.map(skill => `<div style="font-size: 11px; color: #4a5568; margin-bottom: 2px; padding-right: 5px;">• ${escapeHtml(skill)}</div>`).join('')}
+      </div>`;
+    }
+
     return `
-      <ul style="margin: 0; ${paddingDir}: 18px; list-style-type: disc; ${rtlStyles}">
-        ${skills.map(skill => `<li style="font-size: 11px; color: #4a5568; margin-bottom: 2px; ${isRTL ? 'text-align: right;' : ''}">${escapeHtml(skill)}</li>`).join('')}
+      <ul style="margin: 0; padding-left: 18px; list-style-type: disc;">
+        ${skills.map(skill => `<li style="font-size: 11px; color: #4a5568; margin-bottom: 2px;">${escapeHtml(skill)}</li>`).join('')}
       </ul>
     `;
   }
@@ -951,6 +963,7 @@ const escapeHtml = (text) => {
 
 // Format description as bullet points
 // Splits text by newlines and renders each line as a bullet point
+// For RTL languages, manually prepends bullet character on the right side
 const formatDescriptionAsBullets = (text, isRTL = false) => {
   if (!text) return '';
 
@@ -959,15 +972,21 @@ const formatDescriptionAsBullets = (text, isRTL = false) => {
 
   if (lines.length === 0) return '';
 
-  // For RTL languages, use direction: rtl to put bullets on the right
-  const paddingDir = isRTL ? 'padding-right' : 'padding-left';
-  const rtlStyles = isRTL ? 'direction: rtl; list-style-position: inside;' : '';
+  // For RTL: use manual bullet character on the right side (no ul/li which doesn't work properly)
+  // For LTR: use standard ul/li with bullets on left
+  if (isRTL) {
+    return `<div style="margin: 5px 0 0 0; direction: rtl; text-align: right;">
+      ${lines.map(line => {
+        const cleanLine = line.trim().replace(/^[•\-\*]\s*/, '');
+        return `<div style="font-size: 12px; color: #4a5568; margin-bottom: 3px; line-height: 1.4; padding-right: 5px;">• ${escapeHtml(cleanLine)}</div>`;
+      }).join('')}
+    </div>`;
+  }
 
-  return `<ul style="margin: 5px 0 0 0; ${paddingDir}: 18px; list-style-type: disc; ${rtlStyles}">
+  return `<ul style="margin: 5px 0 0 0; padding-left: 18px; list-style-type: disc;">
     ${lines.map(line => {
-      // Remove leading bullet/dash if already present
       const cleanLine = line.trim().replace(/^[•\-\*]\s*/, '');
-      return `<li style="font-size: 12px; color: #4a5568; margin-bottom: 3px; line-height: 1.4; ${isRTL ? 'text-align: right;' : ''}">${escapeHtml(cleanLine)}</li>`;
+      return `<li style="font-size: 12px; color: #4a5568; margin-bottom: 3px; line-height: 1.4;">${escapeHtml(cleanLine)}</li>`;
     }).join('')}
   </ul>`;
 };

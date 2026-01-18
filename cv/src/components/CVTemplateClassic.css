@@ -454,6 +454,20 @@
   text-align: right;
 }
 
+/* RTL Skills with manual bullets */
+.classic-skills-bullets-rtl {
+  direction: rtl;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.classic-skills-bullets-rtl div {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #333;
+  margin-bottom: 2px;
+}
+
 .cv-template-classic.rtl .classic-skill-group strong {
   margin-right: 0;
   margin-left: 8px;

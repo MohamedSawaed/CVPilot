@@ -85,7 +85,7 @@ function CVTemplateElegant({ cvData, sections, sectionDefinitions }) {
               </span>
             </div>
             <div className="elegant-exp-company">{r(exp.company)}{exp.location && ` • ${r(exp.location)}`}</div>
-            {renderDescriptionAsBullets(exp.description, 'elegant-exp-bullets', r)}
+            {renderDescriptionAsBullets(exp.description, 'elegant-exp-bullets', r, isRTL)}
           </div>
         ));
 
