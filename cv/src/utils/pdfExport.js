@@ -359,9 +359,6 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
 // Build Pro Template PDF - Two Column Layout
 const buildProTemplatePDF = (cvData, sections, language, isRTL, t) => {
   const info = cvData.personalInfo || {};
-  const initials = info.fullName
-    ? info.fullName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
-    : 'CV';
 
   // Sections for sidebar vs main
   const sidebarSections = ['skills', 'languages', 'certifications', 'interests'];
@@ -374,7 +371,6 @@ const buildProTemplatePDF = (cvData, sections, language, isRTL, t) => {
     <div style="color: #1f2937; line-height: 1.5; font-family: ${isRTL ? "'Cairo', sans-serif" : "'Inter', sans-serif"}; direction: ${isRTL ? 'rtl' : 'ltr'};">
       <!-- Header -->
       <div style="background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #1e40af 100%); color: white; padding: 25px; text-align: center;">
-        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 22px; font-weight: 700; color: white;">${initials}</div>
         <h1 style="font-size: 24px; font-weight: 700; margin: 0 0 6px 0;">${escapeHtml(info.fullName) || (isRTL ? 'اسمك' : 'Your Name')}</h1>
         ${info.headline ? `<div style="font-size: 12px; color: rgba(255,255,255,0.9); margin-bottom: 12px;">${escapeHtml(info.headline)}</div>` : ''}
         <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; font-size: 11px; color: rgba(255,255,255,0.9);">
