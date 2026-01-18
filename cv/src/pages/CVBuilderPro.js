@@ -316,6 +316,7 @@ const CVBuilderPro = () => {
   ];
 
   const templates = [
+    { id: 'pro', name: 'Pro ★', desc: 'Two-Column - Best CV', category: 'popular', color: '#2563eb' },
     { id: 'modern', name: 'Modern', desc: 'Clean & Professional', category: 'popular', color: '#1a1a1a' },
     { id: 'classic', name: 'Classic', desc: 'Traditional Style', category: 'popular', color: '#fff' },
     { id: 'bold', name: 'Bold', desc: 'Make a Statement', category: 'popular', color: '#000' },

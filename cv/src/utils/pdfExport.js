@@ -180,6 +180,11 @@ const generatePDFClientSide = async (cvData, templateStyle, sections, language, 
 
 // Build HTML for PDF rendering
 const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
+  // Use special two-column layout for Pro template
+  if (templateStyle === 'pro') {
+    return buildProTemplatePDF(cvData, sections, language, isRTL, t);
+  }
+
   const info = cvData.personalInfo || {};
   const colors = getTemplateColors(templateStyle);
 
@@ -327,9 +332,195 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
   return html;
 };
 
+// Build Pro Template PDF - Two Column Layout
+const buildProTemplatePDF = (cvData, sections, language, isRTL, t) => {
+  const info = cvData.personalInfo || {};
+  const initials = info.fullName
+    ? info.fullName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+    : 'CV';
+
+  // Sections for sidebar vs main
+  const sidebarSections = ['skills', 'languages', 'certifications', 'interests'];
+  const mainSections = ['summary', 'experience', 'education', 'projects', 'achievements'];
+
+  const flexDirection = isRTL ? 'row-reverse' : 'row';
+
+  let html = `
+    <div style="color: #1f2937; line-height: 1.5; font-family: ${isRTL ? "'Cairo', sans-serif" : "'Inter', sans-serif"}; direction: ${isRTL ? 'rtl' : 'ltr'};">
+      <!-- Header -->
+      <div style="background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #1e40af 100%); color: white; padding: 25px; text-align: center;">
+        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 22px; font-weight: 700; color: white;">${initials}</div>
+        <h1 style="font-size: 24px; font-weight: 700; margin: 0 0 6px 0;">${escapeHtml(info.fullName) || (isRTL ? 'اسمك' : 'Your Name')}</h1>
+        ${info.headline ? `<div style="font-size: 12px; color: rgba(255,255,255,0.9); margin-bottom: 12px;">${escapeHtml(info.headline)}</div>` : ''}
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; font-size: 11px; color: rgba(255,255,255,0.9);">
+          ${info.email ? `<span>✉ ${escapeHtml(info.email)}</span>` : ''}
+          ${info.phone ? `<span>✆ ${escapeHtml(info.phone)}</span>` : ''}
+          ${info.location ? `<span>◎ ${escapeHtml(info.location)}</span>` : ''}
+          ${info.linkedin ? `<span>in ${escapeHtml(info.linkedin)}</span>` : ''}
+          ${info.website ? `<span>⌘ ${escapeHtml(info.website)}</span>` : ''}
+        </div>
+      </div>
+
+      <!-- Two Column Body -->
+      <div style="display: flex; flex-direction: ${flexDirection};">
+        <!-- Sidebar -->
+        <div style="width: 32%; background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); padding: 18px 14px; border-${isRTL ? 'left' : 'right'}: 1px solid #e2e8f0;">
+  `;
+
+  // Sidebar sections
+  sidebarSections.forEach(sectionKey => {
+    const data = cvData[sectionKey];
+    if (!data || (Array.isArray(data) && data.length === 0)) return;
+
+    html += `
+      <div style="margin-bottom: 18px;">
+        <h3 style="font-size: 10px; font-weight: 700; color: #1e3a5f; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0; padding-bottom: 5px; border-bottom: 2px solid #2563eb;">${t[sectionKey] || sectionKey}</h3>
+    `;
+
+    if (sectionKey === 'skills') {
+      const skillItems = data?.items || [];
+      if (skillItems.length > 0) {
+        const categories = {};
+        skillItems.forEach(skill => {
+          const cat = skill.category || 'other';
+          if (!categories[cat]) categories[cat] = [];
+          categories[cat].push(skill.name);
+        });
+        Object.entries(categories).forEach(([cat, skills]) => {
+          html += `
+            <div style="margin-bottom: 10px;">
+              <div style="font-size: 8px; font-weight: 600; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">${t[cat + 'Skills'] || cat}</div>
+              <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                ${skills.map(s => `<span style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: white; padding: 3px 8px; border-radius: 10px; font-size: 8px; font-weight: 500;">${escapeHtml(s)}</span>`).join('')}
+              </div>
+            </div>
+          `;
+        });
+      } else if (Array.isArray(data)) {
+        html += `<div style="display: flex; flex-wrap: wrap; gap: 4px;">
+          ${data.map(s => `<span style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: white; padding: 3px 8px; border-radius: 10px; font-size: 8px; font-weight: 500;">${escapeHtml(typeof s === 'string' ? s : s.name)}</span>`).join('')}
+        </div>`;
+      }
+    } else if (sectionKey === 'languages') {
+      html += `<div style="display: flex; flex-direction: column; gap: 6px;">
+        ${(data || []).map(lang => `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; background: white; border-radius: 4px; border: 1px solid #e2e8f0;">
+            <span style="font-size: 9px; font-weight: 600; color: #1f2937;">${escapeHtml(lang.language || lang.name)}</span>
+            ${lang.proficiency ? `<span style="font-size: 8px; color: #2563eb; font-weight: 500; background: rgba(37,99,235,0.1); padding: 2px 6px; border-radius: 8px;">${escapeHtml(lang.proficiency)}</span>` : ''}
+          </div>
+        `).join('')}
+      </div>`;
+    } else if (sectionKey === 'certifications') {
+      html += `<div style="display: flex; flex-direction: column; gap: 8px;">
+        ${(data || []).map(cert => `
+          <div style="padding-bottom: 6px; border-bottom: 1px solid #e2e8f0;">
+            <div style="font-size: 9px; font-weight: 600; color: #1f2937;">${escapeHtml(cert.certification || cert.title || cert.name)}</div>
+            ${cert.issuer ? `<div style="font-size: 8px; color: #64748b;">${escapeHtml(cert.issuer)}</div>` : ''}
+            ${cert.date ? `<div style="font-size: 8px; color: #2563eb; margin-top: 2px;">${escapeHtml(cert.date)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>`;
+    } else if (sectionKey === 'interests') {
+      html += `<div style="display: flex; flex-wrap: wrap; gap: 4px;">
+        ${(data || []).map(interest => {
+          const name = typeof interest === 'string' ? interest : (interest.name || interest.interest);
+          return `<span style="background: white; color: #374151; padding: 4px 10px; border-radius: 12px; font-size: 8px; border: 1px solid #d1d5db;">${escapeHtml(name)}</span>`;
+        }).join('')}
+      </div>`;
+    }
+
+    html += `</div>`;
+  });
+
+  html += `
+        </div>
+        <!-- Main Content -->
+        <div style="flex: 1; padding: 18px 20px; background: white;">
+  `;
+
+  // Main sections
+  mainSections.forEach(sectionKey => {
+    const data = cvData[sectionKey];
+    if (!data || (Array.isArray(data) && data.length === 0)) return;
+    if (sectionKey === 'summary' && !data) return;
+
+    html += `
+      <div style="margin-bottom: 20px;">
+        <h2 style="font-size: 12px; font-weight: 700; color: #1e3a5f; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #2563eb; display: flex; align-items: center; gap: 6px;">
+          <span style="color: #2563eb; font-size: 8px;">●</span>
+          ${t[sectionKey] || sectionKey}
+        </h2>
+    `;
+
+    if (sectionKey === 'summary') {
+      html += `<p style="font-size: 10px; line-height: 1.6; color: #4b5563; margin: 0; padding: 10px; background: #f8fafc; border-radius: 6px; border-${isRTL ? 'right' : 'left'}: 3px solid #2563eb;">${escapeHtml(data)}</p>`;
+    } else if (sectionKey === 'experience') {
+      html += (data || []).map(exp => `
+        <div style="margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; ${isRTL ? 'direction: rtl;' : ''}">
+            <div style="flex: 1;">
+              <div style="font-size: 11px; font-weight: 600; color: #111827; margin: 0 0 2px 0;">${escapeHtml(exp.jobTitle)}</div>
+              <div style="font-size: 10px; color: #2563eb; font-weight: 500;">${escapeHtml(exp.company)}${exp.location ? ` • ${escapeHtml(exp.location)}` : ''}</div>
+            </div>
+            <div style="font-size: 9px; color: #6b7280; white-space: nowrap; background: #f3f4f6; padding: 3px 8px; border-radius: 4px;">${escapeHtml(exp.startDate)} — ${exp.current ? t.present : escapeHtml(exp.endDate)}</div>
+          </div>
+          ${formatDescriptionAsBullets(exp.description, isRTL)}
+        </div>
+      `).join('');
+    } else if (sectionKey === 'education') {
+      html += (data || []).map(edu => `
+        <div style="margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; ${isRTL ? 'direction: rtl;' : ''}">
+            <div style="flex: 1;">
+              <div style="font-size: 11px; font-weight: 600; color: #111827; margin: 0 0 2px 0;">${escapeHtml(edu.degree)}</div>
+              <div style="font-size: 10px; color: #2563eb; font-weight: 500;">${escapeHtml(edu.institution)}${edu.location ? `, ${escapeHtml(edu.location)}` : ''}</div>
+            </div>
+            <div style="font-size: 9px; color: #6b7280; white-space: nowrap;">${escapeHtml(edu.graduationDate)}</div>
+          </div>
+          ${(edu.gpa || edu.honors) ? `<div style="font-size: 9px; color: #6b7280; font-style: italic; margin-top: 4px;">${edu.gpa ? `GPA: ${escapeHtml(edu.gpa)}` : ''}${edu.gpa && edu.honors ? ' • ' : ''}${edu.honors ? escapeHtml(edu.honors) : ''}</div>` : ''}
+        </div>
+      `).join('');
+    } else if (sectionKey === 'projects') {
+      html += (data || []).map(project => `
+        <div style="margin-bottom: 12px; padding: 10px; background: #f9fafb; border-radius: 6px; border: 1px solid #e5e7eb;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <div style="font-size: 10px; font-weight: 600; color: #111827;">${escapeHtml(project.projectName || project.title || project.name)}</div>
+            ${project.date ? `<div style="font-size: 8px; color: #6b7280;">${escapeHtml(project.date)}</div>` : ''}
+          </div>
+          ${project.technologies ? `<div style="font-size: 8px; color: #2563eb; margin-bottom: 4px; font-weight: 500;">${escapeHtml(project.technologies)}</div>` : ''}
+          ${project.description ? `<p style="font-size: 9px; color: #4b5563; line-height: 1.5; margin: 0;">${escapeHtml(project.description)}</p>` : ''}
+        </div>
+      `).join('');
+    } else if (sectionKey === 'achievements') {
+      html += (data || []).map(achievement => `
+        <div style="margin-bottom: 10px; padding-${isRTL ? 'right' : 'left'}: 10px; border-${isRTL ? 'right' : 'left'}: 2px solid #10b981;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+            <div style="font-size: 10px; font-weight: 600; color: #111827;">${escapeHtml(achievement.achievement || achievement.title)}</div>
+            ${achievement.date ? `<div style="font-size: 8px; color: #6b7280;">${escapeHtml(achievement.date)}</div>` : ''}
+          </div>
+          ${achievement.description ? `<p style="font-size: 9px; color: #4b5563; line-height: 1.5; margin: 0;">${escapeHtml(achievement.description)}</p>` : ''}
+        </div>
+      `).join('');
+    }
+
+    html += `</div>`;
+  });
+
+  html += `
+        </div>
+      </div>
+    </div>
+  `;
+
+  return html;
+};
+
 // Get template colors - matches CVBuilderPro.css template styles
 const getTemplateColors = (templateStyle) => {
   const templates = {
+    // Pro template - Two Column
+    pro: { headerBg: 'linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #1e40af 100%)', headerText: '#ffffff', accent: '#2563eb', skillBg: 'linear-gradient(135deg, #2563eb 0%, #1e40af 100%)', skillText: '#ffffff', sidebarBg: '#f8fafc', twoColumn: true },
+
     // Popular templates
     modern: { headerBg: '#1a1a1a', headerText: '#ffffff', accent: '#1a1a1a', skillBg: '#1a1a1a', skillText: '#ffffff' },
     classic: { headerBg: '#ffffff', headerText: '#000000', accent: '#000000', skillBg: '#f0f0f0', skillText: '#000000', headerBorder: '3px solid #000' },

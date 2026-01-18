@@ -4,6 +4,23 @@ import './TemplateSelector.css';
 
 const templates = [
   {
+    id: 'pro',
+    name: 'Pro ★',
+    nameAr: 'احترافي ★',
+    nameHe: 'מקצועי ★',
+    description: 'Ultimate two-column layout - The best CV template',
+    descriptionAr: 'تخطيط عمودين مثالي - أفضل قالب سيرة ذاتية',
+    descriptionHe: 'פריסת שתי עמודות אולטימטיבית - תבנית קורות החיים הטובה ביותר',
+    bestFor: 'All professionals - Maximum impact & smart organization',
+    bestForAr: 'جميع المحترفين - أقصى تأثير وتنظيم ذكي',
+    bestForHe: 'כל אנשי המקצוע - השפעה מירבית וארגון חכם',
+    preview: 'linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #1e40af 100%)',
+    previewAccent: '#2563eb',
+    features: ['Two columns', 'Smart layout', 'Sidebar skills', 'Maximum info'],
+    featuresAr: ['عمودين', 'تخطيط ذكي', 'شريط المهارات', 'معلومات كاملة'],
+    featuresHe: ['שתי עמודות', 'פריסה חכמה', 'מיומנויות בצד', 'מידע מקסימלי']
+  },
+  {
     id: 'elegant',
     name: 'Elegant',
     nameAr: 'أنيق',
@@ -316,6 +333,30 @@ function TemplateSelector({ selectedTemplate, onTemplateChange, language = 'en' 
                     <div className="coral-preview-lines">
                       <div></div>
                       <div></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Pro Preview - Two Column */}
+              {template.id === 'pro' && (
+                <div className="pro-preview">
+                  <div className="pro-preview-header">
+                    <div className="pro-preview-avatar">JD</div>
+                    <div className="pro-preview-name">NAME</div>
+                  </div>
+                  <div className="pro-preview-body">
+                    <div className="pro-preview-sidebar">
+                      <div className="pro-preview-skill"></div>
+                      <div className="pro-preview-skill short"></div>
+                      <div className="pro-preview-skill"></div>
+                    </div>
+                    <div className="pro-preview-main">
+                      <div className="pro-preview-section">Experience</div>
+                      <div className="pro-preview-lines">
+                        <div></div>
+                        <div></div>
+                      </div>
                     </div>
                   </div>
                 </div>

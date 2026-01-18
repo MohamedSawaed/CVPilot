@@ -1,0 +1,697 @@
+/* ========================================
+   PRO TEMPLATE - ULTIMATE TWO-COLUMN CV
+   The best CV template - Smart, Professional, Multi-language
+   ======================================== */
+
+.cv-template-pro {
+  background: #ffffff;
+  min-height: 100%;
+  font-size: 10pt;
+  line-height: 1.5;
+  color: #1f2937;
+}
+
+/* RTL Support */
+.cv-template-pro.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ========== HEADER - FULL WIDTH ========== */
+.pro-header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #1e40af 100%);
+  color: white;
+  padding: 28pt 24pt;
+  text-align: center;
+  position: relative;
+}
+
+.pro-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.pro-avatar {
+  width: 70pt;
+  height: 70pt;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 3pt solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12pt;
+  position: relative;
+  z-index: 1;
+}
+
+.pro-initials {
+  font-size: 24pt;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 2pt;
+}
+
+.pro-name {
+  font-size: 26pt;
+  font-weight: 700;
+  margin: 0 0 6pt 0;
+  letter-spacing: 1pt;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2pt 4pt rgba(0, 0, 0, 0.1);
+}
+
+.pro-headline {
+  font-size: 12pt;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 16pt;
+  letter-spacing: 0.5pt;
+  position: relative;
+  z-index: 1;
+}
+
+.pro-contact-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6pt 20pt;
+  position: relative;
+  z-index: 1;
+}
+
+.pro-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6pt;
+  font-size: 9pt;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.pro-contact-icon {
+  font-size: 10pt;
+  opacity: 0.8;
+  font-weight: 600;
+}
+
+/* ========== TWO-COLUMN BODY ========== */
+.pro-body {
+  display: flex;
+  min-height: calc(100% - 180pt);
+}
+
+/* RTL: Reverse the order */
+.cv-template-pro.rtl .pro-body {
+  flex-direction: row-reverse;
+}
+
+/* ========== SIDEBAR ========== */
+.pro-sidebar {
+  width: 32%;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 20pt 16pt;
+  border-right: 1pt solid #e2e8f0;
+}
+
+.cv-template-pro.rtl .pro-sidebar {
+  border-right: none;
+  border-left: 1pt solid #e2e8f0;
+}
+
+.pro-sidebar-section {
+  margin-bottom: 20pt;
+}
+
+.pro-sidebar-section:last-child {
+  margin-bottom: 0;
+}
+
+.pro-sidebar-title {
+  font-size: 10pt;
+  font-weight: 700;
+  color: #1e3a5f;
+  text-transform: uppercase;
+  letter-spacing: 1.5pt;
+  margin: 0 0 10pt 0;
+  padding-bottom: 6pt;
+  border-bottom: 2pt solid #2563eb;
+}
+
+.pro-sidebar-content {
+  color: #374151;
+}
+
+/* ========== SKILLS IN SIDEBAR ========== */
+.pro-skill-category {
+  margin-bottom: 12pt;
+}
+
+.pro-skill-category:last-child {
+  margin-bottom: 0;
+}
+
+.pro-skill-category-name {
+  font-size: 8pt;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5pt;
+  margin-bottom: 6pt;
+}
+
+.pro-skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4pt;
+}
+
+.pro-skill-tag {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  color: white;
+  padding: 3pt 8pt;
+  border-radius: 10pt;
+  font-size: 8pt;
+  font-weight: 500;
+}
+
+/* ========== LANGUAGES IN SIDEBAR ========== */
+.pro-languages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8pt;
+}
+
+.pro-language-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6pt 8pt;
+  background: white;
+  border-radius: 4pt;
+  border: 1pt solid #e2e8f0;
+}
+
+.pro-language-name {
+  font-size: 9pt;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.pro-language-level {
+  font-size: 8pt;
+  color: #2563eb;
+  font-weight: 500;
+  background: rgba(37, 99, 235, 0.1);
+  padding: 2pt 6pt;
+  border-radius: 8pt;
+}
+
+/* ========== CERTIFICATIONS IN SIDEBAR ========== */
+.pro-cert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10pt;
+}
+
+.pro-cert-item {
+  padding-bottom: 8pt;
+  border-bottom: 1pt solid #e2e8f0;
+}
+
+.pro-cert-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.pro-cert-name {
+  font-size: 9pt;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 2pt;
+}
+
+.pro-cert-issuer {
+  font-size: 8pt;
+  color: #64748b;
+}
+
+.pro-cert-date {
+  font-size: 8pt;
+  color: #2563eb;
+  margin-top: 2pt;
+}
+
+/* ========== INTERESTS IN SIDEBAR ========== */
+.pro-interests-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5pt;
+}
+
+.pro-interest-tag {
+  background: white;
+  color: #374151;
+  padding: 4pt 10pt;
+  border-radius: 12pt;
+  font-size: 8pt;
+  border: 1pt solid #d1d5db;
+}
+
+/* ========== MAIN CONTENT ========== */
+.pro-main {
+  flex: 1;
+  padding: 20pt 24pt;
+  background: white;
+}
+
+.pro-main-section {
+  margin-bottom: 22pt;
+}
+
+.pro-main-section:last-child {
+  margin-bottom: 0;
+}
+
+.pro-section-title {
+  font-size: 12pt;
+  font-weight: 700;
+  color: #1e3a5f;
+  text-transform: uppercase;
+  letter-spacing: 1pt;
+  margin: 0 0 14pt 0;
+  padding-bottom: 6pt;
+  border-bottom: 2pt solid #2563eb;
+  display: flex;
+  align-items: center;
+  gap: 8pt;
+}
+
+.pro-section-icon {
+  color: #2563eb;
+  font-size: 8pt;
+}
+
+.pro-section-content {
+  color: #374151;
+}
+
+/* ========== SUMMARY ========== */
+.pro-summary-text {
+  font-size: 10pt;
+  line-height: 1.7;
+  color: #4b5563;
+  margin: 0;
+  padding: 12pt;
+  background: #f8fafc;
+  border-radius: 6pt;
+  border-left: 3pt solid #2563eb;
+}
+
+.cv-template-pro.rtl .pro-summary-text {
+  border-left: none;
+  border-right: 3pt solid #2563eb;
+}
+
+/* ========== EXPERIENCE ========== */
+.pro-exp-item {
+  margin-bottom: 16pt;
+  padding-bottom: 14pt;
+  border-bottom: 1pt solid #e5e7eb;
+}
+
+.pro-exp-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.pro-exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16pt;
+  margin-bottom: 8pt;
+}
+
+.pro-exp-title-group {
+  flex: 1;
+}
+
+.pro-exp-title {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 2pt 0;
+}
+
+.pro-exp-company {
+  font-size: 10pt;
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.pro-exp-date {
+  font-size: 9pt;
+  color: #6b7280;
+  white-space: nowrap;
+  background: #f3f4f6;
+  padding: 3pt 8pt;
+  border-radius: 4pt;
+  font-variant-numeric: tabular-nums;
+}
+
+.pro-exp-bullets {
+  margin: 8pt 0 0 0;
+  padding-left: 16pt;
+  list-style-type: disc;
+}
+
+.cv-template-pro.rtl .pro-exp-bullets {
+  padding-left: 0;
+  padding-right: 16pt;
+}
+
+.pro-exp-bullets li {
+  font-size: 9.5pt;
+  line-height: 1.6;
+  color: #4b5563;
+  margin-bottom: 3pt;
+}
+
+/* ========== EDUCATION ========== */
+.pro-edu-item {
+  margin-bottom: 14pt;
+}
+
+.pro-edu-item:last-child {
+  margin-bottom: 0;
+}
+
+.pro-edu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16pt;
+  margin-bottom: 4pt;
+}
+
+.pro-edu-title-group {
+  flex: 1;
+}
+
+.pro-edu-degree {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 2pt 0;
+}
+
+.pro-edu-school {
+  font-size: 10pt;
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.pro-edu-date {
+  font-size: 9pt;
+  color: #6b7280;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.pro-edu-details {
+  font-size: 9pt;
+  color: #6b7280;
+  font-style: italic;
+  margin-top: 4pt;
+}
+
+/* ========== PROJECTS ========== */
+.pro-project-item {
+  margin-bottom: 14pt;
+  padding: 10pt 12pt;
+  background: #f9fafb;
+  border-radius: 6pt;
+  border: 1pt solid #e5e7eb;
+}
+
+.pro-project-item:last-child {
+  margin-bottom: 0;
+}
+
+.pro-project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4pt;
+}
+
+.pro-project-name {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.pro-project-date {
+  font-size: 8pt;
+  color: #6b7280;
+}
+
+.pro-project-tech {
+  font-size: 8pt;
+  color: #2563eb;
+  margin-bottom: 6pt;
+  font-weight: 500;
+}
+
+.pro-project-desc {
+  font-size: 9pt;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ========== ACHIEVEMENTS ========== */
+.pro-achievement-item {
+  margin-bottom: 12pt;
+  padding-left: 12pt;
+  border-left: 2pt solid #10b981;
+}
+
+.cv-template-pro.rtl .pro-achievement-item {
+  padding-left: 0;
+  padding-right: 12pt;
+  border-left: none;
+  border-right: 2pt solid #10b981;
+}
+
+.pro-achievement-item:last-child {
+  margin-bottom: 0;
+}
+
+.pro-achievement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4pt;
+}
+
+.pro-achievement-title {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.pro-achievement-date {
+  font-size: 8pt;
+  color: #6b7280;
+}
+
+.pro-achievement-desc {
+  font-size: 9pt;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ========== VOLUNTEERING ========== */
+.pro-vol-item {
+  margin-bottom: 14pt;
+  padding-bottom: 12pt;
+  border-bottom: 1pt solid #e5e7eb;
+}
+
+.pro-vol-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.pro-vol-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16pt;
+  margin-bottom: 6pt;
+}
+
+.pro-vol-title-group {
+  flex: 1;
+}
+
+.pro-vol-role {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 2pt 0;
+}
+
+.pro-vol-org {
+  font-size: 9pt;
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.pro-vol-date {
+  font-size: 9pt;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.pro-vol-desc {
+  font-size: 9pt;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ========== REFERENCES ========== */
+.pro-ref-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12pt;
+}
+
+.pro-ref-item {
+  padding: 10pt;
+  background: #f9fafb;
+  border-radius: 6pt;
+  border: 1pt solid #e5e7eb;
+}
+
+.pro-ref-name {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #111827;
+}
+
+.pro-ref-title {
+  font-size: 9pt;
+  color: #2563eb;
+  margin-top: 2pt;
+}
+
+.pro-ref-contact {
+  font-size: 8pt;
+  color: #6b7280;
+  margin-top: 4pt;
+}
+
+/* ========== GENERIC ITEMS ========== */
+.pro-generic-item {
+  margin-bottom: 10pt;
+}
+
+.pro-generic-item:last-child {
+  margin-bottom: 0;
+}
+
+.pro-generic-title {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.pro-generic-desc {
+  font-size: 9pt;
+  color: #4b5563;
+  margin: 4pt 0 0 0;
+}
+
+.pro-generic-text {
+  font-size: 9.5pt;
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ========== PRINT OPTIMIZATION ========== */
+@media print {
+  .cv-template-pro {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .pro-exp-item,
+  .pro-edu-item,
+  .pro-project-item {
+    page-break-inside: avoid;
+  }
+
+  .pro-main-section {
+    page-break-inside: avoid;
+  }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px) {
+  .pro-body {
+    flex-direction: column;
+  }
+
+  .cv-template-pro.rtl .pro-body {
+    flex-direction: column;
+  }
+
+  .pro-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1pt solid #e2e8f0;
+  }
+
+  .cv-template-pro.rtl .pro-sidebar {
+    border-left: none;
+    border-bottom: 1pt solid #e2e8f0;
+  }
+
+  .pro-ref-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pro-header {
+    padding: 20pt 16pt;
+  }
+
+  .pro-name {
+    font-size: 22pt;
+  }
+
+  .pro-avatar {
+    width: 60pt;
+    height: 60pt;
+  }
+
+  .pro-initials {
+    font-size: 20pt;
+  }
+}
