@@ -95,7 +95,8 @@ const CVBuilderPro = () => {
       add: 'Add',
       download: 'Download PDF',
       templates: 'Templates',
-      preview: 'Preview'
+      preview: 'Preview',
+      chooseTemplate: 'Choose Your Template'
     },
     he: {
       back: 'חזור',
@@ -128,7 +129,8 @@ const CVBuilderPro = () => {
       add: 'הוסף',
       download: 'הורד PDF',
       templates: 'תבניות',
-      preview: 'תצוגה'
+      preview: 'תצוגה',
+      chooseTemplate: 'בחר את התבנית שלך'
     },
     ar: {
       back: 'رجوع',
@@ -161,7 +163,8 @@ const CVBuilderPro = () => {
       add: 'إضافة',
       download: 'تحميل PDF',
       templates: 'القوالب',
-      preview: 'معاينة'
+      preview: 'معاينة',
+      chooseTemplate: 'اختر القالب'
     }
   }[language] || {
     back: 'Back', saved: 'Saved', saving: 'Saving...', personal: 'Personal Info',
@@ -171,7 +174,8 @@ const CVBuilderPro = () => {
     linkedin: 'LinkedIn', website: 'Website', jobTitle: 'Job Title', company: 'Company',
     startDate: 'Start', endDate: 'End', current: 'Current', present: 'Present',
     description: 'Description', degree: 'Degree', school: 'School', field: 'Field',
-    year: 'Year', add: 'Add', download: 'Download PDF', templates: 'Templates', preview: 'Preview'
+    year: 'Year', add: 'Add', download: 'Download PDF', templates: 'Templates', preview: 'Preview',
+    chooseTemplate: 'Choose Your Template'
   };
 
   const updatePersonal = (field, value) => {
@@ -592,7 +596,7 @@ const CVBuilderPro = () => {
         {showTemplates && (
           <div className="cvb-template-catalog">
             <div className="cvb-catalog-header">
-              <h2>Choose Your Template</h2>
+              <h2>{t.chooseTemplate}</h2>
               <p>Select a professional template that fits your style</p>
               <button className="cvb-catalog-close" onClick={() => setShowTemplates(false)}><FaTimes /></button>
             </div>
@@ -695,14 +699,14 @@ const CVBuilderPro = () => {
 
             {cvData.summary && (
               <section className="cv-section">
-                <h2>Summary</h2>
+                <h2>{t.summary}</h2>
                 <p>{cvData.summary}</p>
               </section>
             )}
 
             {cvData.experience?.length > 0 && cvData.experience[0]?.title && (
               <section className="cv-section">
-                <h2>Experience</h2>
+                <h2>{t.experience}</h2>
                 {cvData.experience.map(exp => (
                   <div key={exp.id} className="cv-item">
                     <div className="cv-item-header">
@@ -720,7 +724,7 @@ const CVBuilderPro = () => {
 
             {cvData.education?.length > 0 && cvData.education[0]?.degree && (
               <section className="cv-section">
-                <h2>Education</h2>
+                <h2>{t.education}</h2>
                 {cvData.education.map(edu => (
                   <div key={edu.id} className="cv-item">
                     <div className="cv-item-header">
@@ -738,7 +742,7 @@ const CVBuilderPro = () => {
 
             {Array.isArray(cvData.skills) && cvData.skills.length > 0 && (
               <section className="cv-section">
-                <h2>Skills</h2>
+                <h2>{t.skills}</h2>
                 <div className="cv-skills">
                   {cvData.skills.map((skill, i) => <span key={i} className="cv-skill">{skill}</span>)}
                 </div>
@@ -747,7 +751,7 @@ const CVBuilderPro = () => {
 
             {cvData.languages?.length > 0 && cvData.languages[0]?.name && (
               <section className="cv-section">
-                <h2>Languages</h2>
+                <h2>{t.languages}</h2>
                 <div className="cv-langs">
                   {cvData.languages.map(lang => (
                     <span key={lang.id} className="cv-lang">{lang.name} <em>({lang.level})</em></span>
@@ -758,7 +762,7 @@ const CVBuilderPro = () => {
 
             {cvData.certificates?.length > 0 && cvData.certificates[0]?.name && (
               <section className="cv-section">
-                <h2>Certifications</h2>
+                <h2>{t.certificates}</h2>
                 {cvData.certificates.map(cert => (
                   <div key={cert.id} className="cv-item">
                     <div className="cv-item-header">
@@ -785,7 +789,7 @@ const CVBuilderPro = () => {
       {showTemplates && (
         <div className="cvb-template-catalog cvb-mobile-template-catalog">
           <div className="cvb-catalog-header">
-            <h2>Choose Your Template</h2>
+            <h2>{t.chooseTemplate}</h2>
             <p>Select a professional template that fits your style</p>
             <button className="cvb-catalog-close" onClick={() => setShowTemplates(false)}><FaTimes /></button>
           </div>
@@ -894,14 +898,14 @@ const CVBuilderPro = () => {
 
             {cvData.summary && (
               <section className="cv-section">
-                <h2>Summary</h2>
+                <h2>{t.summary}</h2>
                 <p>{cvData.summary}</p>
               </section>
             )}
 
             {cvData.experience?.length > 0 && cvData.experience[0]?.title && (
               <section className="cv-section">
-                <h2>Experience</h2>
+                <h2>{t.experience}</h2>
                 {cvData.experience.map(exp => (
                   <div key={exp.id} className="cv-item">
                     <div className="cv-item-header">
@@ -919,7 +923,7 @@ const CVBuilderPro = () => {
 
             {cvData.education?.length > 0 && cvData.education[0]?.degree && (
               <section className="cv-section">
-                <h2>Education</h2>
+                <h2>{t.education}</h2>
                 {cvData.education.map(edu => (
                   <div key={edu.id} className="cv-item">
                     <div className="cv-item-header">
@@ -937,7 +941,7 @@ const CVBuilderPro = () => {
 
             {cvData.skills?.length > 0 && (
               <section className="cv-section">
-                <h2>Skills</h2>
+                <h2>{t.skills}</h2>
                 <div className="cv-skills">
                   {cvData.skills.map((skill, i) => <span key={i} className="cv-skill">{skill}</span>)}
                 </div>
@@ -946,7 +950,7 @@ const CVBuilderPro = () => {
 
             {cvData.languages?.length > 0 && cvData.languages[0]?.name && (
               <section className="cv-section">
-                <h2>Languages</h2>
+                <h2>{t.languages}</h2>
                 <div className="cv-langs">
                   {cvData.languages.map(lang => (
                     <span key={lang.id} className="cv-lang">{lang.name} {lang.level && <em>({lang.level})</em>}</span>
@@ -957,7 +961,7 @@ const CVBuilderPro = () => {
 
             {cvData.certificates?.length > 0 && cvData.certificates[0]?.name && (
               <section className="cv-section">
-                <h2>Certifications</h2>
+                <h2>{t.certificates}</h2>
                 {cvData.certificates.map(cert => (
                   <div key={cert.id} className="cv-item">
                     <div className="cv-item-header">
