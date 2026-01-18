@@ -195,12 +195,18 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
       <!-- Header -->
       <div style="background: ${colors.headerBg}; color: ${colors.headerText}; padding: 30px; margin: -40px -40px 30px -40px; ${headerBorderStyle} ${headerLeftBorder} ${textAlign}">
         <h1 style="font-size: 28px; font-weight: 700; margin: 0 0 10px 0; color: ${nameColor}; font-family: ${fontFamily};">${escapeHtml(info.fullName) || (isRTL ? 'اسمك' : 'Your Name')}</h1>
-        <div style="font-size: 13px; opacity: 0.9; display: flex; flex-direction: column; align-items: center; gap: 4px;">
-          ${info.email ? `<span>${escapeHtml(info.email)}</span>` : ''}
-          ${info.phone ? `<span>${escapeHtml(info.phone)}</span>` : ''}
-          ${info.location ? `<span>${escapeHtml(info.location)}</span>` : ''}
-          ${info.linkedin ? `<span style="font-size: 12px; opacity: 0.9;">${info.linkedin}</span>` : ''}
-          ${info.website ? `<span style="font-size: 12px; opacity: 0.9;">${info.website}</span>` : ''}
+        <div style="font-size: 13px; opacity: 0.9; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+          <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
+            ${info.email ? `<span>${escapeHtml(info.email)}</span>` : ''}
+            ${info.phone ? `<span>${escapeHtml(info.phone)}</span>` : ''}
+            ${info.location ? `<span>${escapeHtml(info.location)}</span>` : ''}
+          </div>
+          ${(info.linkedin || info.website) ? `
+          <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; font-size: 12px; opacity: 0.9;">
+            ${info.linkedin ? `<span>${info.linkedin}</span>` : ''}
+            ${info.website ? `<span>${info.website}</span>` : ''}
+          </div>
+          ` : ''}
         </div>
       </div>
   `;
@@ -542,9 +548,17 @@ const getTemplateStyles = (templateStyle, isRTL) => {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4pt;
+      gap: 6pt;
       font-size: 10pt;
       color: #4a5568;
+    }
+
+    .contact-line {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20pt;
+      flex-wrap: wrap;
     }
 
     .section {
@@ -693,11 +707,17 @@ const buildSectionsHTML = (cvData, sections, language, isRTL, templateStyle) => 
     <div class="header">
       <h1 class="name">${escapeHtml(info.fullName) || (isRTL ? 'اسمك' : 'Your Name')}</h1>
       <div class="contact-row">
-        ${info.email ? `<span>${escapeHtml(info.email)}</span>` : ''}
-        ${info.phone ? `<span>${escapeHtml(info.phone)}</span>` : ''}
-        ${info.location ? `<span>${escapeHtml(info.location)}</span>` : ''}
-        ${info.linkedin ? `<span style="font-size: 9pt;">${info.linkedin}</span>` : ''}
-        ${info.website ? `<span style="font-size: 9pt;">${info.website}</span>` : ''}
+        <div class="contact-line">
+          ${info.email ? `<span>${escapeHtml(info.email)}</span>` : ''}
+          ${info.phone ? `<span>${escapeHtml(info.phone)}</span>` : ''}
+          ${info.location ? `<span>${escapeHtml(info.location)}</span>` : ''}
+        </div>
+        ${(info.linkedin || info.website) ? `
+        <div class="contact-line" style="font-size: 9pt;">
+          ${info.linkedin ? `<span>${info.linkedin}</span>` : ''}
+          ${info.website ? `<span>${info.website}</span>` : ''}
+        </div>
+        ` : ''}
       </div>
     </div>
   `;
