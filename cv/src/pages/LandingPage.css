@@ -2508,275 +2508,36 @@
   }
 
   /* ─────────────────────────────────────────────────────────────────────────
-     FOOTER — Creative Card-Based Design
-     Innovative stacked cards with depth, rounded corners, and playful touches
+     FOOTER — Simple Two-Row Mobile Design
+     Compact, clean, just the essentials
      ───────────────────────────────────────────────────────────────────────── */
   .premium-footer {
     position: relative;
-    background: linear-gradient(180deg, #f0f4ff 0%, #e8ecff 100%);
-    overflow: hidden;
+    background: #1a1a2e;
   }
 
-  /* Decorative background shapes */
-  .footer-bg {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-
-  .footer-orb-1 {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.1) 100%);
-    border-radius: 50%;
-    top: -60px;
-    right: -60px;
-    filter: blur(40px);
-  }
-
-  .footer-orb-2 {
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(251, 191, 36, 0.08) 100%);
-    border-radius: 50%;
-    bottom: 100px;
-    left: -40px;
-    filter: blur(30px);
-  }
-
+  /* Hide decorative elements */
+  .footer-bg,
+  .footer-orb-1,
+  .footer-orb-2,
   .footer-grid-pattern {
     display: none;
   }
 
-  /* ═══ CTA BANNER — Floating Card ═══ */
+  /* Hide CTA banner on mobile */
   .footer-cta-banner {
-    position: relative;
-    padding: 24px 20px;
-    margin: 0 16px 0;
-    transform: translateY(-24px);
-  }
-
-  .footer-cta-content {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 24px;
-    padding: 32px 24px;
-    text-align: center;
-    box-shadow:
-      0 20px 40px rgba(102, 126, 234, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Subtle shine effect */
-  .footer-cta-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
-    border-radius: 24px 24px 0 0;
-    pointer-events: none;
-  }
-
-  .footer-cta-text {
-    position: relative;
-    z-index: 1;
-  }
-
-  .footer-cta-text h3 {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    line-height: 1.25;
-    color: white;
-    margin-bottom: 8px;
-  }
-
-  .footer-cta-text p {
-    font-size: 14px;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 20px;
-  }
-
-  .footer-cta-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 14px 28px;
-    font-size: 15px;
-    font-weight: 600;
-    border-radius: 50px;
-    background: white;
-    color: #667eea;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .footer-cta-btn:active {
-    transform: scale(0.96);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
-
-  .footer-cta-btn svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  /* ═══ MAIN CONTENT — Stacked Cards ═══ */
-  .footer-main-content {
-    padding: 0 16px 24px;
-    position: relative;
-  }
-
-  .premium-footer .footer-container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  /* ═══ BRAND CARD ═══ */
-  .footer-brand-section {
-    background: white;
-    border-radius: 20px;
-    padding: 28px 24px;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.08);
-  }
-
-  .premium-footer .footer-brand {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 20px;
-    font-weight: 700;
-    color: #1a1a2e;
-    margin-bottom: 10px;
-  }
-
-  .premium-footer .footer-brand .brand-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-  }
-
-  .premium-footer .footer-brand .brand-icon svg {
-    color: white;
-  }
-
-  .premium-footer .footer-tagline {
-    font-size: 13px;
-    line-height: 1.5;
-    color: #64748b;
-    margin-bottom: 20px;
-    max-width: 240px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* Social icons — pill style */
-  .premium-footer .footer-social {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .social-link {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: #f4f6fa;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #64748b;
-    transition: all 0.2s ease;
-  }
-
-  .social-link svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .social-link:active {
-    transform: scale(0.92);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-  }
-
-  /* ═══ LINKS CARD — Accordion Style ═══ */
-  .footer-links-grid {
-    background: white;
-    border-radius: 20px;
-    padding: 8px;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .premium-footer .footer-column {
-    border-bottom: 1px solid #f0f2f5;
-    padding: 16px;
-  }
-
-  .premium-footer .footer-column:last-child {
-    border-bottom: none;
-  }
-
-  .premium-footer .footer-column h4 {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0;
-    text-transform: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    color: #1a1a2e;
-    border-bottom: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  /* Inline links as tags */
-  .premium-footer .footer-column a {
-    display: inline-block;
-    padding: 6px 12px;
-    margin: 8px 6px 0 0;
-    font-size: 12px;
-    font-weight: 500;
-    color: #64748b;
-    background: #f8f9fc;
-    border-radius: 20px;
-    transition: all 0.15s ease;
-  }
-
-  .premium-footer .footer-column a:active {
-    background: #667eea;
-    color: white;
-  }
-
-  .premium-footer .footer-column a::before {
     display: none;
   }
 
-  /* ═══ BOTTOM BAR — Minimal Strip ═══ */
+  /* Hide main content sections */
+  .footer-main-content {
+    display: none;
+  }
+
+  /* ═══ BOTTOM BAR — The Only Visible Part ═══ */
   .footer-bottom-bar {
-    padding: 20px 16px;
-    background: transparent;
+    padding: 20px 24px;
+    background: #1a1a2e;
     border-top: none;
   }
 
@@ -2785,60 +2546,140 @@
     flex-direction: column;
     align-items: center;
     gap: 16px;
-    text-align: center;
   }
 
-  /* Language badge — first, pill style */
+  /* Row 1: Brand + Social Icons */
+  .footer-bottom-content::before {
+    content: none;
+  }
+
   .footer-lang-badge {
-    order: 0;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 16px;
-    font-size: 12px;
-    font-weight: 600;
-    border-radius: 50px;
-    background: white;
-    border: none;
-    color: #667eea;
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.12);
+    display: none;
   }
 
-  .footer-lang-badge svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  /* Quick links — horizontal scroll pills */
   .footer-bottom-bar .footer-bottom-links {
+    display: none;
+  }
+
+  /* Copyright centered */
+  .footer-copyright {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    order: 2;
+  }
+
+  /* We need to show brand and social in the footer-bottom-bar area */
+  /* Since the structure is fixed, we'll style what's visible */
+
+  /* Re-show brand section but simplified */
+  .footer-main-content {
+    display: block;
+    padding: 24px 20px 0;
+    background: #1a1a2e;
+  }
+
+  .premium-footer .footer-container {
+    display: block;
+  }
+
+  .footer-brand-section {
+    background: transparent;
+    padding: 0;
+    text-align: center;
+    box-shadow: none;
+  }
+
+  .premium-footer .footer-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 16px;
+  }
+
+  .premium-footer .footer-brand .brand-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: none;
+  }
+
+  .premium-footer .footer-brand .brand-icon svg {
+    color: white;
+    width: 16px;
+    height: 16px;
+  }
+
+  .premium-footer .footer-tagline {
+    display: none;
+  }
+
+  /* Social icons row */
+  .premium-footer .footer-social {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    order: 1;
-    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 0;
   }
 
-  .footer-bottom-bar .footer-bottom-links a {
-    font-size: 11px;
-    font-weight: 500;
-    padding: 8px 14px;
-    color: #64748b;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  .social-link {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.2s ease;
   }
 
-  .footer-bottom-bar .footer-bottom-links a:active {
+  .social-link:active {
     background: #667eea;
     color: white;
   }
 
-  /* Copyright — last */
+  .social-link svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Hide links grid on mobile */
+  .footer-links-grid {
+    display: none;
+  }
+
+  /* Bottom bar - simple copyright only */
+  .footer-bottom-bar {
+    padding: 16px 20px;
+    background: #1a1a2e;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-bottom-content {
+    display: block;
+    text-align: center;
+  }
+
+  .footer-lang-badge {
+    display: none;
+  }
+
+  .footer-bottom-bar .footer-bottom-links {
+    display: none;
+  }
+
   .footer-copyright {
     font-size: 11px;
-    order: 2;
-    color: #94a3b8;
-    padding-top: 8px;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+    padding: 0;
   }
 }
 
@@ -3106,101 +2947,24 @@
     gap: 10px;
   }
 
-  /* Footer 480px — Creative Card Design */
-  .footer-cta-banner {
-    padding: 20px 16px;
-    margin: 0 12px;
-    transform: translateY(-20px);
-  }
-
-  .footer-cta-content {
-    padding: 28px 20px;
-    border-radius: 20px;
-  }
-
-  .footer-cta-text h3 {
-    font-size: 18px;
-  }
-
-  .footer-cta-text p {
-    font-size: 12px;
-    margin-bottom: 16px;
-  }
-
-  .footer-cta-btn {
-    padding: 12px 24px;
-    font-size: 14px;
-  }
-
-  .footer-main-content {
-    padding: 0 12px 20px;
-  }
-
-  .footer-brand-section {
-    padding: 24px 20px;
-    border-radius: 18px;
-  }
-
+  /* Footer 480px — Simple Two-Row Design */
   .premium-footer .footer-brand {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .premium-footer .footer-brand .brand-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-  }
-
-  .premium-footer .footer-tagline {
-    font-size: 12px;
-    margin-bottom: 16px;
+    width: 28px;
+    height: 28px;
   }
 
   .social-link {
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
   }
 
   .social-link svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .footer-links-grid {
-    border-radius: 18px;
-    padding: 6px;
-  }
-
-  .premium-footer .footer-column {
-    padding: 14px;
-  }
-
-  .premium-footer .footer-column h4 {
-    font-size: 12px;
-  }
-
-  .premium-footer .footer-column a {
-    font-size: 11px;
-    padding: 5px 10px;
-    margin: 6px 4px 0 0;
-  }
-
-  .footer-bottom-bar {
-    padding: 16px 12px;
-  }
-
-  .footer-lang-badge {
-    padding: 8px 14px;
-    font-size: 11px;
-  }
-
-  .footer-bottom-bar .footer-bottom-links {
-    gap: 6px;
-  }
-
-  .footer-bottom-bar .footer-bottom-links a {
-    font-size: 10px;
-    padding: 6px 12px;
+    width: 14px;
+    height: 14px;
   }
 
   .footer-copyright {
@@ -3262,11 +3026,6 @@
 
   .tpl-style {
     font-size: 10px;
-  }
-
-  .footer-links-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
   }
 }
 
@@ -3504,60 +3263,21 @@
     height: 16px;
   }
 
-  /* Footer 360px — Creative Card Design */
-  .footer-cta-banner {
-    padding: 16px 12px;
-    margin: 0 8px;
-    transform: translateY(-16px);
-  }
-
-  .footer-cta-content {
-    padding: 24px 16px;
-    border-radius: 16px;
-  }
-
-  .footer-cta-text h3 {
-    font-size: 16px;
-  }
-
-  .footer-cta-text p {
-    font-size: 11px;
-    margin-bottom: 14px;
-  }
-
-  .footer-cta-btn {
-    padding: 10px 20px;
-    font-size: 13px;
-  }
-
+  /* Footer 360px — Simple Two-Row Design */
   .footer-main-content {
-    padding: 0 8px 16px;
-  }
-
-  .premium-footer .footer-container {
-    gap: 12px;
-  }
-
-  .footer-brand-section {
-    padding: 20px 16px;
-    border-radius: 16px;
+    padding: 20px 16px 0;
   }
 
   .premium-footer .footer-brand {
-    font-size: 16px;
-    gap: 8px;
+    font-size: 14px;
+    gap: 6px;
+    margin-bottom: 12px;
   }
 
   .premium-footer .footer-brand .brand-icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-  }
-
-  .premium-footer .footer-tagline {
-    font-size: 11px;
-    margin-bottom: 14px;
-    max-width: 200px;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
   }
 
   .premium-footer .footer-social {
@@ -3565,54 +3285,17 @@
   }
 
   .social-link {
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
   }
 
   .social-link svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .footer-links-grid {
-    border-radius: 16px;
-    padding: 4px;
-  }
-
-  .premium-footer .footer-column {
-    padding: 12px;
-  }
-
-  .premium-footer .footer-column h4 {
-    font-size: 11px;
-  }
-
-  .premium-footer .footer-column a {
-    font-size: 10px;
-    padding: 4px 8px;
-    margin: 5px 3px 0 0;
+    width: 12px;
+    height: 12px;
   }
 
   .footer-bottom-bar {
-    padding: 14px 8px;
-  }
-
-  .footer-bottom-content {
-    gap: 12px;
-  }
-
-  .footer-lang-badge {
-    padding: 6px 12px;
-    font-size: 10px;
-  }
-
-  .footer-bottom-bar .footer-bottom-links {
-    gap: 4px;
-  }
-
-  .footer-bottom-bar .footer-bottom-links a {
-    font-size: 9px;
-    padding: 5px 10px;
+    padding: 12px 16px;
   }
 
   .footer-copyright {
