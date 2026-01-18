@@ -957,6 +957,9 @@
 .tpl-stat-label { font-size: 13px; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
 .tpl-stat-divider { width: 1px; height: 40px; background: linear-gradient(180deg, transparent, rgba(255,255,255,0.2), transparent); }
 
+/* Mobile RTL badge - hidden on desktop */
+.tpl-rtl-badge { display: none; }
+
 /* ===== 3D SHOWCASE GRID ===== */
 .tpl-showcase {
   display: grid;
@@ -2244,62 +2247,192 @@
     margin: 0;
   }
 
-  /* Templates Mobile - Premium */
+  /* ─────────────────────────────────────────────────────────────────────────
+     TEMPLATES — Horizontal Scroll with RTL Support Badge
+     100% width swipeable cards
+     ───────────────────────────────────────────────────────────────────────── */
   .templates-section {
-    padding: 80px 16px;
+    padding: 60px 0;
     min-height: auto;
+    background: #0f0a1e;
+    overflow: hidden;
   }
 
+  /* Hide background decorations */
+  .tpl-bg-wrapper,
+  .tpl-orb-1, .tpl-orb-2, .tpl-orb-3, .tpl-orb-4,
+  .tpl-grid-lines, .tpl-particles, .tpl-spotlight {
+    display: none;
+  }
+
+  .templates-container {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* Section Header */
   .tpl-section-header {
-    margin-bottom: 50px;
+    padding: 0 20px;
+    margin-bottom: 32px;
+    text-align: center;
   }
 
   .tpl-label {
-    padding: 10px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
     font-size: 11px;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    background: rgba(102, 126, 234, 0.15);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: 50px;
+    color: #a5b4fc;
+  }
+
+  .tpl-label-glow {
+    display: none;
   }
 
   .tpl-main-title {
-    font-size: 32px;
-    letter-spacing: -1px;
+    font-size: 28px;
+    letter-spacing: -0.5px;
+    color: white;
+    margin-bottom: 12px;
+  }
+
+  .tpl-title-highlight {
+    color: #a5b4fc;
   }
 
   .tpl-subtitle {
-    font-size: 15px;
-    margin-bottom: 30px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
   }
 
+  /* RTL Support Badge */
   .tpl-stats-row {
-    padding: 14px 24px;
-    gap: 20px;
-    flex-wrap: wrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 50px;
+    flex-wrap: nowrap;
     justify-content: center;
   }
 
-  .tpl-stat-number { font-size: 24px; }
-  .tpl-stat-label { font-size: 11px; }
-  .tpl-stat-divider { height: 30px; }
-
-  .tpl-showcase {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin-bottom: 50px;
+  .tpl-stats-row::before {
+    content: "🌍";
+    font-size: 18px;
   }
 
-  .tpl-card-inner { border-radius: 18px; }
-  .tpl-card-3d:hover .tpl-card-inner { transform: translateY(-12px) scale(1.01); }
+  /* Hide desktop stats on mobile */
+  .tpl-stat-desktop {
+    display: none !important;
+  }
 
-  .tpl-cv-wrapper { padding: 10px; }
-  .tpl-cv-doc { border-radius: 10px; }
-  .tpl-cv-header { padding: 12px 10px; gap: 10px; }
-  .tpl-cv-photo { width: 36px; height: 36px; }
-  .tpl-cv-photo-inner { width: 30px; height: 30px; }
-  .tpl-cv-name { height: 9px; }
+  /* Show mobile RTL badge */
+  .tpl-rtl-badge {
+    display: flex;
+    align-items: center;
+  }
+
+  .tpl-rtl-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #10b981;
+    white-space: nowrap;
+  }
+
+  /* Horizontal Scroll Showcase */
+  .tpl-showcase {
+    display: flex;
+    gap: 16px;
+    padding: 0 20px 20px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .tpl-showcase::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Card sizing for horizontal scroll */
+  .tpl-card-3d {
+    flex: 0 0 75%;
+    max-width: 280px;
+    min-width: 240px;
+    scroll-snap-align: center;
+    animation: none;
+  }
+
+  .tpl-card-glow {
+    display: none;
+  }
+
+  .tpl-card-inner {
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+
+  .tpl-card-3d:hover .tpl-card-inner {
+    transform: none;
+  }
+
+  /* CV Preview */
+  .tpl-cv-wrapper {
+    padding: 12px;
+    position: relative;
+  }
+
+  .tpl-cv-shadow {
+    display: none;
+  }
+
+  .tpl-cv-doc {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .tpl-cv-header {
+    padding: 14px 12px;
+    gap: 10px;
+  }
+
+  .tpl-cv-photo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .tpl-cv-photo-inner {
+    width: 30px;
+    height: 30px;
+  }
+
+  .tpl-cv-name { height: 10px; }
   .tpl-cv-role { height: 6px; }
-  .tpl-cv-contact-info span { height: 3px; width: 28px; }
-  .tpl-cv-body { padding: 10px 12px; gap: 10px; }
+  .tpl-cv-contact-info span { height: 3px; width: 30px; }
+
+  .tpl-cv-body {
+    padding: 12px;
+    gap: 12px;
+  }
+
   .tpl-cv-sec-dot { width: 5px; height: 5px; }
   .tpl-cv-sec-title { height: 5px; }
   .tpl-cv-text-line { height: 3px; }
@@ -2307,28 +2440,103 @@
   .tpl-cv-timeline { gap: 8px; padding-left: 10px; }
   .tpl-cv-timeline-dot { width: 6px; height: 6px; }
   .tpl-cv-skills { gap: 4px; padding-left: 10px; }
-  .tpl-cv-skill { height: 12px; width: 34px; }
-  .tpl-cv-skill:nth-child(2) { width: 42px; }
-  .tpl-cv-skill:nth-child(3) { width: 30px; }
-  .tpl-cv-skill:nth-child(4) { width: 38px; }
+  .tpl-cv-skill { height: 14px; width: 36px; }
+  .tpl-cv-skill:nth-child(2) { width: 44px; }
+  .tpl-cv-skill:nth-child(3) { width: 32px; }
+  .tpl-cv-skill:nth-child(4) { width: 40px; }
 
-  .tpl-badge-featured { padding: 6px 10px; font-size: 9px; top: 10px; left: 10px; }
-  .tpl-card-actions { padding: 14px; }
-  .tpl-action-btn { padding: 10px 18px; font-size: 12px; border-radius: 10px; }
+  /* Featured badge */
+  .tpl-badge-featured {
+    padding: 5px 10px;
+    font-size: 9px;
+    top: 8px;
+    left: 8px;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border-radius: 6px;
+  }
 
-  .tpl-card-footer { padding: 14px 10px 6px; }
-  .tpl-card-name { font-size: 14px; }
-  .tpl-card-style { font-size: 11px; }
-  .tpl-card-rating { font-size: 11px; }
-  .tpl-card-rating svg { width: 12px; height: 12px; }
+  .tpl-badge-shine {
+    display: none;
+  }
 
-  .tpl-cta-btn { width: 100%; justify-content: center; padding: 18px 30px; font-size: 16px; border-radius: 14px; }
-  .tpl-cta-subtext { font-size: 13px; margin-top: 16px; }
+  /* Card actions - always visible on mobile */
+  .tpl-card-actions {
+    padding: 12px;
+    opacity: 1;
+    transform: none;
+    background: rgba(0, 0, 0, 0.3);
+  }
 
-  .tpl-orb-1, .tpl-orb-2, .tpl-orb-3, .tpl-orb-4 { filter: blur(60px); opacity: 0.4; }
-  .tpl-orb-1 { width: 300px; height: 300px; }
-  .tpl-orb-2 { width: 250px; height: 250px; }
-  .tpl-particles { display: none; }
+  .tpl-action-btn {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 13px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    justify-content: center;
+  }
+
+  .tpl-card-shine {
+    display: none;
+  }
+
+  /* Card footer */
+  .tpl-card-footer {
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .tpl-card-name {
+    font-size: 14px;
+    color: white;
+    margin-bottom: 4px;
+  }
+
+  .tpl-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .tpl-card-style {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .tpl-card-rating {
+    font-size: 11px;
+    color: #fbbf24;
+  }
+
+  .tpl-card-rating svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* CTA Section */
+  .tpl-cta-section {
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  .tpl-cta-glow {
+    display: none;
+  }
+
+  .tpl-cta-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 16px 24px;
+    font-size: 15px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .tpl-cta-subtext {
+    font-size: 12px;
+    margin-top: 12px;
+    color: rgba(255, 255, 255, 0.5);
+  }
 
   /* ─────────────────────────────────────────────────────────────────────────
      TESTIMONIALS — Swipeable Cards with Depth

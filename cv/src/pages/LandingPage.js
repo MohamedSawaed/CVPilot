@@ -826,21 +826,27 @@ const LandingPage = () => {
                 ? 'בחר מתוך 11+ תבניות מקצועיות שעוצבו על ידי מומחי גיוס ומעצבים מקצועיים'
                 : 'Choose from 11+ professional templates designed by HR experts and professional designers'}
             </p>
-            {/* Stats Row */}
+            {/* Stats Row - Desktop shows stats, Mobile shows RTL badge */}
             <div className="tpl-stats-row">
-              <div className="tpl-stat">
+              <div className="tpl-stat tpl-stat-desktop">
                 <span className="tpl-stat-number">50K+</span>
                 <span className="tpl-stat-label">{language === 'ar' ? 'مستخدم' : language === 'he' ? 'משתמשים' : 'Users'}</span>
               </div>
-              <div className="tpl-stat-divider"></div>
-              <div className="tpl-stat">
+              <div className="tpl-stat-divider tpl-stat-desktop"></div>
+              <div className="tpl-stat tpl-stat-desktop">
                 <span className="tpl-stat-number">11+</span>
                 <span className="tpl-stat-label">{language === 'ar' ? 'قالب' : language === 'he' ? 'תבניות' : 'Templates'}</span>
               </div>
-              <div className="tpl-stat-divider"></div>
-              <div className="tpl-stat">
+              <div className="tpl-stat-divider tpl-stat-desktop"></div>
+              <div className="tpl-stat tpl-stat-desktop">
                 <span className="tpl-stat-number">4.9</span>
                 <span className="tpl-stat-label">{language === 'ar' ? 'تقييم' : language === 'he' ? 'דירוג' : 'Rating'}</span>
+              </div>
+              {/* Mobile RTL Badge */}
+              <div className="tpl-rtl-badge">
+                <span className="tpl-rtl-text">
+                  {language === 'ar' ? 'جميع القوالب تدعم العربية والعبرية' : language === 'he' ? 'כל התבניות תומכות בעברית וערבית' : 'All templates support Arabic & Hebrew'}
+                </span>
               </div>
             </div>
           </div>
