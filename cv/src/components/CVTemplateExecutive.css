@@ -45,6 +45,7 @@
 .exec-header-content {
   position: relative;
   z-index: 1;
+  text-align: center;
 }
 
 .exec-name {
@@ -53,6 +54,7 @@
   letter-spacing: 4pt;
   text-transform: uppercase;
   margin: 0 0 6pt 0;
+  text-align: center;
 }
 
 .exec-headline {
@@ -62,20 +64,21 @@
   letter-spacing: 2pt;
   text-transform: uppercase;
   margin-bottom: 16pt;
+  text-align: center;
 }
 
 .exec-contact {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8pt;
+  flex-direction: column;
+  align-items: center;
+  gap: 4pt;
   font-size: 9.5pt;
   color: rgba(255, 255, 255, 0.9);
-  align-items: center;
 }
 
 .cv-template-executive.rtl .exec-contact {
-  flex-direction: row-reverse;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
 }
 
 .exec-contact-item {

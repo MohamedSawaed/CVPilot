@@ -21,7 +21,18 @@
 /* Header */
 .ats-header {
   margin-bottom: 30px;
-  text-align: left;
+  text-align: center;
+}
+
+.ats-name {
+  text-align: center;
+}
+
+.ats-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .ats-name {

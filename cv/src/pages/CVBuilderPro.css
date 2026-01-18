@@ -845,9 +845,9 @@
 
 .cv-contact {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-md);
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
   font-size: var(--font-sm);
   color: #cccccc;
 }
@@ -2169,6 +2169,8 @@
   }
 
   .cvb-mobile-modal .cv-contact {
+    flex-direction: column;
+    align-items: center;
     gap: var(--space-sm);
     font-size: 12px;
   }
@@ -2519,6 +2521,8 @@
   }
 
   .cvb-mobile-modal .cv-contact {
+    flex-direction: column;
+    align-items: center;
     font-size: 11px;
     gap: 6px;
   }
