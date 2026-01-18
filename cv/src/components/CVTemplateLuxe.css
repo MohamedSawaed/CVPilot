@@ -227,6 +227,15 @@
   margin-bottom: 3px;
 }
 
+/* RTL: Job title on right, date on left */
+.cv-template-luxe.rtl .luxe-item-header {
+  /* flex respects direction:rtl from parent */
+}
+
+.cv-template-luxe.rtl .luxe-item-date {
+  text-align: left;
+}
+
 .cv-template-luxe.rtl .luxe-exp-bullets {
   padding-left: 0;
   padding-right: 18px;

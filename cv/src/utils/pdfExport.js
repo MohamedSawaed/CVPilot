@@ -226,9 +226,9 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
         <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.experience}</h2>
         ${cvData.experience.map(exp => `
           <div style="margin-bottom: 15px; padding-${isRTL ? 'right' : 'left'}: 12px; border-${isRTL ? 'right' : 'left'}: 3px solid ${colors.accent};">
-            <div style="display: flex; justify-content: space-between; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-              <span style="font-size: 14px; font-weight: 600;">${escapeHtml(exp.jobTitle)}</span>
-              <span style="font-size: 12px; color: #718096;">${escapeHtml(exp.startDate)} - ${exp.current ? t.present : escapeHtml(exp.endDate)}</span>
+            <div style="display: flex; justify-content: space-between; ${isRTL ? 'direction: rtl;' : ''}">
+              <span style="font-size: 14px; font-weight: 600; ${isRTL ? 'text-align: right;' : ''}">${escapeHtml(exp.jobTitle)}</span>
+              <span style="font-size: 12px; color: #718096; ${isRTL ? 'text-align: left;' : ''}">${escapeHtml(exp.startDate)} - ${exp.current ? t.present : escapeHtml(exp.endDate)}</span>
             </div>
             <div style="font-size: 13px; color: ${colors.accent}; margin: 3px 0;">${escapeHtml(exp.company)}</div>
             ${formatDescriptionAsBullets(exp.description, isRTL)}
@@ -245,9 +245,9 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
         <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.education}</h2>
         ${cvData.education.map(edu => `
           <div style="margin-bottom: 12px;">
-            <div style="display: flex; justify-content: space-between; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-              <span style="font-size: 14px; font-weight: 600;">${escapeHtml(edu.degree)}</span>
-              <span style="font-size: 12px; color: #718096;">${escapeHtml(edu.graduationDate)}</span>
+            <div style="display: flex; justify-content: space-between; ${isRTL ? 'direction: rtl;' : ''}">
+              <span style="font-size: 14px; font-weight: 600; ${isRTL ? 'text-align: right;' : ''}">${escapeHtml(edu.degree)}</span>
+              <span style="font-size: 12px; color: #718096; ${isRTL ? 'text-align: left;' : ''}">${escapeHtml(edu.graduationDate)}</span>
             </div>
             <div style="font-size: 13px; color: ${colors.accent};">${escapeHtml(edu.institution)}</div>
             ${edu.honors ? `<p style="font-size: 12px; color: #4a5568; font-style: italic; margin: 3px 0 0 0;">${escapeHtml(edu.honors)}</p>` : ''}
@@ -292,9 +292,9 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
         <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.certifications}</h2>
         ${cvData.certifications.map(cert => `
           <div style="margin-bottom: 10px;">
-            <div style="display: flex; justify-content: space-between; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-              <span style="font-size: 13px; font-weight: 600;">${escapeHtml(cert.certification || cert.title)}</span>
-              ${cert.date ? `<span style="font-size: 12px; color: #718096;">${escapeHtml(cert.date)}</span>` : ''}
+            <div style="display: flex; justify-content: space-between; ${isRTL ? 'direction: rtl;' : ''}">
+              <span style="font-size: 13px; font-weight: 600; ${isRTL ? 'text-align: right;' : ''}">${escapeHtml(cert.certification || cert.title)}</span>
+              ${cert.date ? `<span style="font-size: 12px; color: #718096; ${isRTL ? 'text-align: left;' : ''}">${escapeHtml(cert.date)}</span>` : ''}
             </div>
             ${cert.issuer ? `<div style="font-size: 12px; color: ${colors.accent};">${escapeHtml(cert.issuer)}</div>` : ''}
           </div>
@@ -310,9 +310,9 @@ const buildPDFHTML = (cvData, sections, language, isRTL, templateStyle, t) => {
         <h2 style="font-size: 16px; font-weight: 600; color: ${colors.accent}; border-bottom: 2px solid ${colors.accent}; padding-bottom: 5px; margin-bottom: 12px;">${t.achievements}</h2>
         ${cvData.achievements.map(achievement => `
           <div style="margin-bottom: 10px;">
-            <div style="display: flex; justify-content: space-between; ${isRTL ? 'flex-direction: row-reverse;' : ''}">
-              <span style="font-size: 13px; font-weight: 600;">${escapeHtml(achievement.achievement || achievement.title)}</span>
-              ${achievement.date ? `<span style="font-size: 12px; color: #718096;">${escapeHtml(achievement.date)}</span>` : ''}
+            <div style="display: flex; justify-content: space-between; ${isRTL ? 'direction: rtl;' : ''}">
+              <span style="font-size: 13px; font-weight: 600; ${isRTL ? 'text-align: right;' : ''}">${escapeHtml(achievement.achievement || achievement.title)}</span>
+              ${achievement.date ? `<span style="font-size: 12px; color: #718096; ${isRTL ? 'text-align: left;' : ''}">${escapeHtml(achievement.date)}</span>` : ''}
             </div>
             ${achievement.description ? `<p style="font-size: 12px; color: #4a5568; margin: 3px 0 0 0;">${escapeHtml(achievement.description)}</p>` : ''}
           </div>
@@ -570,7 +570,7 @@ const getTemplateStyles = (templateStyle, isRTL) => {
       display: flex;
       justify-content: space-between;
       margin-bottom: 3pt;
-      ${isRTL ? 'flex-direction: row-reverse;' : ''}
+      ${isRTL ? 'direction: rtl;' : ''}
     }
 
     .item-title {

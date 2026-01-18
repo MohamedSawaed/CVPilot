@@ -204,6 +204,15 @@
   margin-bottom: 4px;
 }
 
+/* RTL: Job title on right, date on left */
+.cv-template-executive.rtl .exec-item-header {
+  /* flex respects direction:rtl from parent */
+}
+
+.cv-template-executive.rtl .exec-item-date {
+  text-align: left;
+}
+
 .cv-template-executive.rtl .exec-exp-description {
   text-align-last: right;
 }

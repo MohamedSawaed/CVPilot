@@ -221,6 +221,15 @@
   margin-bottom: 3px;
 }
 
+/* RTL: Job title on right, date on left */
+.cv-template-coral.rtl .coral-item-header {
+  /* flex respects direction:rtl from parent */
+}
+
+.cv-template-coral.rtl .coral-item-date {
+  text-align: left;
+}
+
 .cv-template-coral.rtl .coral-exp-bullets {
   padding-left: 0;
   padding-right: 18px;

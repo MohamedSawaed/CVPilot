@@ -155,6 +155,15 @@
   margin-bottom: 3px;
 }
 
+/* RTL: Job title on right, date on left */
+.cv-template-minimal.rtl .min-item-header {
+  /* flex respects direction:rtl from parent */
+}
+
+.cv-template-minimal.rtl .min-item-date {
+  text-align: left;
+}
+
 .cv-template-minimal.rtl .min-exp-bullets {
   padding-left: 0;
   padding-right: 18px;

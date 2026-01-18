@@ -199,6 +199,15 @@
   margin-bottom: 3px;
 }
 
+/* RTL: Job title on right, date on left */
+.cv-template-tech.rtl .tech-item-header {
+  /* flex respects direction:rtl from parent */
+}
+
+.cv-template-tech.rtl .tech-item-date {
+  text-align: left;
+}
+
 .cv-template-tech.rtl .tech-exp-bullets {
   padding-left: 0;
   padding-right: 18px;

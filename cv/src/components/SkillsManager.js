@@ -61,18 +61,36 @@ function SkillsManager({ skills, onChange, suggestions = [] }) {
 
   const handleAddSkill = () => {
     if (newSkill.name.trim()) {
-      const updatedSkills = {
-        items: [
-          ...skillItems,
-          {
-            id: Date.now(),
-            name: newSkill.name.trim(),
-            proficiency: newSkill.proficiency,
-            category: newSkill.category
-          }
-        ]
-      };
-      onChange(updatedSkills);
+      // Check if user entered multiple skills separated by comma, semicolon, Arabic comma, or bullet points
+      const skillNames = newSkill.name.split(/[,;،•\-\*]+/).map(s => s.trim()).filter(s => s);
+
+      if (skillNames.length > 1) {
+        // Multiple skills entered - add them all
+        const newSkills = skillNames.map(name => ({
+          id: Date.now() + Math.random(),
+          name,
+          proficiency: newSkill.proficiency,
+          category: newSkill.category
+        }));
+        const updatedSkills = {
+          items: [...skillItems, ...newSkills]
+        };
+        onChange(updatedSkills);
+      } else {
+        // Single skill
+        const updatedSkills = {
+          items: [
+            ...skillItems,
+            {
+              id: Date.now(),
+              name: newSkill.name.trim(),
+              proficiency: newSkill.proficiency,
+              category: newSkill.category
+            }
+          ]
+        };
+        onChange(updatedSkills);
+      }
       setNewSkill({ name: '', proficiency: 'intermediate', category: activeCategory });
     }
   };
@@ -94,7 +112,8 @@ function SkillsManager({ skills, onChange, suggestions = [] }) {
   };
 
   const handleBulkAdd = (text, category) => {
-    const skills = text.split(',').map(s => s.trim()).filter(s => s);
+    // Split by comma, semicolon, Arabic comma, newline, or bullet points (•, -, *)
+    const skills = text.split(/[,;،\n•\-\*]+/).map(s => s.trim()).filter(s => s);
     if (skills.length === 0) return;
 
     const newSkills = skills.map(name => ({

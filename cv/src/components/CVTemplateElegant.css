@@ -194,6 +194,15 @@
   margin-bottom: 3px;
 }
 
+/* RTL: Job title on right, date on left */
+.cv-template-elegant.rtl .elegant-item-header {
+  /* flex respects direction:rtl from parent */
+}
+
+.cv-template-elegant.rtl .elegant-item-date {
+  text-align: left;
+}
+
 .cv-template-elegant.rtl .elegant-exp-bullets {
   padding-left: 0;
   padding-right: 18px;

@@ -213,6 +213,15 @@
   margin-bottom: 3px;
 }
 
+/* RTL: Job title on right, date on left */
+.cv-template-noir.rtl .noir-item-header {
+  /* flex respects direction:rtl from parent */
+}
+
+.cv-template-noir.rtl .noir-item-date {
+  text-align: left;
+}
+
 .cv-template-noir.rtl .noir-exp-bullets {
   padding-left: 0;
   padding-right: 18px;

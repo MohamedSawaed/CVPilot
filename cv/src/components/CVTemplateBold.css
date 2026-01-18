@@ -270,6 +270,15 @@
   margin-bottom: 3px;
 }
 
+/* RTL: Job title on right, date on left */
+.cv-template-bold.rtl .bold-item-header {
+  /* flex respects direction:rtl from parent */
+}
+
+.cv-template-bold.rtl .bold-item-date {
+  text-align: left;
+}
+
 .cv-template-bold.rtl .bold-exp-bullets {
   padding-left: 0;
   padding-right: 18px;
