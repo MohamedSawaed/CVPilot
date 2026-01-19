@@ -184,6 +184,32 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
     return () => clearTimeout(timer);
   }, [effectiveProfession, userProfile]);
 
+  // Check if CV has any meaningful data to save
+  const hasMeaningfulData = useMemo(() => {
+    const { personalInfo, summary, experience, education, skills, projects, certifications, achievements, languages } = cvData;
+
+    // Check personal info
+    if (personalInfo?.fullName || personalInfo?.email || personalInfo?.phone) return true;
+
+    // Check summary
+    if (summary && summary.trim().length > 10) return true;
+
+    // Check arrays with content
+    if (experience?.length > 0 && experience[0]?.jobTitle) return true;
+    if (education?.length > 0 && education[0]?.degree) return true;
+    if (projects?.length > 0 && projects[0]?.projectName) return true;
+    if (certifications?.length > 0 && certifications[0]?.certification) return true;
+    if (achievements?.length > 0 && achievements[0]?.achievement) return true;
+    if (languages?.length > 0 && languages[0]?.language) return true;
+
+    // Check skills
+    if (skills?.items?.length > 0) return true;
+    if (skills?.technicalSkills?.length > 0) return true;
+    if (skills?.softSkills?.length > 0) return true;
+
+    return false;
+  }, [cvData]);
+
   // Auto-save functionality - saves to localStorage AND Firestore
   useEffect(() => {
     const autoSave = debounce(async () => {
@@ -191,13 +217,16 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
       storage.autoSave(cvData, profession, userProfile);
 
       // Also save to Firestore if user is logged in and has meaningful data
-      if (user && cvData.personalInfo?.fullName) {
+      if (user && hasMeaningfulData) {
         try {
           const existingCvId = currentCvId || cvIdRef.current;
+          const cvTitle = cvData.personalInfo?.fullName
+            ? `${cvData.personalInfo.fullName}'s CV`
+            : `My CV - ${new Date().toLocaleDateString()}`;
 
           if (existingCvId) {
             // Update existing CV
-            await updateCV(existingCvId, cvData, `${cvData.personalInfo.fullName}'s CV`);
+            await updateCV(existingCvId, cvData, cvTitle);
           } else if (!creatingCvRef.current) {
             // Create new CV only if not already creating
             creatingCvRef.current = true;
@@ -221,10 +250,10 @@ function CVBuilderEnhanced({ profession: propProfession, userProfile, onStartOve
       setTimeout(() => setSaveStatus(''), 2000);
     }, 3000); // 3 second debounce for Firestore
 
-    if (cvData.personalInfo.fullName || cvData.summary) {
+    if (hasMeaningfulData) {
       autoSave();
     }
-  }, [cvData, profession, userProfile, user, currentCvId]);
+  }, [cvData, profession, userProfile, user, currentCvId, hasMeaningfulData]);
 
   // Load CV data - either from Firestore (editing) or local storage (new)
   useEffect(() => {
